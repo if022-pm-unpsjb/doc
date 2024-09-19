@@ -1,7 +1,7 @@
 +++
 title = 'Introducción a los Sistemas Distribuidos'
 date = 2024-09-18T22:59:19-03:00
-draft = true
+draft = false
 weight = 100
 +++
 
