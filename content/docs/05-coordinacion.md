@@ -1,7 +1,7 @@
 +++
 title = 'Coordinación'
 date = 2024-09-18T23:05:01-03:00
-draft = true
+draft = false
 weight = 500
 +++
 

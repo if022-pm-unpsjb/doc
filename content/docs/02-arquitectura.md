@@ -1,7 +1,7 @@
 +++
 title = 'Arquitecturas'
 date = 2024-09-18T23:02:19-03:00
-draft = true
+draft = false
 weight = 200
 +++
 
