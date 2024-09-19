@@ -11,7 +11,10 @@
     <loc>http://localhost:1313/docs/03-procesos/</loc>
     <lastmod>2024-09-18T23:03:01-03:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/docs/04-comunicacion-rpc/</loc>
+    <loc>http://localhost:1313/docs/04-01-protocolos/</loc>
+    <lastmod>2024-09-18T23:04:01-03:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/docs/04-02-rpc/</loc>
     <lastmod>2024-09-18T23:04:01-03:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/docs/04-comunicacion-mom/</loc>
@@ -20,7 +23,16 @@
     <loc>http://localhost:1313/docs/04-comunicacion-multicast/</loc>
     <lastmod>2024-09-18T23:04:03-03:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/docs/05-coordinacion/</loc>
+    <loc>http://localhost:1313/docs/05-01-relojes/</loc>
+    <lastmod>2024-09-18T23:05:01-03:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/docs/05-02-mutex/</loc>
+    <lastmod>2024-09-18T23:05:01-03:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/docs/05-03-eleccion/</loc>
+    <lastmod>2024-09-18T23:05:01-03:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/docs/05-04-agregacion/</loc>
     <lastmod>2024-09-18T23:05:01-03:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/docs/06-nombres-intro/</loc>
@@ -32,7 +44,10 @@
     <loc>http://localhost:1313/docs/06-nombres-planos-chord/</loc>
     <lastmod>2024-09-18T23:06:02-03:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/docs/07-replicacion/07-replicacion/</loc>
+    <loc>http://localhost:1313/docs/07-replicacion/07-01-replicacion/</loc>
+    <lastmod>2024-09-18T23:04:03-03:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/docs/07-replicacion/07-02-replicacion/</loc>
     <lastmod>2024-09-18T23:04:03-03:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/</loc>

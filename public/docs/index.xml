@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>IF022 -- Sistemas Distribuidos</title>
+    <title>Sistemas Distribuidos</title>
     <link>http://localhost:1313/docs/</link>
-    <description>Recent content on IF022 -- Sistemas Distribuidos</description>
+    <description>Recent content on Sistemas Distribuidos</description>
     <generator>Hugo</generator>
     <language>es-ar</language>
     <lastBuildDate>Wed, 18 Sep 2024 23:06:02 -0300</lastBuildDate>
     <atom:link href="http://localhost:1313/docs/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Introducción a los Sistemas Distribuidos</title>
+      <title>Introducción</title>
       <link>http://localhost:1313/docs/01-introduccion/</link>
       <pubDate>Wed, 18 Sep 2024 22:59:19 -0300</pubDate>
       <guid>http://localhost:1313/docs/01-introduccion/</guid>
@@ -30,14 +30,21 @@
       <description>&lt;h1 id=&#34;procesos&#34;&gt;&#xA;  Procesos&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#procesos&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;p&gt;Hilos, virtualización, cliente/servidor, migración.&lt;/p&gt;&#xA;&lt;h2 id=&#34;procesos-1&#34;&gt;&#xA;  Procesos&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#procesos-1&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;&#xA;&lt;p&gt;Un proceso ofrece mejor isolación entre tareas.&lt;/p&gt;&#xA;&lt;p&gt;Sobre todo, la protección puede ser asegurada por el hardware.&lt;/p&gt;&#xA;&lt;h2 id=&#34;hilos&#34;&gt;&#xA;  Hilos&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#hilos&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;&#xA;&lt;p&gt;Los hilos nos permiten mantener la idea de procesos secuenciales que se bloquean por E/S junto con concurrencia:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Un mismo proceso puede tener multiples hilos, cada uno visto como un programa secuencial.&lt;/li&gt;&#xA;&lt;li&gt;Evita tener que lidiar con callbacks asincrónicos.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;El uso de hilos provee un mejor nivel de granularidad para el desarrollo de aplicaciones distribuidas y provee un mejor nivel de performance.&lt;/p&gt;</description>
     </item>
     <item>
-      <title>Comunicación</title>
+      <title>Protocolos de comunicación</title>
       <link>http://localhost:1313/docs/04-01-protocolos/</link>
       <pubDate>Wed, 18 Sep 2024 23:04:01 -0300</pubDate>
       <guid>http://localhost:1313/docs/04-01-protocolos/</guid>
       <description>&lt;h1 id=&#34;comunicación&#34;&gt;&#xA;  Comunicación&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#comunicaci%c3%b3n&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;p&gt;Fundamental en un sistema distribuido. Las primitivas de comunicación que ofrece el sistema operativo pueden no tener el nivel de abstracción necesario.&lt;/p&gt;&#xA;&lt;h2 id=&#34;fundaciones&#34;&gt;&#xA;  Fundaciones&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#fundaciones&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;&#xA;&lt;h3 id=&#34;el-modelo-osi&#34;&gt;&#xA;  El modelo OSI&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#el-modelo-osi&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h3&gt;&#xA;&lt;p&gt;Modelo de siete capas, no utilizado en la práctica, pero que es una referencia útil acerca de como esta estructurado lógicamente el stack de comunicación.&lt;/p&gt;&#xA;&lt;h3 id=&#34;middleware&#34;&gt;&#xA;  Middleware&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#middleware&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h3&gt;&#xA;&lt;p&gt;Los servicios middleware para un sistema distribuido estarían logicamente ubicados en las capas de sesión y presentación del modelo OSI, aunque también pueden incorporar servicios en la capa de aplicación.&lt;/p&gt;</description>
     </item>
     <item>
-      <title>Middleware orientado a mensajes (MoM)</title>
+      <title>RPC</title>
+      <link>http://localhost:1313/docs/04-02-rpc/</link>
+      <pubDate>Wed, 18 Sep 2024 23:04:01 -0300</pubDate>
+      <guid>http://localhost:1313/docs/04-02-rpc/</guid>
+      <description>&lt;h1 id=&#34;rpc&#34;&gt;&#xA;  RPC&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#rpc&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;p&gt;Los desarrolladores estan familiarizados con el paradigma procedural. Si un procedimiento esta diseñado de manera que funcione aislado, no hay impedimento en principio que pueda ejecutar en otra maquina.&lt;/p&gt;&#xA;&lt;p&gt;Idea básica de RPC: Permitir invocar funciones remotas como si fueran locales.&lt;/p&gt;&#xA;&lt;p&gt;Idea sencilla pero de implementación compleja. Contribuye a la transparencia de distribución, especialmente a la transparencia de acceso. Problemas: falta de un espacio de direcciones común, diferencia en arquitecturas, caída de alguno de los procesos que se comunican, etc.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>MoM</title>
       <link>http://localhost:1313/docs/04-comunicacion-mom/</link>
       <pubDate>Wed, 18 Sep 2024 23:04:02 -0300</pubDate>
       <guid>http://localhost:1313/docs/04-comunicacion-mom/</guid>
@@ -101,10 +108,17 @@
     </item>
     <item>
       <title>Replicacion</title>
-      <link>http://localhost:1313/docs/07-replicacion/07-replicacion/</link>
+      <link>http://localhost:1313/docs/07-replicacion/07-01-replicacion/</link>
       <pubDate>Wed, 18 Sep 2024 23:04:03 -0300</pubDate>
-      <guid>http://localhost:1313/docs/07-replicacion/07-replicacion/</guid>
+      <guid>http://localhost:1313/docs/07-replicacion/07-01-replicacion/</guid>
       <description>&lt;h1 id=&#34;hola&#34;&gt;&#xA;  hola&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#hola&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h1&gt;</description>
+    </item>
+    <item>
+      <title>Consistencia</title>
+      <link>http://localhost:1313/docs/07-replicacion/07-02-replicacion/</link>
+      <pubDate>Wed, 18 Sep 2024 23:04:03 -0300</pubDate>
+      <guid>http://localhost:1313/docs/07-replicacion/07-02-replicacion/</guid>
+      <description>&lt;h1 id=&#34;hello&#34;&gt;&#xA;  hello&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#hello&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h1&gt;</description>
     </item>
   </channel>
 </rss>

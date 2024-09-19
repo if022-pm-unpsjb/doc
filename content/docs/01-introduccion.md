@@ -1,5 +1,5 @@
 +++
-title = 'Introducción a los Sistemas Distribuidos'
+title = 'Introducción'
 date = 2024-09-18T22:59:19-03:00
 draft = false
 weight = 100

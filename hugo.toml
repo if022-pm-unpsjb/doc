@@ -1,7 +1,9 @@
 baseURL = 'https://example.org/'
 languageCode = 'es-ar'
-title = 'IF022 -- Sistemas Distribuidos'
+title = 'Sistemas Distribuidos'
 theme = 'hugo-book'
 
 [params]
     BookTheme = 'auto'
+
+    BookRepo = 'https://github.com/if022-pm-unpsjb/doc/'
