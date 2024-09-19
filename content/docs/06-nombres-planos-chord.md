@@ -9,6 +9,8 @@ weight = 630
 
 Chord es un sistema DHT (Distributed Hash Table) relativamente sencillo de entender.
 
+Puede probar este [simulador](/chordgen/chordgen.html)
+
 ## Mecanismo general
 
 Usa un espacio de $m$ bits para asignar identificadores a nodos y claves a entidades.
