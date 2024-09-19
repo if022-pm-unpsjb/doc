@@ -9,13 +9,17 @@ weight = 610
 
 No contienen ningún tipo de información acerca de la entidad ni de su punto de acceso.
 
-Ejemplo: una dirección representada como una cadena aleatoria de bits.
+Ejemplo:
 
-¿Cómo se puede resolver la entidad asociada?
+- Una dirección representada como una cadena aleatoria de bits.
+
+- `00:26:c7:d9:98:54` (suerte con intentar saber algo acerca de la entidad)
+
+Pero entonces ¿Cómo se puede resolver la entidad asociada?
 
 ## Broadcast
 
-Para resolver un nombre plano se realiza un broadcast del identificador.
+Una opción es realizar un _broadcast_ del identificador.
 
 - Una red LAN (cableada o wireless) ofrece servicios eficientes de broadcast.
 
@@ -41,9 +45,15 @@ Alternativa: **multicasting**
 
 Mantener una referencia a la nueva ubicación una entidad.
 
-Ejemplo: si una entidad se mueve de A a B, entonces en A queda una referencia a B.
+Ejemplo: 
 
-Es sencillo, basta seguir la cadena de referencias para ubicar la entidad.
+- Si una entidad se mueve de _A_ a _B_, entonces en _A_ queda una referencia a _B_.
+
+- ¿Y si luego se mueve a _C_? Entonces $A \rightarrow B \rightarrow C$
+
+- ¿Y si despues se mueve a _D_? Creo que se capta la idea...
+
+Su ventaja es la sencillez: basta seguir la cadena de referencias para ubicar la entidad.
 
 Desventajas:
 
@@ -53,19 +63,23 @@ Desventajas:
 
 - La cadena de referencias es vulnerable a la pérdida de alguno de sus componentes.
 
+- Osea, una lista enlazada con nodos en distintas maquinas, ¿que puede malir sal?
+
 ## Basados en hogar (home-based)
 
 Consiste en mantener una referencia a la ubicación actual de una entidad.
 
 - La referencia se mantiene en una entidad conocida como **home location**
 
-- Utilizado para referir entidades móbiles en redes de gran escala
+- Por lo general, la dirección hogar es donde se creo la entidad inicialmente.
 
-- Mecanismo de respaldo para servicios basados en [forwarding pointers](#forwarding-pointers)
+- Generalmente utilizado para referir entidades móviles en redes de gran escala
+
+- Sirve como mecanismo de respaldo para servicios basados en [forwarding pointers](#forwarding-pointers)
 
 Ejemplo: [Mobile IP](https://en.wikipedia.org/wiki/Mobile_IP)
 
-- Ofrece un elevado nivel de trasnparencia de ubicación.
+- Ofrece un elevado nivel de transparencia de ubicación.
 
 - Funcionamiento:
     

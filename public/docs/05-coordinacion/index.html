@@ -15,8 +15,6 @@ Entonces&hellip; ¿Cómo coordinan sus actividades los procesos de un sistema di
   Relojes físicos
   #
 
-
-
 Existen situaciones donde es necesario que todos los nodos en un sistema acuerden en un valor de tiempo determinado.">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
@@ -37,9 +35,9 @@ Relojes físicos # Existen situaciones donde es necesario que todos los nodos en
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" >
 <link rel="canonical" href="http://localhost:1313/docs/05-coordinacion/">
-<link rel="stylesheet" href="/book.min.309b7ed028807cdb68d8d61e26d609f48369c098dbf5e4d8c0dcf4cdf49feafc.css" integrity="sha256-MJt&#43;0CiAfNto2NYeJtYJ9INpwJjb9eTYwNz0zfSf6vw=" crossorigin="anonymous">
+<link rel="stylesheet" href="/book.min.4964903a822a7acb10dac6d1ab524833c97fb5f99b141976bcb8a47d539be9c0.css" integrity="sha256-SWSQOoIqessQ2sbRq1JIM8l/tfmbFBl2vLikfVOb6cA=" crossorigin="anonymous">
   <script defer src="/fuse.min.js"></script>
-  <script defer src="/en.search.min.19a97d093690a174ec5178a5a930f453463f38b1abb4b34e58010169a5c5e3e1.js" integrity="sha256-Gal9CTaQoXTsUXilqTD0U0Y/OLGrtLNOWAEBaaXF4&#43;E=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.8fa3e7f3c55a943a23b6406e10aeec9cab82f652905722c502ad2c79c38b9a8d.js" integrity="sha256-j6Pn88ValDojtkBuEK7snKuC9lKQVyLFAq0secOLmo0=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -180,7 +178,59 @@ https://github.com/alex-shpak/hugo-book
   
 
   
+    <a href="/docs/05-01-relojes/" class="">Relojes</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
     <a href="/docs/05-coordinacion/" class="active">Coordinación</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/05-02-mutex/" class="">Mutex</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/05-03-eleccion/" class="">Algoritmos de elección</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/05-04-agregacion/" class="">Coordinación mediante rumores</a>
   
 
         </li>
@@ -290,8 +340,21 @@ https://github.com/alex-shpak/hugo-book
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#relojes-físicos">Relojes físicos</a></li>
-    <li><a href="#relojes-lógicos">Relojes lógicos</a></li>
+    <li><a href="#relojes-físicos">Relojes físicos</a>
+      <ul>
+        <li><a href="#utc">UTC</a></li>
+        <li><a href="#sincronización-de-relojes">Sincronización de relojes</a></li>
+        <li><a href="#ntp">NTP</a></li>
+        <li><a href="#ambientes-inalambricos">Ambientes inalambricos:</a></li>
+      </ul>
+    </li>
+    <li><a href="#relojes-lógicos">Relojes lógicos</a>
+      <ul>
+        <li><a href="#relación-_happened-before_">Relación <em>happened-before</em></a></li>
+        <li><a href="#diseño">Diseño</a></li>
+        <li><a href="#implementación">Implementación</a></li>
+      </ul>
+    </li>
     <li><a href="#relojes-vectoriales">Relojes vectoriales</a></li>
     <li><a href="#exclusión-mutua">Exclusión mutua</a>
       <ul>
@@ -344,66 +407,50 @@ https://github.com/alex-shpak/hugo-book
   Relojes físicos
   <a class="anchor" href="#relojes-f%c3%adsicos">#</a>
 </h2>
-<ul>
-<li>
 <p>Existen situaciones donde es necesario que todos los nodos en un sistema acuerden en un valor de tiempo determinado.</p>
-</li>
-<li>
 <p>Un reloj físico presenta <em>deriva</em></p>
-</li>
-<li>
 <p>Problemas:</p>
 <ol>
 <li>¿Cómo sincronizamos el reloj interno con un reloj externo?</li>
 <li>¿Cómo sincronizamos los relojes internos entre sí?</li>
 </ol>
-</li>
-<li>
-<p>UTC:</p>
-<ul>
-<li>Coordinated Universal Time</li>
-<li>Estándar internacional</li>
-<li>40 emisoras de onda corta difunden una señal al comienzo de cada segundo UTC
+<h3 id="utc">
+  UTC
+  <a class="anchor" href="#utc">#</a>
+</h3>
+<p>Coordinated Universal Time: estándar internacional</p>
+<p>40 emisoras de onda corta difunden una señal al comienzo de cada segundo UTC</p>
 <ul>
 <li>Precisión $\pm 1$ ms a $\pm 10$ ms</li>
 </ul>
-</li>
-<li>Uso de satelites, por ejemplo GPS y relojes atómicos
+<p>Uso de satelites, por ejemplo GPS y relojes atómicos</p>
 <ul>
 <li>Precisión $\pm 0,5$ ms</li>
 </ul>
-</li>
-</ul>
-</li>
-<li>
-<p>Sincronización de relojes:</p>
-<ul>
-<li>Suponer un conjunto de nodos:
+<h3 id="sincronización-de-relojes">
+  Sincronización de relojes
+  <a class="anchor" href="#sincronizaci%c3%b3n-de-relojes">#</a>
+</h3>
+<p>Suponer un conjunto de nodos:</p>
 <ul>
 <li>Desafio 1: que esten sincronizados con una referencia externa, por ejemplo UTC.</li>
 <li>Desafio 2: que los relojes de los nodos difieran lo menos posible.</li>
 </ul>
-</li>
-<li><em>Exactitud</em>: mantener la desviación con respecto a una <em>fuente externa</em> dentro de un rango específico.</li>
-<li><em>Precisión</em>: mantener la desviación entre dos relojes dentro de un rango específico.</li>
-<li>Sincronización externa: mantener los relojes <em>exactos</em>.</li>
-<li>Sincronización interna: mantener los relojes <em>precisos</em>.</li>
-<li>Problema:
+<p><strong>Exactitud</strong>: mantener la desviación con respecto a una <em>fuente externa</em> dentro de un rango específico.
+<strong>Precisión</strong>: mantener la desviación entre dos relojes dentro de un rango específico.</p>
+<p>Sincronización externa: mantener los relojes <em>exactos</em>.</p>
+<p>Sincronización interna: mantener los relojes <em>precisos</em>.</p>
+<p>Problema:</p>
 <ul>
 <li>Los relojes fisicos no son exactos, presentan deriva</li>
 <li>El reloj por software se basa en el reloj hardware</li>
 <li>Segun la deriva un reloj puede ser más rapido o más lento en referencia a un reloj ideal</li>
 </ul>
-</li>
-<li>Fun facts:
+<p>Fun facts:</p>
 <ul>
 <li>Dos relojes exactos pueden ser precisos con una cota $2 \delta$</li>
 <li>Sin embargo, ser precisos <strong>no indica</strong> nada acerca de la exactitud.</li>
 </ul>
-</li>
-</ul>
-</li>
-<li>
 <p>Servidor de tiempo:</p>
 <ul>
 <li>Obtener un valor actualizado desde un servidor central (por ejemplo, que tenga un reloj UTC)</li>
@@ -414,31 +461,26 @@ https://github.com/alex-shpak/hugo-book
 </ul>
 </li>
 </ul>
-</li>
-<li>
-<p>NTP</p>
-<ul>
-<li>Network Time Protocol</li>
-</ul>
-</li>
-<li>
-<p>Ambientes inalambricos:</p>
-<ul>
-<li>Requieren algoritmos diferentes</li>
-<li>Ejemplo: Reference Broadcast Synchronization</li>
-</ul>
-</li>
-</ul>
+<h3 id="ntp">
+  NTP
+  <a class="anchor" href="#ntp">#</a>
+</h3>
+<p>Network Time Protocol</p>
+<h3 id="ambientes-inalambricos">
+  Ambientes inalambricos:
+  <a class="anchor" href="#ambientes-inalambricos">#</a>
+</h3>
+<p>Requieren algoritmos diferentes</p>
+<p>Ejemplo: Reference Broadcast Synchronization</p>
 <h2 id="relojes-lógicos">
   Relojes lógicos
   <a class="anchor" href="#relojes-l%c3%b3gicos">#</a>
 </h2>
-<ul>
-<li>
 <p>Generalmente lo que importa es que los nodos esten de acuerdo en el <em>orden</em> de los eventos.</p>
-</li>
-<li>
-<p>Relación <em>happened-before</em>:</p>
+<h3 id="relación-_happened-before_">
+  Relación <em>happened-before</em>
+  <a class="anchor" href="#relaci%c3%b3n-_happened-before_">#</a>
+</h3>
 <ul>
 <li>$a$ y $b$ son eventos</li>
 <li>Si $a$ ocurre antes que $b$ en un mismo proceso, entonces $a \rightarrow b$</li>
@@ -446,17 +488,19 @@ https://github.com/alex-shpak/hugo-book
 <li>Transitivo: si $a \rightarrow b$ y $b \rightarrow c$, entonces $a \rightarrow c$</li>
 <li>Introduce un <strong>ordenamiento parcial</strong> sobre los eventos.</li>
 </ul>
-</li>
-<li>
-<p>Diseño:</p>
+<h3 id="diseño">
+  Diseño
+  <a class="anchor" href="#dise%c3%b1o">#</a>
+</h3>
 <ul>
 <li>Cada evento $e$ tiene asociado un timestamp $C(e)$</li>
 <li>Propiedad 1: si $a$ y $b$ son eventos en un mismo proceso y $a \rightarrow b$ entonces $C(a) &lt; C(b)$</li>
 <li>Propiedad 2: si $a$ y $b$ son envío y recepción de un mensaje respectivamente, entonces $C(a) &lt; C(b)$</li>
 </ul>
-</li>
-<li>
-<p>Implementación:</p>
+<h3 id="implementación">
+  Implementación
+  <a class="anchor" href="#implementaci%c3%b3n">#</a>
+</h3>
 <ul>
 <li>Cada proceso $P_i$ mantiene un reloj lógico $C_i$</li>
 <li>Por cada evento en $P_i$, $C_i = C_i + 1$</li>
@@ -468,14 +512,8 @@ https://github.com/alex-shpak/hugo-book
 </ul>
 </li>
 </ul>
-</li>
-<li>
 <p>El servicio de relojes lógicos es implementado en un middleware, idealmente la aplicación no tiene por que ocuparse.</p>
-</li>
-<li>
 <p>Ejemplo de uso: multicast totalmente ordenado</p>
-</li>
-</ul>
 <h2 id="relojes-vectoriales">
   Relojes vectoriales
   <a class="anchor" href="#relojes-vectoriales">#</a>
@@ -860,8 +898,21 @@ https://github.com/alex-shpak/hugo-book
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#relojes-físicos">Relojes físicos</a></li>
-    <li><a href="#relojes-lógicos">Relojes lógicos</a></li>
+    <li><a href="#relojes-físicos">Relojes físicos</a>
+      <ul>
+        <li><a href="#utc">UTC</a></li>
+        <li><a href="#sincronización-de-relojes">Sincronización de relojes</a></li>
+        <li><a href="#ntp">NTP</a></li>
+        <li><a href="#ambientes-inalambricos">Ambientes inalambricos:</a></li>
+      </ul>
+    </li>
+    <li><a href="#relojes-lógicos">Relojes lógicos</a>
+      <ul>
+        <li><a href="#relación-_happened-before_">Relación <em>happened-before</em></a></li>
+        <li><a href="#diseño">Diseño</a></li>
+        <li><a href="#implementación">Implementación</a></li>
+      </ul>
+    </li>
     <li><a href="#relojes-vectoriales">Relojes vectoriales</a></li>
     <li><a href="#exclusión-mutua">Exclusión mutua</a>
       <ul>

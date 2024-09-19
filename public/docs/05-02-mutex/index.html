@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="es-ar" dir="ltr">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="
+  Exclusión mutua
+  #
+
+
+
+Coordinar el acceso exclusivo a un recurso.
+
+
+Estrategias:
+
+Mediante permisos: acuerdo entre los procesos.
+Utilizando un token: quien tiene el token, accede al recurso.
+
+
+
+
+  Centralizado
+  #
+
+
+Uso de un coordinador que otorga el acceso al recurso
+Facil de implementar, sencillo de mantener.
+Posibles problemas para escalar.
+
+
+  Descentralizado
+  #
+
+
+Recurso con N replicas, cada una con un coordinador asignado.
+Acceder al recurso requiere votos positivos de al menos m &gt; N/2 coordinadores.
+
+
+  Distribuido
+  #
+
+
+Uso de multicast totalmente ordenado para coordinar el acceso.
+Requiere poder contactar a todos los procesos interesados en el mismo recurso.
+
+
+  Token ring
+  #
+
+
+Procesos organizados en un anillo lógico.
+Token circula por el anillo.
+Quien tiene el token puede acceder al recurso.
+
+
+  Comparación
+  #
+
+
+Centralizado:
+
+Requiere 3 mensajes para acceder/liberar el recurso (petición, recepción del ok, liberación).
+
+
+Distribuido:
+
+Si existen N nodos, debo envíar mensajes a cada uno y esperar confirmación de ok: 2(N-1) mensajes.
+
+
+Token-ring:
+
+El token puede recorrer indefinidamente el anillo hasta ser retenido para el acceso al recurso.
+En el peor caso un nodo debe esperar N-1 mensajes hasta que le llegue el token (suponiendo un anillo de N nodos)
+
+
+
+
+  Ejemplo: exclusion mutua con Zookeeper
+  #
+
+
+
+En la práctica muchos sistemas distribuidos utilizan un coordinador centralizado">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/docs/05-02-mutex/">
+  <meta property="og:site_name" content="IF022 -- Sistemas Distribuidos">
+  <meta property="og:title" content="Mutex">
+  <meta property="og:description" content=" Exclusión mutua # Coordinar el acceso exclusivo a un recurso.
+Estrategias:
+Mediante permisos: acuerdo entre los procesos. Utilizando un token: quien tiene el token, accede al recurso. Centralizado # Uso de un coordinador que otorga el acceso al recurso Facil de implementar, sencillo de mantener. Posibles problemas para escalar. Descentralizado # Recurso con N replicas, cada una con un coordinador asignado. Acceder al recurso requiere votos positivos de al menos m &gt; N/2 coordinadores. Distribuido # Uso de multicast totalmente ordenado para coordinar el acceso. Requiere poder contactar a todos los procesos interesados en el mismo recurso. Token ring # Procesos organizados en un anillo lógico. Token circula por el anillo. Quien tiene el token puede acceder al recurso. Comparación # Centralizado: Requiere 3 mensajes para acceder/liberar el recurso (petición, recepción del ok, liberación). Distribuido: Si existen N nodos, debo envíar mensajes a cada uno y esperar confirmación de ok: 2(N-1) mensajes. Token-ring: El token puede recorrer indefinidamente el anillo hasta ser retenido para el acceso al recurso. En el peor caso un nodo debe esperar N-1 mensajes hasta que le llegue el token (suponiendo un anillo de N nodos) Ejemplo: exclusion mutua con Zookeeper # En la práctica muchos sistemas distribuidos utilizan un coordinador centralizado">
+  <meta property="og:locale" content="es_ar">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="docs">
+    <meta property="article:published_time" content="2024-09-18T23:05:01-03:00">
+    <meta property="article:modified_time" content="2024-09-18T23:05:01-03:00">
+<title>Mutex | IF022 -- Sistemas Distribuidos</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" >
+<link rel="canonical" href="http://localhost:1313/docs/05-02-mutex/">
+<link rel="stylesheet" href="/book.min.4964903a822a7acb10dac6d1ab524833c97fb5f99b141976bcb8a47d539be9c0.css" integrity="sha256-SWSQOoIqessQ2sbRq1JIM8l/tfmbFBl2vLikfVOb6cA=" crossorigin="anonymous">
+  <script defer src="/fuse.min.js"></script>
+  <script defer src="/en.search.min.8fa3e7f3c55a943a23b6406e10aeec9cab82f652905722c502ad2c79c38b9a8d.js" integrity="sha256-j6Pn88ValDojtkBuEK7snKuC9lKQVyLFAq0secOLmo0=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
+      inlineMath: [['\\(', '\\)'], ['$', '$']]                  
+    }
+  };
+</script>
+
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>IF022 -- Sistemas Distribuidos</span>
+  </a>
+</h2>
+
+
+<div class="book-search hidden">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+<script>document.querySelector(".book-search").classList.remove("hidden")</script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/01-introduccion/" class="">Introducción a los Sistemas Distribuidos</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/02-arquitectura/" class="">Arquitecturas</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/03-procesos/" class="">Procesos</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/04-01-protocolos/" class="">Protocolos de comunicación</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/04-02-rpc/" class="">RPC</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/04-comunicacion-mom/" class="">MoM</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/04-comunicacion-multicast/" class="">Multicast</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/05-01-relojes/" class="">Relojes</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/05-02-mutex/" class="active">Mutex</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/05-03-eleccion/" class="">Algoritmos de elección</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/05-04-agregacion/" class="">Coordinación mediante rumores</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/06-nombres-intro/" class="">Nombres, identificadores y direcciones</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/06-nombres-planos/" class="">Nombres planos</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/06-nombres-planos-chord/" class="">Nombres planos - DHT</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/07-replicacion/07-replicacion/" class="">Replicacion</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Mutex</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#centralizado">Centralizado</a></li>
+    <li><a href="#descentralizado">Descentralizado</a></li>
+    <li><a href="#distribuido">Distribuido</a></li>
+    <li><a href="#token-ring">Token ring</a></li>
+    <li><a href="#comparación">Comparación</a></li>
+    <li><a href="#ejemplo-exclusion-mutua-con-zookeeper">Ejemplo: exclusion mutua con Zookeeper</a></li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown book-article"><h1 id="exclusión-mutua">
+  Exclusión mutua
+  <a class="anchor" href="#exclusi%c3%b3n-mutua">#</a>
+</h1>
+<ul>
+<li>
+<p>Coordinar el acceso exclusivo a un recurso.</p>
+</li>
+<li>
+<p>Estrategias:</p>
+<ul>
+<li>Mediante permisos: acuerdo entre los procesos.</li>
+<li>Utilizando un token: quien tiene el token, accede al recurso.</li>
+</ul>
+</li>
+</ul>
+<h2 id="centralizado">
+  Centralizado
+  <a class="anchor" href="#centralizado">#</a>
+</h2>
+<ul>
+<li>Uso de un coordinador que otorga el acceso al recurso</li>
+<li>Facil de implementar, sencillo de mantener.</li>
+<li>Posibles problemas para escalar.</li>
+</ul>
+<h2 id="descentralizado">
+  Descentralizado
+  <a class="anchor" href="#descentralizado">#</a>
+</h2>
+<ul>
+<li>Recurso con N replicas, cada una con un coordinador asignado.</li>
+<li>Acceder al recurso requiere votos positivos de al menos m &gt; N/2 coordinadores.</li>
+</ul>
+<h2 id="distribuido">
+  Distribuido
+  <a class="anchor" href="#distribuido">#</a>
+</h2>
+<ul>
+<li>Uso de multicast totalmente ordenado para coordinar el acceso.</li>
+<li>Requiere poder contactar a todos los procesos interesados en el mismo recurso.</li>
+</ul>
+<h2 id="token-ring">
+  Token ring
+  <a class="anchor" href="#token-ring">#</a>
+</h2>
+<ul>
+<li>Procesos organizados en un anillo lógico.</li>
+<li>Token circula por el anillo.</li>
+<li>Quien tiene el token puede acceder al recurso.</li>
+</ul>
+<h2 id="comparación">
+  Comparación
+  <a class="anchor" href="#comparaci%c3%b3n">#</a>
+</h2>
+<ul>
+<li>Centralizado:
+<ul>
+<li>Requiere 3 mensajes para acceder/liberar el recurso (petición, recepción del ok, liberación).</li>
+</ul>
+</li>
+<li>Distribuido:
+<ul>
+<li>Si existen <em>N</em> nodos, debo envíar mensajes a cada uno y esperar confirmación de ok: <em>2(N-1)</em> mensajes.</li>
+</ul>
+</li>
+<li>Token-ring:
+<ul>
+<li>El token puede recorrer indefinidamente el anillo hasta ser retenido para el acceso al recurso.</li>
+<li>En el peor caso un nodo debe esperar <em>N-1</em> mensajes hasta que le llegue el token (suponiendo un anillo de <em>N</em> nodos)</li>
+</ul>
+</li>
+</ul>
+<h2 id="ejemplo-exclusion-mutua-con-zookeeper">
+  Ejemplo: exclusion mutua con Zookeeper
+  <a class="anchor" href="#ejemplo-exclusion-mutua-con-zookeeper">#</a>
+</h2>
+<ul>
+<li>
+<p>En la práctica muchos sistemas distribuidos utilizan un coordinador centralizado</p>
+</li>
+<li>
+<p><a href="https://zookeeper.apache.org/">Zookeeper</a> ofrece servicios para:</p>
+<ul>
+<li>exclusion mutua</li>
+<li>elección de lider</li>
+<li>monitoreo</li>
+<li>etc</li>
+</ul>
+</li>
+<li>
+<p>Diseñado para ofrecer confiabilidad, tolerancia a fallas y escalabilidad</p>
+<ul>
+<li>Aunque es logicamente un servicio centralizado, su implementación es un sistema distribuido</li>
+</ul>
+</li>
+<li>
+<p>Usar zookeeper o servicios similares: ¡no hay que reinventar la rueda! (sobre todo una rueda complicada)</p>
+</li>
+<li>
+<p>Zookeeper 101:</p>
+<ul>
+<li>No hay primitivas bloqueantes
+<ul>
+<li>Las peticiones de un cliente siempre reciben una respuesta.</li>
+</ul>
+</li>
+<li>Ofrece un espacio de nombres, similar a un sistema de archivos.</li>
+<li>Operaciones:
+<ul>
+<li>crear y eliminar nodos</li>
+<li>leer y actualizar datos en nodos (las actualizaciones son completas, no parciales)</li>
+<li>verificar si existe un nodo en particular</li>
+</ul>
+</li>
+<li>Tipos de nodos:
+<ul>
+<li>persistentes: deben ser creados y eliminados explicitamente</li>
+<li>efímeros: son eliminados cuando la conexión del proceso que los creo se pierde</li>
+</ul>
+</li>
+<li>Servicio de notificaciones
+<ul>
+<li>Evita polling por parte de los clientes.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Ejemplo: obtener acceso exclusivo</p>
+<ul>
+<li>Un proceso crea un nodo, por ejemplo con nombre <code>/lock</code></li>
+<li>Si existe, la operación falla indicando que ya existe</li>
+<li>El proceso debe repetir la operación para obtenerlo</li>
+<li>En caso de crearlo, para liberar el acceso elimina el nodo <code>/lock</code></li>
+<li>Problemas:
+<ul>
+<li>¿que sucede cuando un cliente crea <code>/lock</code> y desaparece?</li>
+<li>Proceso p2 puede solicitar notificaciones por <code>/lock</code> mientras <code>/lock</code> es eliminado</li>
+<li>Estas sutilezas y muchas más son manejadas por zookeeper.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#centralizado">Centralizado</a></li>
+    <li><a href="#descentralizado">Descentralizado</a></li>
+    <li><a href="#distribuido">Distribuido</a></li>
+    <li><a href="#token-ring">Token ring</a></li>
+    <li><a href="#comparación">Comparación</a></li>
+    <li><a href="#ejemplo-exclusion-mutua-con-zookeeper">Ejemplo: exclusion mutua con Zookeeper</a></li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

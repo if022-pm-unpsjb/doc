@@ -30,11 +30,15 @@ Es mucho más flexible mantener el nombre de una entidad independiente de su dir
 
 Los nombres que refieren univocamente a una entidad se conocen como **identificadores**
 
-1. Refiere a una única entidad.
-2. Cada entidad es referida solamente por un identificador.
-3. Los identificadores no se reutilizan.
+Un **identificador** que se precie:
 
-En general, **nombres** e **identificadores** son representados machine-readable.
+1. Refiere a una única entidad.
+2. Dicha entidad sólo es referenciado por ese identificador.
+3. Nunca es reutilizado.
+
+En general, **nombres** e **identificadores** son pensandos para que los lea una computadora.
+
+- Una cadena ilegible como una dirección MAC: `00:26:c7:d9:98:54`
 
 Otros nombres son diseñados para que sean fácilmente legibles por un humano.
 

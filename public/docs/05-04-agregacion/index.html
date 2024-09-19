@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="es-ar" dir="ltr">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="
+  Coordinación basada en rumores
+  #
+
+Se puede utilizar rumores para recolectar información.
+
+  Ejemplos de coordinación
+  #
+
+Consensuar un mismo valor:
+
+Cada nodo $P_i$ escoge un valor arbitrario $v_i$
+Cuando dos nodos $P_i$ y $P_j$ intercambian datos: $v_i, v_j \leftarrow (v_i &#43; v_j)/2$
+Eventualmente todos los nodos tendran el mismo valor (media de los valores iniciales)
+
+Estimar el número de nodos:
+
+El nodo $P_1$ escoge $v_1=1$, el resto de los nodos $v_i=0$
+Si hay $N$ nodos, eventualmente todos tendran $v_i=1/N$
+Se puede estimar el tamaño de la red como $1/v_i$
+
+Seleccionar un nodo al azar:">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/docs/05-04-agregacion/">
+  <meta property="og:site_name" content="IF022 -- Sistemas Distribuidos">
+  <meta property="og:title" content="Coordinación mediante rumores">
+  <meta property="og:description" content=" Coordinación basada en rumores # Se puede utilizar rumores para recolectar información.
+Ejemplos de coordinación # Consensuar un mismo valor:
+Cada nodo $P_i$ escoge un valor arbitrario $v_i$ Cuando dos nodos $P_i$ y $P_j$ intercambian datos: $v_i, v_j \leftarrow (v_i &#43; v_j)/2$ Eventualmente todos los nodos tendran el mismo valor (media de los valores iniciales) Estimar el número de nodos:
+El nodo $P_1$ escoge $v_1=1$, el resto de los nodos $v_i=0$ Si hay $N$ nodos, eventualmente todos tendran $v_i=1/N$ Se puede estimar el tamaño de la red como $1/v_i$ Seleccionar un nodo al azar:">
+  <meta property="og:locale" content="es_ar">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="docs">
+    <meta property="article:published_time" content="2024-09-18T23:05:01-03:00">
+    <meta property="article:modified_time" content="2024-09-18T23:05:01-03:00">
+<title>Coordinación mediante rumores | IF022 -- Sistemas Distribuidos</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" >
+<link rel="canonical" href="http://localhost:1313/docs/05-04-agregacion/">
+<link rel="stylesheet" href="/book.min.4964903a822a7acb10dac6d1ab524833c97fb5f99b141976bcb8a47d539be9c0.css" integrity="sha256-SWSQOoIqessQ2sbRq1JIM8l/tfmbFBl2vLikfVOb6cA=" crossorigin="anonymous">
+  <script defer src="/fuse.min.js"></script>
+  <script defer src="/en.search.min.8fa3e7f3c55a943a23b6406e10aeec9cab82f652905722c502ad2c79c38b9a8d.js" integrity="sha256-j6Pn88ValDojtkBuEK7snKuC9lKQVyLFAq0secOLmo0=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
+      inlineMath: [['\\(', '\\)'], ['$', '$']]                  
+    }
+  };
+</script>
+
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>IF022 -- Sistemas Distribuidos</span>
+  </a>
+</h2>
+
+
+<div class="book-search hidden">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+<script>document.querySelector(".book-search").classList.remove("hidden")</script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/01-introduccion/" class="">Introducción a los Sistemas Distribuidos</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/02-arquitectura/" class="">Arquitecturas</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/03-procesos/" class="">Procesos</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/04-01-protocolos/" class="">Protocolos de comunicación</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/04-02-rpc/" class="">RPC</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/04-comunicacion-mom/" class="">MoM</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/04-comunicacion-multicast/" class="">Multicast</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/05-01-relojes/" class="">Relojes</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/05-02-mutex/" class="">Mutex</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/05-03-eleccion/" class="">Algoritmos de elección</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/05-04-agregacion/" class="active">Coordinación mediante rumores</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/06-nombres-intro/" class="">Nombres, identificadores y direcciones</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/06-nombres-planos/" class="">Nombres planos</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/06-nombres-planos-chord/" class="">Nombres planos - DHT</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/07-replicacion/07-replicacion/" class="">Replicacion</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Coordinación mediante rumores</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#ejemplos-de-coordinación">Ejemplos de coordinación</a></li>
+    <li><a href="#eventuales-aplicaciones">Eventuales aplicaciones</a></li>
+    <li><a href="#peer-sampling">Peer-sampling</a></li>
+    <li><a href="#construccion-de-redes-superpuestas">Construccion de redes superpuestas</a></li>
+    <li><a href="#rumores-seguros">Rumores seguros</a></li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown book-article"><h1 id="coordinación-basada-en-rumores">
+  Coordinación basada en rumores
+  <a class="anchor" href="#coordinaci%c3%b3n-basada-en-rumores">#</a>
+</h1>
+<p>Se puede utilizar rumores para recolectar información.</p>
+<h2 id="ejemplos-de-coordinación">
+  Ejemplos de coordinación
+  <a class="anchor" href="#ejemplos-de-coordinaci%c3%b3n">#</a>
+</h2>
+<p>Consensuar un mismo valor:</p>
+<ul>
+<li>Cada nodo $P_i$ escoge un valor arbitrario $v_i$</li>
+<li>Cuando dos nodos $P_i$ y $P_j$ intercambian datos: $v_i, v_j \leftarrow (v_i + v_j)/2$</li>
+<li>Eventualmente todos los nodos tendran el mismo valor (media de los valores iniciales)</li>
+</ul>
+<p>Estimar el número de nodos:</p>
+<ul>
+<li>El nodo $P_1$ escoge $v_1=1$, el resto de los nodos $v_i=0$</li>
+<li>Si hay $N$ nodos, eventualmente todos tendran $v_i=1/N$</li>
+<li>Se puede estimar el tamaño de la red como $1/v_i$</li>
+</ul>
+<p>Seleccionar un nodo al azar:</p>
+<ul>
+<li>Cada nodo $P_i$ seleccionar un valor $m_i$ al azar y setea $v_i=m_i$</li>
+<li>Al intercambiar datos $P_i$ y $P_j$ realizan $v_i, v_j \leftarrow max{v_i, v_j}$</li>
+<li>Si luego $m_i &lt; v_i$, entonces el nodo $P_i$ <em>pierde</em> la competencia.</li>
+<li>Eventualmente un único nodo será el ganador.</li>
+</ul>
+<h2 id="eventuales-aplicaciones">
+  Eventuales aplicaciones
+  <a class="anchor" href="#eventuales-aplicaciones">#</a>
+</h2>
+<ul>
+<li>Un nodo al azar inicia el proceso de estimación de números de nodos.</li>
+<li>Si el numero de nodos es estable, se puede designar un nodo fijo para que realice el conteo.</li>
+<li>Caso contrario, se pueden utilizar <em>epocas</em> o bien un nodo al azar cada tanto realiza un conteo.</li>
+</ul>
+<h2 id="peer-sampling">
+  Peer-sampling
+  <a class="anchor" href="#peer-sampling">#</a>
+</h2>
+<p>¿Cómo elegir un nodo al azar cuando no se conoce la totalidad de los nodos en el sistema?</p>
+<p>Un nodo podría tener toda la información, pero no es una solución escalable.</p>
+<p>Una solución es el uso de <em>vistas parciales</em>:</p>
+<ul>
+<li>Cada nodo mantiene una lista de <em>c</em> nodos vecinos.</li>
+<li>Los nodos intercambian parte de sus listas parciales con otros nodos (en su vista parcial).</li>
+<li>Cada nodo actualiza su vista parcial, pero siempre manteniendo <em>c</em> nodos en la misma.</li>
+</ul>
+<p>Si esto se repite regularmente, escoger un nodo al azar de la vista parcial es <strong>estadisticamente indistinguible</strong> de hacerlo de la totalidad de los nodos.</p>
+<h2 id="construccion-de-redes-superpuestas">
+  Construccion de redes superpuestas
+  <a class="anchor" href="#construccion-de-redes-superpuestas">#</a>
+</h2>
+<p>Es posible utilizar las <em>vistas parciales</em> para generar <em>topologías estructuradas</em>.</p>
+<p>Un posible protocolo para lograrlo estaría dividido en dos capas:</p>
+<ul>
+<li>Una capa inferior que mantiene la <em>vista parcial</em> y opera sobre la red no-estructurada.</li>
+<li>Una capa superior que genera una topología estructurada en base a la <em>vista parcial</em>.</li>
+</ul>
+<h2 id="rumores-seguros">
+  Rumores seguros
+  <a class="anchor" href="#rumores-seguros">#</a>
+</h2>
+<p>La velocidad de propagación de datos puede generar problemas de seguridad/confiabilidad.</p>
+<p>Por ejemplo, $c$ nodos pueden cooperar maliciosamente para cooptar la red:</p>
+<ul>
+<li>Al intercambiar las vistas parciales, estos nodos envian $c/2$ entradas que sólo referencian a alguno de estos $c$ nodos.</li>
+<li>Gradualmente, las vistas parciales de <em>todos</em> los nodos solo contienen referencias a un conjunto de estos $c$ nodos.</li>
+</ul>
+<p>Se busca tratar de detectar y prevenir comportamiento malicioso</p>
+<p>Los nodos maliciosos pueden ser detectados por el elevado número de referencias desde otros nodos (<em>indegree</em>)</p>
+<p>Sin embargo, al detectarlos ya puede ser demasiado tarde</p>
+<p>Una manera de mitigar es requerir que los nodos generen estadísticas:</p>
+<ul>
+<li>Al intercambiar vistas parciales se puede realizar también estadísticas</li>
+<li>Es importante que no se sepa cuando se utilizan para actualizar la vista parcial o para generar estadísticas</li>
+<li>Un nodo malicioso no puede devolver siempre enlaces a otros nodos maliciosos, sería rápidamente descubierto</li>
+<li>No queda otra que, de vez en cuando, &ldquo;jugar con las reglas&rdquo; de los nodos benignos</li>
+</ul>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#ejemplos-de-coordinación">Ejemplos de coordinación</a></li>
+    <li><a href="#eventuales-aplicaciones">Eventuales aplicaciones</a></li>
+    <li><a href="#peer-sampling">Peer-sampling</a></li>
+    <li><a href="#construccion-de-redes-superpuestas">Construccion de redes superpuestas</a></li>
+    <li><a href="#rumores-seguros">Rumores seguros</a></li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

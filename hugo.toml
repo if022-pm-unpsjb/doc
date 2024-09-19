@@ -2,3 +2,6 @@ baseURL = 'https://example.org/'
 languageCode = 'es-ar'
 title = 'IF022 -- Sistemas Distribuidos'
 theme = 'hugo-book'
+
+[params]
+    BookTheme = 'auto'

@@ -1,8 +1,8 @@
 +++
-title = 'Middleware orientado a mensajes (MoM)'
+title = 'MoM'
 date = 2024-09-18T23:04:02-03:00
 draft = false
-weight = 410 
+weight = 420 
 +++
 
 # Middleware orientado a mensajes (MoM)

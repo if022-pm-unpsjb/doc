@@ -17,15 +17,17 @@ Avances imporantes han ocurrido en las últimas décadas:
 - Avance de las tecnologías de comunicaciones.
 - Miniaturización de los sistemas de cómputo (ES, IoT, SoCs, etc).
 
-En la actualidad es _relativamente sencillo_ desarrollar un sistema compuesto de múltiples computadoras conectadas por una red. Al estar las computadoras físicamente separadas se habla de un _sistema distribuido_.
+En la actualidad es _relativamente sencillo_ desarrollar un sistema compuesto de múltiples computadoras conectadas por una red.
+
+Al estar las computadoras físicamente separadas se habla de un **sistema distribuido**.
 
 ## Definición
 
-_You know you have a distributed system when the crash of a computer you have never heard of stops you from getting any work done._ -- Leslie Lamport
+_You know you have a distributed system when the crash of a computer you have never heard of stops you from getting any work done._ -- [Leslie Lamport](https://en.wikipedia.org/wiki/Leslie_Lamport)
 
-_Una colección de elementos computacionales autónomos que dan la apariencia a sus usuarios de ser un sistema coherente_ -- Tanenbaum y Van Steen.
+_Una colección de elementos computacionales autónomos que dan la apariencia a sus usuarios de ser un sistema coherente_ -- [Tanenbaum y Van Steen](https://www.distributed-systems.net/)
 
-Aunque no existe una definición que sea ampliamente aceptada por toda la disciplina, la distribución de los componentes en diferentes sistemas comunicados mediante una red es una característica común.
+Aunque no existe una definición ampliamente aceptada por toda la disciplina, la distribución de los componentes en diferentes sistemas comunicados mediante una red es una característica común.
 
 ### Caracteristica 1: elementos independientes
 

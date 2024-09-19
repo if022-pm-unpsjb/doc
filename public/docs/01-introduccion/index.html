@@ -15,7 +15,7 @@ Desarrollo de microprocesadores potentes, pequeños y ecónomicos.
 Avance de las tecnologías de comunicaciones.
 Miniaturización de los sistemas de cómputo (ES, IoT, SoCs, etc).
 
-En la actualidad es relativamente sencillo desarrollar un sistema compuesto de múltiples computadoras conectadas por una red. Al estar las computadoras físicamente separadas se habla de un sistema distribuido.">
+En la actualidad es relativamente sencillo desarrollar un sistema compuesto de múltiples computadoras conectadas por una red.">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
 <meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/docs/01-introduccion/">
@@ -24,7 +24,7 @@ En la actualidad es relativamente sencillo desarrollar un sistema compuesto de m
   <meta property="og:description" content=" Introducción # the #1 rule of distribute computing: Don’t distribute your computing! At least if you can in any way avoid it
 You’re not Google. Your company will never be Google… Is there a reason we can’t just do this all in Postgres?
 Avances imporantes han ocurrido en las últimas décadas:
-Desarrollo de microprocesadores potentes, pequeños y ecónomicos. Avance de las tecnologías de comunicaciones. Miniaturización de los sistemas de cómputo (ES, IoT, SoCs, etc). En la actualidad es relativamente sencillo desarrollar un sistema compuesto de múltiples computadoras conectadas por una red. Al estar las computadoras físicamente separadas se habla de un sistema distribuido.">
+Desarrollo de microprocesadores potentes, pequeños y ecónomicos. Avance de las tecnologías de comunicaciones. Miniaturización de los sistemas de cómputo (ES, IoT, SoCs, etc). En la actualidad es relativamente sencillo desarrollar un sistema compuesto de múltiples computadoras conectadas por una red.">
   <meta property="og:locale" content="es_ar">
   <meta property="og:type" content="article">
     <meta property="article:section" content="docs">
@@ -34,9 +34,9 @@ Desarrollo de microprocesadores potentes, pequeños y ecónomicos. Avance de las
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" >
 <link rel="canonical" href="http://localhost:1313/docs/01-introduccion/">
-<link rel="stylesheet" href="/book.min.309b7ed028807cdb68d8d61e26d609f48369c098dbf5e4d8c0dcf4cdf49feafc.css" integrity="sha256-MJt&#43;0CiAfNto2NYeJtYJ9INpwJjb9eTYwNz0zfSf6vw=" crossorigin="anonymous">
+<link rel="stylesheet" href="/book.min.4964903a822a7acb10dac6d1ab524833c97fb5f99b141976bcb8a47d539be9c0.css" integrity="sha256-SWSQOoIqessQ2sbRq1JIM8l/tfmbFBl2vLikfVOb6cA=" crossorigin="anonymous">
   <script defer src="/fuse.min.js"></script>
-  <script defer src="/en.search.min.19a97d093690a174ec5178a5a930f453463f38b1abb4b34e58010169a5c5e3e1.js" integrity="sha256-Gal9CTaQoXTsUXilqTD0U0Y/OLGrtLNOWAEBaaXF4&#43;E=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.8fa3e7f3c55a943a23b6406e10aeec9cab82f652905722c502ad2c79c38b9a8d.js" integrity="sha256-j6Pn88ValDojtkBuEK7snKuC9lKQVyLFAq0secOLmo0=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -138,7 +138,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="/docs/04-comunicacion-rpc/" class="">Comunicación</a>
+    <a href="/docs/04-01-protocolos/" class="">Protocolos de comunicación</a>
   
 
         </li>
@@ -151,7 +151,20 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="/docs/04-comunicacion-mom/" class="">Middleware orientado a mensajes (MoM)</a>
+    <a href="/docs/04-02-rpc/" class="">RPC</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/04-comunicacion-mom/" class="">MoM</a>
   
 
         </li>
@@ -177,7 +190,46 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="/docs/05-coordinacion/" class="">Coordinación</a>
+    <a href="/docs/05-01-relojes/" class="">Relojes</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/05-02-mutex/" class="">Mutex</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/05-03-eleccion/" class="">Algoritmos de elección</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/05-04-agregacion/" class="">Coordinación mediante rumores</a>
   
 
         </li>
@@ -331,14 +383,15 @@ https://github.com/alex-shpak/hugo-book
 <li>Avance de las tecnologías de comunicaciones.</li>
 <li>Miniaturización de los sistemas de cómputo (ES, IoT, SoCs, etc).</li>
 </ul>
-<p>En la actualidad es <em>relativamente sencillo</em> desarrollar un sistema compuesto de múltiples computadoras conectadas por una red. Al estar las computadoras físicamente separadas se habla de un <em>sistema distribuido</em>.</p>
+<p>En la actualidad es <em>relativamente sencillo</em> desarrollar un sistema compuesto de múltiples computadoras conectadas por una red.</p>
+<p>Al estar las computadoras físicamente separadas se habla de un <strong>sistema distribuido</strong>.</p>
 <h2 id="definición">
   Definición
   <a class="anchor" href="#definici%c3%b3n">#</a>
 </h2>
-<p><em>You know you have a distributed system when the crash of a computer you have never heard of stops you from getting any work done.</em> &ndash; Leslie Lamport</p>
-<p><em>Una colección de elementos computacionales autónomos que dan la apariencia a sus usuarios de ser un sistema coherente</em> &ndash; Tanenbaum y Van Steen.</p>
-<p>Aunque no existe una definición que sea ampliamente aceptada por toda la disciplina, la distribución de los componentes en diferentes sistemas comunicados mediante una red es una característica común.</p>
+<p><em>You know you have a distributed system when the crash of a computer you have never heard of stops you from getting any work done.</em> &ndash; <a href="https://en.wikipedia.org/wiki/Leslie_Lamport">Leslie Lamport</a></p>
+<p><em>Una colección de elementos computacionales autónomos que dan la apariencia a sus usuarios de ser un sistema coherente</em> &ndash; <a href="https://www.distributed-systems.net/">Tanenbaum y Van Steen</a></p>
+<p>Aunque no existe una definición ampliamente aceptada por toda la disciplina, la distribución de los componentes en diferentes sistemas comunicados mediante una red es una característica común.</p>
 <h3 id="caracteristica-1-elementos-independientes">
   Caracteristica 1: elementos independientes
   <a class="anchor" href="#caracteristica-1-elementos-independientes">#</a>
