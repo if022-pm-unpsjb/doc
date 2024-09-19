@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="es-ar" dir="ltr">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="
+  Procesos
+  #
+
+Hilos, virtualización, cliente/servidor, migración.
+
+  Procesos
+  #
+
+Un proceso ofrece mejor isolación entre tareas.
+Sobre todo, la protección puede ser asegurada por el hardware.
+
+  Hilos
+  #
+
+Los hilos nos permiten mantener la idea de procesos secuenciales que se bloquean por E/S junto con concurrencia:
+
+Un mismo proceso puede tener multiples hilos, cada uno visto como un programa secuencial.
+Evita tener que lidiar con callbacks asincrónicos.
+
+El uso de hilos provee un mejor nivel de granularidad para el desarrollo de aplicaciones distribuidas y provee un mejor nivel de performance.">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/docs/03-procesos/">
+  <meta property="og:site_name" content="IF022 -- Sistemas Distribuidos">
+  <meta property="og:title" content="Procesos">
+  <meta property="og:description" content=" Procesos # Hilos, virtualización, cliente/servidor, migración.
+Procesos # Un proceso ofrece mejor isolación entre tareas.
+Sobre todo, la protección puede ser asegurada por el hardware.
+Hilos # Los hilos nos permiten mantener la idea de procesos secuenciales que se bloquean por E/S junto con concurrencia:
+Un mismo proceso puede tener multiples hilos, cada uno visto como un programa secuencial. Evita tener que lidiar con callbacks asincrónicos. El uso de hilos provee un mejor nivel de granularidad para el desarrollo de aplicaciones distribuidas y provee un mejor nivel de performance.">
+  <meta property="og:locale" content="es_ar">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="docs">
+    <meta property="article:published_time" content="2024-09-18T23:03:01-03:00">
+    <meta property="article:modified_time" content="2024-09-18T23:03:01-03:00">
+<title>Procesos | IF022 -- Sistemas Distribuidos</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" >
+<link rel="canonical" href="http://localhost:1313/docs/03-procesos/">
+<link rel="stylesheet" href="/book.min.309b7ed028807cdb68d8d61e26d609f48369c098dbf5e4d8c0dcf4cdf49feafc.css" integrity="sha256-MJt&#43;0CiAfNto2NYeJtYJ9INpwJjb9eTYwNz0zfSf6vw=" crossorigin="anonymous">
+  <script defer src="/fuse.min.js"></script>
+  <script defer src="/en.search.min.19a97d093690a174ec5178a5a930f453463f38b1abb4b34e58010169a5c5e3e1.js" integrity="sha256-Gal9CTaQoXTsUXilqTD0U0Y/OLGrtLNOWAEBaaXF4&#43;E=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
+      inlineMath: [['\\(', '\\)'], ['$', '$']]                  
+    }
+  };
+</script>
+
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>IF022 -- Sistemas Distribuidos</span>
+  </a>
+</h2>
+
+
+<div class="book-search hidden">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+<script>document.querySelector(".book-search").classList.remove("hidden")</script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/01-introduccion/" class="">Introducción a los Sistemas Distribuidos</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/02-arquitectura/" class="">Arquitecturas</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/03-procesos/" class="active">Procesos</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/04-comunicacion-rpc/" class="">Comunicación</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/04-comunicacion-mom/" class="">Middleware orientado a mensajes (MoM)</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/04-comunicacion-multicast/" class="">Multicast</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/05-coordinacion/" class="">Coordinación</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/06-nombres-intro/" class="">Nombres, identificadores y direcciones</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/06-nombres-planos/" class="">Nombres planos</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/06-nombres-planos-chord/" class="">Nombres planos - DHT</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/07-replicacion/07-replicacion/" class="">Replicacion</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Procesos</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#procesos-1">Procesos</a></li>
+    <li><a href="#hilos">Hilos</a></li>
+    <li><a href="#virtualización">Virtualización</a>
+      <ul>
+        <li><a href="#tipo-de-virtualización">Tipo de virtualización</a></li>
+        <li><a href="#contenedores">Contenedores</a></li>
+        <li><a href="#uso-de-maquinas-virtuales-en-ssdd">Uso de maquinas virtuales en ssdd</a></li>
+      </ul>
+    </li>
+    <li><a href="#clientes">Clientes</a></li>
+    <li><a href="#servidores">Servidores</a>
+      <ul>
+        <li><a href="#servidor-de-objetos">Servidor de objetos</a></li>
+        <li><a href="#cluster-de-servidores">Cluster de servidores</a></li>
+      </ul>
+    </li>
+    <li><a href="#migración-de-código">Migración de código</a>
+      <ul>
+        <li><a href="#razones">Razones</a></li>
+        <li><a href="#modelos-para-migración-de-código">Modelos para migración de código</a></li>
+        <li><a href="#heterogeneidad">Heterogeneidad</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown book-article"><h1 id="procesos">
+  Procesos
+  <a class="anchor" href="#procesos">#</a>
+</h1>
+<p>Hilos, virtualización, cliente/servidor, migración.</p>
+<h2 id="procesos-1">
+  Procesos
+  <a class="anchor" href="#procesos-1">#</a>
+</h2>
+<p>Un proceso ofrece mejor isolación entre tareas.</p>
+<p>Sobre todo, la protección puede ser asegurada por el hardware.</p>
+<h2 id="hilos">
+  Hilos
+  <a class="anchor" href="#hilos">#</a>
+</h2>
+<p>Los hilos nos permiten mantener la idea de procesos secuenciales que se bloquean por E/S junto con concurrencia:</p>
+<ul>
+<li>Un mismo proceso puede tener multiples hilos, cada uno visto como un programa secuencial.</li>
+<li>Evita tener que lidiar con callbacks asincrónicos.</li>
+</ul>
+<p>El uso de hilos provee un mejor nivel de granularidad para el desarrollo de aplicaciones distribuidas y provee un mejor nivel de performance.</p>
+<p>A diferencia de los procesos, los hilos no ofrecen <em>transparencia</em> de concurrencia:</p>
+<ul>
+<li>Comparten el mismo segmento de memoria.</li>
+<li>Mayor dificultad al diseñar la aplicación.</li>
+</ul>
+<p>Implementación:</p>
+<ul>
+<li>Nivel de usuario: creación/destrucción y cambio de contexto menos costoso; bloqueo de todo el proceso.</li>
+<li>Nivel de kernel: administración y sincronización ligeramente más costosa, pero sin bloqueo de todo el proceso.</li>
+</ul>
+<p>En un sistema distribuido, el uso de hilos permite simplificar la comunicación entre nodos, al implementar esta funcionalidad en un hilo separado en el programa.</p>
+<p>Ejemplo:</p>
+<ul>
+<li>Un cliente multi-hilo permite ocultar latencias, mejorando así la transparencia de distribución.</li>
+<li>Un navegador web permite visualizar una página aún cuando no se haya descargado completamente.</li>
+</ul>
+<p>La mayor ventaja se puede observar en la implementación de servidores concurrentes.</p>
+<p>Alternativas:</p>
+<ul>
+<li>un solo hilo (secuencial)</li>
+<li>uso de máquinas de estado (más complejo).</li>
+</ul>
+<h2 id="virtualización">
+  Virtualización
+  <a class="anchor" href="#virtualizaci%c3%b3n">#</a>
+</h2>
+<p>El software por lo general &ldquo;sobrevive&rdquo; al hardware.</p>
+<p>Mediante la virtualización es posible reemplazar una interface particular de un sistema (sea hardware o software) por otra implementación que copia exactamente su comportamiento.</p>
+<p>¿Por qué es utilizada?</p>
+<ul>
+<li>Permitir que software ejecute en nuevas arquitecturas.</li>
+<li>Simplifica el soporte de aplicaciones del lado del servidor: no requiere mantener multiples máquinas fisicas.</li>
+<li>Portabilidad y flexibilidad: migración de maquinas virtuales enteras de cloud a edge, por ejemplo.</li>
+<li>Seguridad: aislar codigo en ejecucion a un entorno virtual.</li>
+</ul>
+<h3 id="tipo-de-virtualización">
+  Tipo de virtualización
+  <a class="anchor" href="#tipo-de-virtualizaci%c3%b3n">#</a>
+</h3>
+<ul>
+<li>Hardware: instrucciones hardware de la plataforma (privilegiadas y no-privilegiadas).</li>
+<li>Llamadas al sistema: ofrecidas por el sistema operativo.</li>
+<li>API: ofrecida por la aplicación/librería.</li>
+</ul>
+<h3 id="contenedores">
+  Contenedores
+  <a class="anchor" href="#contenedores">#</a>
+</h3>
+<p>Permitir que múltiples aplicaciones ejecuten de manera aislada, cada una con su propio ambiente de software (librerías, sistema operativo, etc).</p>
+<h3 id="uso-de-maquinas-virtuales-en-ssdd">
+  Uso de maquinas virtuales en ssdd
+  <a class="anchor" href="#uso-de-maquinas-virtuales-en-ssdd">#</a>
+</h3>
+<ul>
+<li>En la computación en la nube, la virtualización es fundamental para ofrecer servicios IaaS (Infraestructure as-a service)</li>
+</ul>
+<h2 id="clientes">
+  Clientes
+  <a class="anchor" href="#clientes">#</a>
+</h2>
+<p>En un sistema distribuido, el software ejecutando en el cliente busca por lo general mejorar la <em>transparencia de distrbución</em></p>
+<ul>
+<li>Acceso.</li>
+<li>Ubicación.</li>
+<li>Migración.</li>
+<li>Reubicación.</li>
+<li>Replicación.</li>
+<li>Falla.</li>
+<li>Concurrencia.</li>
+</ul>
+<h2 id="servidores">
+  Servidores
+  <a class="anchor" href="#servidores">#</a>
+</h2>
+<p>Un servidor implementa una serie de servicios que ejecuta a pedido de un cliente. El servidor espera por una petición, la procesa y retorna el resultado.</p>
+<p>El servidor puede estar organizado como:</p>
+<ul>
+<li>Iterativo</li>
+<li>Concurrente</li>
+</ul>
+<p>Los clientes se contactan con el servidor haciendo uso de un <em>endpoint</em>. Generalmente, una IP:PUERTO. Estos pueden ser bien conocidos o requerir un lookup previo por parte del cliente.</p>
+<p>Según la información de estado que administre, un servidor puede ser:</p>
+<ul>
+<li>Sin estado: la información del cliente se descarta cuando finaliza la conexión / operación.</li>
+<li>Con estado: mantiene información persistente de sus clientes.</li>
+</ul>
+<h3 id="servidor-de-objetos">
+  Servidor de objetos
+  <a class="anchor" href="#servidor-de-objetos">#</a>
+</h3>
+<p>El servidor no ofrece una funcionalidad específica, en cambio esta es provista por los objetos que almacena.</p>
+<h3 id="cluster-de-servidores">
+  Cluster de servidores
+  <a class="anchor" href="#cluster-de-servidores">#</a>
+</h3>
+<h4 id="lan-cluster">
+  Lan Cluster
+  <a class="anchor" href="#lan-cluster">#</a>
+</h4>
+<p>Un conjunto de servidores interconectados por una red de alta velocidad.</p>
+<ul>
+<li>
+<p>Organización general:</p>
+<ul>
+<li>Primer capa: switch que redirecciona las peticiones</li>
+<li>Segunda capa: conjunto de nodos que ejecutan la logica de negocio/servicio</li>
+<li>Tercer capa: nodos que se encargan de persistencia de datos</li>
+</ul>
+</li>
+<li>
+<p>La redirección de peticiones puede realizarse en</p>
+<ul>
+<li>nivel de transporte (ej TCP)</li>
+<li>nivel de aplicación (en base al contenido del request)</li>
+</ul>
+</li>
+</ul>
+<h4 id="wan-cluster">
+  Wan Cluster
+  <a class="anchor" href="#wan-cluster">#</a>
+</h4>
+<ul>
+<li>Uso de DNS para el balanceo de carga o reducción de latencia.</li>
+<li>Ejemplo: Content Delivery Networks (CDNs) como Akamai</li>
+</ul>
+<h2 id="migración-de-código">
+  Migración de código
+  <a class="anchor" href="#migraci%c3%b3n-de-c%c3%b3digo">#</a>
+</h2>
+<h3 id="razones">
+  Razones
+  <a class="anchor" href="#razones">#</a>
+</h3>
+<ul>
+<li>
+<p>Perfomance</p>
+<ul>
+<li>Mover código/procesos a nodos con menor carga.</li>
+<li>Actualmente se busca mover procesos de nodos con poca carga a otros con carga media/alta.
+<ul>
+<li>Estrategia de optimización de consumo de energía en datacenters.</li>
+</ul>
+</li>
+<li>Migración de VMs menos compleja (aunque requiere más recursos) que migración de procesos.</li>
+<li>En un sistema distribuido puede importar más reducir latencias que mejorar perfomance de ejecución.</li>
+<li>La heterogenidad de plataformas dificulta determinar ganancia de computo.</li>
+</ul>
+</li>
+<li>
+<p>Seguridad y privacidad</p>
+<ul>
+<li>Mover el código/procesos a donde esten los datos por cuestiones de seguridad/privacidad de los mismos.</li>
+<li>Por ejemplo, mover procesos para entrenar una red neuronal a los nodos con los datos, no al reves.</li>
+</ul>
+</li>
+<li>
+<p>Flexibilidad</p>
+<ul>
+<li>Permitir reconfigurar dinámicamente un sistema distribuido.</li>
+<li>Por ejemplo, descargar implementación de un protocolo dinámicamente para comunicación con un servidor.</li>
+</ul>
+</li>
+</ul>
+<h3 id="modelos-para-migración-de-código">
+  Modelos para migración de código
+  <a class="anchor" href="#modelos-para-migraci%c3%b3n-de-c%c3%b3digo">#</a>
+</h3>
+<ul>
+<li>Ademas de código, puede ser necesario mover datos y el contexto de ejecución (migración de procesos)</li>
+<li>Podemos identificar en un proceso: código, recursos y contexto de ejecución.</li>
+<li>La migración se puede clasificar como
+<ul>
+<li><em>sender-initiated</em>: ej, enviar un programa a un servidor para su ejecución</li>
+<li><em>receiver-initiated</em>: recepcionar un codigo, ejemplo un applet o javascript</li>
+</ul>
+</li>
+<li>Como resultado, tenemos cuatro modelos:
+<ul>
+<li><em>Cliente-Servidor</em>: todo se ejecuta en el servidor, solo se envia un resultado.</li>
+<li><em>Evaluación Remota</em>: código migra al servidor, donde se ejecuta.</li>
+<li><em>Codigo a demanda</em>: código migra al cliente, donde se ejecuta.</li>
+<li><em>Agentes móbiles</em>: se migra código y contexto de ejecución.</li>
+</ul>
+</li>
+<li>Se puede diferenciar tambien:
+<ul>
+<li><em>Movilidad débil</em>: solo se migra código (requiere crear un nuevo ambiente de ejecución), modelo sencillo.</li>
+<li><em>Movilidad fuerte</em>: se migra código y ambiente de ejecución (ej, migración de un proceso en ejecución, o clonado).</li>
+</ul>
+</li>
+</ul>
+<p><img src="/03-28.png" alt="modelos-migracion-codigo" /></p>
+<h3 id="heterogeneidad">
+  Heterogeneidad
+  <a class="anchor" href="#heterogeneidad">#</a>
+</h3>
+<ul>
+<li>Los sistemas distribuidos son heterogéneos</li>
+<li>No siempre se puede migrar código y ejecutarlo en el nodo receptor, por diferencias en arquitectura, software, etc.</li>
+<li>Solución: interpretes y/o máquinas virtuales</li>
+<li>Ejemplos de lenguajes: Python, Java, Pascal, Erlang/Elixir, etc.</li>
+<li>Migración de todo el entorno: VMs como Dropbox, VMWare, VirtualPC, etc.</li>
+</ul>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#procesos-1">Procesos</a></li>
+    <li><a href="#hilos">Hilos</a></li>
+    <li><a href="#virtualización">Virtualización</a>
+      <ul>
+        <li><a href="#tipo-de-virtualización">Tipo de virtualización</a></li>
+        <li><a href="#contenedores">Contenedores</a></li>
+        <li><a href="#uso-de-maquinas-virtuales-en-ssdd">Uso de maquinas virtuales en ssdd</a></li>
+      </ul>
+    </li>
+    <li><a href="#clientes">Clientes</a></li>
+    <li><a href="#servidores">Servidores</a>
+      <ul>
+        <li><a href="#servidor-de-objetos">Servidor de objetos</a></li>
+        <li><a href="#cluster-de-servidores">Cluster de servidores</a></li>
+      </ul>
+    </li>
+    <li><a href="#migración-de-código">Migración de código</a>
+      <ul>
+        <li><a href="#razones">Razones</a></li>
+        <li><a href="#modelos-para-migración-de-código">Modelos para migración de código</a></li>
+        <li><a href="#heterogeneidad">Heterogeneidad</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

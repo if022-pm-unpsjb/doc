@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="es-ar" dir="ltr">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="En un sistema centralizado x = timestamp(); y = timestamp() da como resultado $x \leq y$.
+En un sistema distribuido, acordar en un valor temporal no es trivial.
+¿Es posible sincronizar los relojes de los nodos de un sistema distribuido? La respuesta es sorprendentemente complicada.
+Entonces&hellip; ¿Cómo coordinan sus actividades los procesos de un sistema distribuido?
+
+  Relojes físicos
+  #
+
+
+
+Existen situaciones donde es necesario que todos los nodos en un sistema acuerden en un valor de tiempo determinado.">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/posts/05-coordinacion/">
+  <meta property="og:site_name" content="IF022 -- Sistemas Distribuidos">
+  <meta property="og:title" content="Coordinación">
+  <meta property="og:description" content="En un sistema centralizado x = timestamp(); y = timestamp() da como resultado $x \leq y$.
+En un sistema distribuido, acordar en un valor temporal no es trivial.
+¿Es posible sincronizar los relojes de los nodos de un sistema distribuido? La respuesta es sorprendentemente complicada.
+Entonces… ¿Cómo coordinan sus actividades los procesos de un sistema distribuido?
+Relojes físicos # Existen situaciones donde es necesario que todos los nodos en un sistema acuerden en un valor de tiempo determinado.">
+  <meta property="og:locale" content="es_ar">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-09-18T23:05:01-03:00">
+    <meta property="article:modified_time" content="2024-09-18T23:05:01-03:00">
+<title>Coordinación | IF022 -- Sistemas Distribuidos</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" >
+<link rel="canonical" href="http://localhost:1313/posts/05-coordinacion/">
+<link rel="stylesheet" href="/book.min.309b7ed028807cdb68d8d61e26d609f48369c098dbf5e4d8c0dcf4cdf49feafc.css" integrity="sha256-MJt&#43;0CiAfNto2NYeJtYJ9INpwJjb9eTYwNz0zfSf6vw=" crossorigin="anonymous">
+  <script defer src="/fuse.min.js"></script>
+  <script defer src="/en.search.min.19a97d093690a174ec5178a5a930f453463f38b1abb4b34e58010169a5c5e3e1.js" integrity="sha256-Gal9CTaQoXTsUXilqTD0U0Y/OLGrtLNOWAEBaaXF4&#43;E=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
+      inlineMath: [['\\(', '\\)'], ['$', '$']]                  
+    }
+  };
+</script>
+
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>IF022 -- Sistemas Distribuidos</span>
+  </a>
+</h2>
+
+
+<div class="book-search hidden">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+<script>document.querySelector(".book-search").classList.remove("hidden")</script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/01-introduccion/" class="">Introducción a los Sistemas Distribuidos</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/02-arquitectura/" class="">Arquitecturas</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/03-procesos/" class="">Procesos</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/04-comunicacion-rpc/" class="">Comunicación</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/04-comunicacion-mom/" class="">Middleware orientado a mensajes (MoM)</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/04-comunicacion-multicast/" class="">Multicast</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/05-coordinacion/" class="">Coordinación</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/06-nombres-intro/" class="">Nombres, identificadores y direcciones</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/06-nombres-planos/" class="">Nombres planos</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/06-nombres-planos-chord/" class="">Nombres planos - DHT</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/07-replicacion/07-replicacion/" class="">Replicacion</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Coordinación</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#relojes-físicos">Relojes físicos</a></li>
+    <li><a href="#relojes-lógicos">Relojes lógicos</a></li>
+    <li><a href="#relojes-vectoriales">Relojes vectoriales</a></li>
+    <li><a href="#exclusión-mutua">Exclusión mutua</a>
+      <ul>
+        <li><a href="#centralizado">Centralizado</a></li>
+        <li><a href="#descentralizado">Descentralizado</a></li>
+        <li><a href="#distribuido">Distribuido</a></li>
+        <li><a href="#token-ring">Token ring</a></li>
+        <li><a href="#comparación">Comparación:</a></li>
+        <li><a href="#ejemplo-exclusion-mutua-con-zookeeper">Ejemplo: exclusion mutua con Zookeeper</a></li>
+      </ul>
+    </li>
+    <li><a href="#algoritmos-de-elección">Algoritmos de elección</a>
+      <ul>
+        <li><a href="#algoritmo-del-matón-bully">Algoritmo del matón (<em>bully</em>)</a></li>
+        <li><a href="#elección-en-un-anillo">Elección en un anillo</a></li>
+      </ul>
+    </li>
+    <li><a href="#elecciones-en-sistemas-de-gran-escala">Elecciones en sistemas de gran escala</a>
+      <ul>
+        <li><a href="#proof-of-work">Proof of work</a></li>
+        <li><a href="#proof-of-stake">Proof of stake</a></li>
+      </ul>
+    </li>
+    <li><a href="#elecciones-en-redes-inalambricas">Elecciones en redes inalambricas</a></li>
+    <li><a href="#coordinación-basada-en-rumores">Coordinación basada en rumores</a></li>
+    <li><a href="#peer-sampling">Peer-sampling</a></li>
+    <li><a href="#construccion-de-redes-superpuestas">Construccion de redes superpuestas</a></li>
+    <li><a href="#rumores-seguros">Rumores seguros</a></li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+<article class="markdown book-post">
+  <h1>
+    <a href="/posts/05-coordinacion/">Coordinación</a>
+  </h1>
+  
+  <h5>September 18, 2024</h5>
+
+
+
+  
+
+  
+
+
+
+<p>En un sistema centralizado <code>x = timestamp(); y = timestamp()</code> da como resultado $x \leq y$.</p>
+<p>En un sistema distribuido, acordar en un valor temporal no es trivial.</p>
+<p>¿Es posible sincronizar los relojes de los nodos de un sistema distribuido? La respuesta es sorprendentemente complicada.</p>
+<p>Entonces&hellip; ¿Cómo coordinan sus actividades los procesos de un sistema distribuido?</p>
+<h2 id="relojes-físicos">
+  Relojes físicos
+  <a class="anchor" href="#relojes-f%c3%adsicos">#</a>
+</h2>
+<ul>
+<li>
+<p>Existen situaciones donde es necesario que todos los nodos en un sistema acuerden en un valor de tiempo determinado.</p>
+</li>
+<li>
+<p>Un reloj físico presenta <em>deriva</em></p>
+</li>
+<li>
+<p>Problemas:</p>
+<ol>
+<li>¿Cómo sincronizamos el reloj interno con un reloj externo?</li>
+<li>¿Cómo sincronizamos los relojes internos entre sí?</li>
+</ol>
+</li>
+<li>
+<p>UTC:</p>
+<ul>
+<li>Coordinated Universal Time</li>
+<li>Estándar internacional</li>
+<li>40 emisoras de onda corta difunden una señal al comienzo de cada segundo UTC
+<ul>
+<li>Precisión $\pm 1$ ms a $\pm 10$ ms</li>
+</ul>
+</li>
+<li>Uso de satelites, por ejemplo GPS y relojes atómicos
+<ul>
+<li>Precisión $\pm 0,5$ ms</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Sincronización de relojes:</p>
+<ul>
+<li>Suponer un conjunto de nodos:
+<ul>
+<li>Desafio 1: que esten sincronizados con una referencia externa, por ejemplo UTC.</li>
+<li>Desafio 2: que los relojes de los nodos difieran lo menos posible.</li>
+</ul>
+</li>
+<li><em>Exactitud</em>: mantener la desviación con respecto a una <em>fuente externa</em> dentro de un rango específico.</li>
+<li><em>Precisión</em>: mantener la desviación entre dos relojes dentro de un rango específico.</li>
+<li>Sincronización externa: mantener los relojes <em>exactos</em>.</li>
+<li>Sincronización interna: mantener los relojes <em>precisos</em>.</li>
+<li>Problema:
+<ul>
+<li>Los relojes fisicos no son exactos, presentan deriva</li>
+<li>El reloj por software se basa en el reloj hardware</li>
+<li>Segun la deriva un reloj puede ser más rapido o más lento en referencia a un reloj ideal</li>
+</ul>
+</li>
+<li>Fun facts:
+<ul>
+<li>Dos relojes exactos pueden ser precisos con una cota $2 \delta$</li>
+<li>Sin embargo, ser precisos <strong>no indica</strong> nada acerca de la exactitud.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Servidor de tiempo:</p>
+<ul>
+<li>Obtener un valor actualizado desde un servidor central (por ejemplo, que tenga un reloj UTC)</li>
+<li>Implementación mediante una arquitectura cliente/servidor:
+<ul>
+<li>Servidor retorna al cliente respuesta con timestamp.</li>
+<li>Cliente debe compensar el <em>offset</em> y <em>delay</em>.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>NTP</p>
+<ul>
+<li>Network Time Protocol</li>
+</ul>
+</li>
+<li>
+<p>Ambientes inalambricos:</p>
+<ul>
+<li>Requieren algoritmos diferentes</li>
+<li>Ejemplo: Reference Broadcast Synchronization</li>
+</ul>
+</li>
+</ul>
+<h2 id="relojes-lógicos">
+  Relojes lógicos
+  <a class="anchor" href="#relojes-l%c3%b3gicos">#</a>
+</h2>
+<ul>
+<li>
+<p>Generalmente lo que importa es que los nodos esten de acuerdo en el <em>orden</em> de los eventos.</p>
+</li>
+<li>
+<p>Relación <em>happened-before</em>:</p>
+<ul>
+<li>$a$ y $b$ son eventos</li>
+<li>Si $a$ ocurre antes que $b$ en un mismo proceso, entonces $a \rightarrow b$</li>
+<li>Si $a$ es el envío de un mensaje y $b$ la recepción, entonces $a \rightarrow b$</li>
+<li>Transitivo: si $a \rightarrow b$ y $b \rightarrow c$, entonces $a \rightarrow c$</li>
+<li>Introduce un <strong>ordenamiento parcial</strong> sobre los eventos.</li>
+</ul>
+</li>
+<li>
+<p>Diseño:</p>
+<ul>
+<li>Cada evento $e$ tiene asociado un timestamp $C(e)$</li>
+<li>Propiedad 1: si $a$ y $b$ son eventos en un mismo proceso y $a \rightarrow b$ entonces $C(a) &lt; C(b)$</li>
+<li>Propiedad 2: si $a$ y $b$ son envío y recepción de un mensaje respectivamente, entonces $C(a) &lt; C(b)$</li>
+</ul>
+</li>
+<li>
+<p>Implementación:</p>
+<ul>
+<li>Cada proceso $P_i$ mantiene un reloj lógico $C_i$</li>
+<li>Por cada evento en $P_i$, $C_i = C_i + 1$</li>
+<li>Cada mensaje enviado por <em>Pi</em> tiene un timestamp <em>ts(m)</em> = <em>C(i)</em></li>
+<li>Cuando <em>Pj</em> recibe un mensaje <em>m</em>:
+<ul>
+<li>Ajusta su contador <em>Cj</em> con el máximo valor entre <em>Cj</em> y <em>ts(m)</em></li>
+<li>Antes de pasar el mensaje a la aplicación, incrementa <em>Cj</em> en uno.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>El servicio de relojes lógicos es implementado en un middleware, idealmente la aplicación no tiene por que ocuparse.</p>
+</li>
+<li>
+<p>Ejemplo de uso: multicast totalmente ordenado</p>
+</li>
+</ul>
+<h2 id="relojes-vectoriales">
+  Relojes vectoriales
+  <a class="anchor" href="#relojes-vectoriales">#</a>
+</h2>
+<p>Al usar relojes lógicos si $C(a) &lt; C(b)$ no implica que $a$ ocurra antes que $b$</p>
+<p>Solución: relojes vectoriales</p>
+<ul>
+<li>Cada nodo mantiene su propio reloj lógico</li>
+<li>Mantiene información de los relojes lógicos del resto de los nodos</li>
+<li>Se organizan como un vector o arreglo
+<ul>
+<li>$V[i]$ es el reloj lógico del nodo $i$</li>
+<li>$V[j]$ es el reloj lógico del nodo $j$</li>
+</ul>
+</li>
+</ul>
+<p>Ahora el timestamp asociado a cada mensaje es un vector: <em>ts(m)</em> = <em>VC</em></p>
+<p>Para comparar dos relojes vectoriales, <em>VCa</em> &lt; <em>VCb</em> si y solo si:</p>
+<ul>
+<li><em>VCa[k]</em> &lt;= <em>VCb[k]</em> para cualquier <em>k</em></li>
+<li>existe al menos un k&rsquo; tal que <em>VCa[k&rsquo;]</em> &lt; <em>VCb[k&rsquo;]</em></li>
+</ul>
+<p>Si se cumple <em>VCa</em> &lt; <em>VCb</em> entonces un evento precede causalmente a otro.</p>
+<p>Implementación: similar al reloj lógico</p>
+<p>Ejemplo de uso: multicast totalmente ordenado.</p>
+<h2 id="exclusión-mutua">
+  Exclusión mutua
+  <a class="anchor" href="#exclusi%c3%b3n-mutua">#</a>
+</h2>
+<ul>
+<li>
+<p>Coordinar el acceso exclusivo a un recurso.</p>
+</li>
+<li>
+<p>Estrategias:</p>
+<ul>
+<li>Mediante permisos: acuerdo entre los procesos.</li>
+<li>Utilizando un token: quien tiene el token, accede al recurso.</li>
+</ul>
+</li>
+</ul>
+<h3 id="centralizado">
+  Centralizado
+  <a class="anchor" href="#centralizado">#</a>
+</h3>
+<ul>
+<li>Uso de un coordinador que otorga el acceso al recurso</li>
+<li>Facil de implementar, sencillo de mantener.</li>
+<li>Posibles problemas para escalar.</li>
+</ul>
+<h3 id="descentralizado">
+  Descentralizado
+  <a class="anchor" href="#descentralizado">#</a>
+</h3>
+<ul>
+<li>Recurso con N replicas, cada una con un coordinador asignado.</li>
+<li>Acceder al recurso requiere votos positivos de al menos m &gt; N/2 coordinadores.</li>
+</ul>
+<h3 id="distribuido">
+  Distribuido
+  <a class="anchor" href="#distribuido">#</a>
+</h3>
+<ul>
+<li>Uso de multicast totalmente ordenado para coordinar el acceso.</li>
+<li>Requiere poder contactar a todos los procesos interesados en el mismo recurso.</li>
+</ul>
+<h3 id="token-ring">
+  Token ring
+  <a class="anchor" href="#token-ring">#</a>
+</h3>
+<ul>
+<li>Procesos organizados en un anillo lógico.</li>
+<li>Token circula por el anillo.</li>
+<li>Quien tiene el token puede acceder al recurso.</li>
+</ul>
+<h3 id="comparación">
+  Comparación:
+  <a class="anchor" href="#comparaci%c3%b3n">#</a>
+</h3>
+<ul>
+<li>Centralizado:
+<ul>
+<li>Requiere 3 mensajes para acceder/liberar el recurso (petición, recepción del ok, liberación).</li>
+</ul>
+</li>
+<li>Distribuido:
+<ul>
+<li>Si existen <em>N</em> nodos, debo envíar mensajes a cada uno y esperar confirmación de ok: <em>2(N-1)</em> mensajes.</li>
+</ul>
+</li>
+<li>Token-ring:
+<ul>
+<li>El token puede recorrer indefinidamente el anillo hasta ser retenido para el acceso al recurso.</li>
+<li>En el peor caso un nodo debe esperar <em>N-1</em> mensajes hasta que le llegue el token (suponiendo un anillo de <em>N</em> nodos)</li>
+</ul>
+</li>
+</ul>
+<h3 id="ejemplo-exclusion-mutua-con-zookeeper">
+  Ejemplo: exclusion mutua con Zookeeper
+  <a class="anchor" href="#ejemplo-exclusion-mutua-con-zookeeper">#</a>
+</h3>
+<ul>
+<li>
+<p>En la práctica muchos sistemas distribuidos utilizan un coordinador centralizado</p>
+</li>
+<li>
+<p>Zookeeper ofrece servicios para:</p>
+<ul>
+<li>exclusion mutua</li>
+<li>elección de lider</li>
+<li>monitoreo</li>
+<li>etc</li>
+</ul>
+</li>
+<li>
+<p>Diseñado para ofrecer confiabilidad, tolerancia a fallas y escalabilidad</p>
+<ul>
+<li>Aunque es logicamente un servicio centralizado, su implementación es un sistema distribuido</li>
+</ul>
+</li>
+<li>
+<p>Usar zookeeper o servicios similares: ¡no hay que reinventar la rueda! (sobre todo una rueda complicada)</p>
+</li>
+<li>
+<p>Zookeeper 101:</p>
+<ul>
+<li>No hay primitivas bloqueantes
+<ul>
+<li>Las peticiones de un cliente siempre reciben una respuesta.</li>
+</ul>
+</li>
+<li>Ofrece un espacio de nombres, similar a un sistema de archivos.</li>
+<li>Operaciones:
+<ul>
+<li>crear y eliminar nodos</li>
+<li>leer y actualizar datos en nodos (las actualizaciones son completas, no parciales)</li>
+<li>verificar si existe un nodo en particular</li>
+</ul>
+</li>
+<li>Tipos de nodos:
+<ul>
+<li>persistentes: deben ser creados y eliminados explicitamente</li>
+<li>efímeros: son eliminados cuando la conexión del proceso que los creo se pierde</li>
+</ul>
+</li>
+<li>Servicio de notificaciones
+<ul>
+<li>Evita polling por parte de los clientes.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Ejemplo: obtener acceso exclusivo</p>
+<ul>
+<li>Un proceso crea un nodo, por ejemplo con nombre <code>/lock</code></li>
+<li>Si existe, la operación falla indicando que ya existe</li>
+<li>El proceso debe repetir la operación para obtenerlo</li>
+<li>En caso de crearlo, para liberar el acceso elimina el nodo <code>/lock</code></li>
+<li>Problemas:
+<ul>
+<li>¿que sucede cuando un cliente crea <code>/lock</code> y desaparece?</li>
+<li>Proceso p2 puede solicitar notificaciones por <code>/lock</code> mientras <code>/lock</code> es eliminado</li>
+<li>Estas sutilezas y muchas más son manejadas por zookeeper.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="algoritmos-de-elección">
+  Algoritmos de elección
+  <a class="anchor" href="#algoritmos-de-elecci%c3%b3n">#</a>
+</h2>
+<ul>
+<li>
+<p>Muchos algoritmos distribuidos requieren que un nodo actue como coordinador.</p>
+</li>
+<li>
+<p>No importa en general cual nodo en particular sea el coordinador&hellip; pero alguien tiene que hacerlo.</p>
+</li>
+<li>
+<p>Mediante un algoritmo de elección se escoje un nodo para que actue como coordinador.</p>
+</li>
+<li>
+<p>En general se asume:</p>
+<ul>
+<li>Cada proceso <em>P</em> cuenta con un identificador único <em>id(P)</em>.</li>
+<li>Cada proceso conoce a todo el conjunto de procesos (aunque no cuales estan funcionando).</li>
+</ul>
+</li>
+<li>
+<p>El objetivo de estos algoritmos es que cuando finalice la elección <em>todos</em> los procesos hayan acordado el mismo lider.</p>
+</li>
+</ul>
+<h3 id="algoritmo-del-matón-bully">
+  Algoritmo del matón (<em>bully</em>)
+  <a class="anchor" href="#algoritmo-del-mat%c3%b3n-bully">#</a>
+</h3>
+<ul>
+<li>Considerar <em>N</em> procesos, cada uno con un identificador <em>k</em>, con <em>k</em> entre 0 y n-1.</li>
+<li>Cuando un proceso <em>k</em> se da cuenta que el lider no responde:
+<ul>
+<li>Envía un mensaje ELECTION a todos los nodos con identificador &gt; k.</li>
+<li>Si ninguno responde, el nodo <em>k</em> asume el papel de líder.</li>
+<li>Si alguno responde con OK, toma el control del proceso de elección y <em>k</em> desiste.</li>
+<li>Eventualmente, sólo un proceso tomará el control, enviando el mensaje COORDINATOR.</li>
+</ul>
+</li>
+<li>Si un proceso caído retoma su ejecución, inicia una elección.</li>
+<li>Como el proceso con mayor ID es el que gana, se lo conoce por el nombre de &ldquo;bully algorithm&rdquo;.</li>
+</ul>
+<h3 id="elección-en-un-anillo">
+  Elección en un anillo
+  <a class="anchor" href="#elecci%c3%b3n-en-un-anillo">#</a>
+</h3>
+<ul>
+<li>
+<p>Suponer que cada nodo conoce su sucesor, y al siguiente a este, y al proximo, y así.</p>
+</li>
+<li>
+<p>Cuando un nodo detecta que el coordinador no responde:</p>
+<ul>
+<li>Envía un mensaje ELECTION a su sucesor (o al siguiente si este no responde), con su ID.</li>
+<li>El receptor reenvia el mensaje ELECTION, agregando su propio ID.</li>
+<li>Eventualmente, el mensaje retorna al emisor original.</li>
+<li>En ese momento, el mensaje circula nuevamente ahora con el tipo COORDINATOR.</li>
+<li>El mensaje contiene ahora: el nuevo coordinador (el ID mas alto) y que nodos estan activos en el anillo.</li>
+</ul>
+</li>
+<li>
+<p>¿Importa que dos o más procesos inicien una elección?</p>
+<ul>
+<li>No, únicamente habrá mayor recarga en la red.</li>
+</ul>
+</li>
+</ul>
+<h2 id="elecciones-en-sistemas-de-gran-escala">
+  Elecciones en sistemas de gran escala
+  <a class="anchor" href="#elecciones-en-sistemas-de-gran-escala">#</a>
+</h2>
+<p>Muchos algoritmos de elección suponen un número pequeño de nodos.</p>
+<p>Las cosas se vuelven complicadas a medida que el número de nodos aumenta.</p>
+<p>Un ejemplo es una red <em>blockchain</em>.</p>
+<h3 id="proof-of-work">
+  Proof of work
+  <a class="anchor" href="#proof-of-work">#</a>
+</h3>
+<p>Consiste en que los nodos compitan en base a su <strong>poder de cómputo</strong></p>
+<p>Para esto, compiten para ver quien es el primero en resolver un problema complejo pero soluble.</p>
+<p>El ganador es el nodo que primero difunde una solución.</p>
+<p>El nodo ganador se convierte en el líder: es quien añade la transacción a la cadena de bloques.</p>
+<p>Multiples problemas:</p>
+<ul>
+<li>Principalmente, consumo de energía.</li>
+<li>¿Cómo regular la complejidad del problema?</li>
+</ul>
+<h3 id="proof-of-stake">
+  Proof of stake
+  <a class="anchor" href="#proof-of-stake">#</a>
+</h3>
+<h2 id="elecciones-en-redes-inalambricas">
+  Elecciones en redes inalambricas
+  <a class="anchor" href="#elecciones-en-redes-inalambricas">#</a>
+</h2>
+<p>En una red inalambrica, la transmisión no es necesariamente confiable, ni la topología permanece estática.</p>
+<p>El algoritmo presentado por Vasudevan escoge el <em>mejor</em> líder.</p>
+<p>Para elegir un líder un nodo difunde un mensaje <em>ELECTION</em> a sus vecinos.</p>
+<p>Si un nodo vecino hubiera recibido ya un mensaje <em>ELECTION</em>, simplemente retorna un <em>ACK</em>.</p>
+<p>Caso contrario, si recibe un mensaje <em>ELECTION</em> por primera vez recuerda al nodo emisor y retrasmite el mensaje.</p>
+<p>En cuanto todos los nodos vecinos responda a esta retransmisión de <em>ELECTION</em>, el nodo responde al emisor original.</p>
+<h2 id="coordinación-basada-en-rumores">
+  Coordinación basada en rumores
+  <a class="anchor" href="#coordinaci%c3%b3n-basada-en-rumores">#</a>
+</h2>
+<p>Se puede utilizar rumores para recolectar información.</p>
+<p>Consensuar un mismo valor:</p>
+<ul>
+<li>Cada nodo $P_i$ escoge un valor arbitrario $v_i$</li>
+<li>Cuando dos nodos $P_i$ y $P_j$ intercambian datos: $v_i, v_j \leftarrow (v_i + v_j)/2$</li>
+<li>Eventualmente todos los nodos tendran el mismo valor (media de los valores iniciales)</li>
+</ul>
+<p>Estimar el número de nodos:</p>
+<ul>
+<li>El nodo $P_1$ escoge $v_1=1$, el resto de los nodos $v_i=0$</li>
+<li>Si hay $N$ nodos, eventualmente todos tendran $v_i=1/N$</li>
+<li>Se puede estimar el tamaño de la red como $1/v_i$</li>
+</ul>
+<p>Seleccionar un nodo al azar:</p>
+<ul>
+<li>Cada nodo $P_i$ seleccionar un valor $m_i$ al azar y setea $v_i=m_i$</li>
+<li>Al intercambiar datos $P_i$ y $P_j$ realizan $v_i, v_j \leftarrow max{v_i, v_j}$</li>
+<li>Si luego $m_i &lt; v_i$, entonces el nodo $P_i$ <em>pierde</em> la competencia.</li>
+<li>Eventualmente un único nodo será el ganador.</li>
+</ul>
+<p>Aplicacion</p>
+<ul>
+<li>Un nodo al azar inicia el proceso de estimación de números de nodos.</li>
+<li>Si el numero de nodos es estable, se puede designar un nodo fijo para que realice el conteo.</li>
+<li>Caso contrario, se pueden utilizar <em>epocas</em> o bien un nodo al azar cada tanto realiza un conteo.</li>
+</ul>
+<h2 id="peer-sampling">
+  Peer-sampling
+  <a class="anchor" href="#peer-sampling">#</a>
+</h2>
+<p>¿Cómo elegir un nodo al azar cuando no se conoce la totalidad de los nodos en el sistema?</p>
+<p>Un nodo podría tener toda la información, pero no es una solución escalable.</p>
+<p>Una solución es el uso de <em>vistas parciales</em>:</p>
+<ul>
+<li>Cada nodo mantiene una lista de <em>c</em> nodos vecinos.</li>
+<li>Los nodos intercambian parte de sus listas parciales con otros nodos (en su vista parcial).</li>
+<li>Cada nodo actualiza su vista parcial, pero siempre manteniendo <em>c</em> nodos en la misma.</li>
+</ul>
+<p>Si esto se repite regularmente, escoger un nodo al azar de la vista parcial es <strong>estadisticamente indistinguible</strong> de hacerlo de la totalidad de los nodos.</p>
+<h2 id="construccion-de-redes-superpuestas">
+  Construccion de redes superpuestas
+  <a class="anchor" href="#construccion-de-redes-superpuestas">#</a>
+</h2>
+<p>Es posible utilizar las <em>vistas parciales</em> para generar <em>topologías estructuradas</em>.</p>
+<p>Un posible protocolo para lograrlo estaría dividido en dos capas:</p>
+<ul>
+<li>Una capa inferior que mantiene la <em>vista parcial</em> y opera sobre la red no-estructurada.</li>
+<li>Una capa superior que genera una topología estructurada en base a la <em>vista parcial</em>.</li>
+</ul>
+<h2 id="rumores-seguros">
+  Rumores seguros
+  <a class="anchor" href="#rumores-seguros">#</a>
+</h2>
+<p>La velocidad de propagación de datos puede generar problemas de seguridad/confiabilidad.</p>
+<p>Por ejemplo, $c$ nodos pueden cooperar maliciosamente para cooptar la red:</p>
+<ul>
+<li>Al intercambiar las vistas parciales, estos nodos envian $c/2$ entradas que sólo referencian a alguno de estos $c$ nodos.</li>
+<li>Gradualmente, las vistas parciales de <em>todos</em> los nodos solo contienen referencias a un conjunto de estos $c$ nodos.</li>
+</ul>
+<p>Se busca tratar de detectar y prevenir comportamiento malicioso</p>
+<p>Los nodos maliciosos pueden ser detectados por el elevado número de referencias desde otros nodos (<em>indegree</em>)</p>
+<p>Sin embargo, al detectarlos ya puede ser demasiado tarde</p>
+<p>Una manera de mitigar es requerir que los nodos generen estadísticas:</p>
+<ul>
+<li>Al intercambiar vistas parciales se puede realizar también estadísticas</li>
+<li>Es importante que no se sepa cuando se utilizan para actualizar la vista parcial o para generar estadísticas</li>
+<li>Un nodo malicioso no puede devolver siempre enlaces a otros nodos maliciosos, sería rápidamente descubierto</li>
+<li>No queda otra que, de vez en cuando, &ldquo;jugar con las reglas&rdquo; de los nodos benignos</li>
+</ul>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#relojes-físicos">Relojes físicos</a></li>
+    <li><a href="#relojes-lógicos">Relojes lógicos</a></li>
+    <li><a href="#relojes-vectoriales">Relojes vectoriales</a></li>
+    <li><a href="#exclusión-mutua">Exclusión mutua</a>
+      <ul>
+        <li><a href="#centralizado">Centralizado</a></li>
+        <li><a href="#descentralizado">Descentralizado</a></li>
+        <li><a href="#distribuido">Distribuido</a></li>
+        <li><a href="#token-ring">Token ring</a></li>
+        <li><a href="#comparación">Comparación:</a></li>
+        <li><a href="#ejemplo-exclusion-mutua-con-zookeeper">Ejemplo: exclusion mutua con Zookeeper</a></li>
+      </ul>
+    </li>
+    <li><a href="#algoritmos-de-elección">Algoritmos de elección</a>
+      <ul>
+        <li><a href="#algoritmo-del-matón-bully">Algoritmo del matón (<em>bully</em>)</a></li>
+        <li><a href="#elección-en-un-anillo">Elección en un anillo</a></li>
+      </ul>
+    </li>
+    <li><a href="#elecciones-en-sistemas-de-gran-escala">Elecciones en sistemas de gran escala</a>
+      <ul>
+        <li><a href="#proof-of-work">Proof of work</a></li>
+        <li><a href="#proof-of-stake">Proof of stake</a></li>
+      </ul>
+    </li>
+    <li><a href="#elecciones-en-redes-inalambricas">Elecciones en redes inalambricas</a></li>
+    <li><a href="#coordinación-basada-en-rumores">Coordinación basada en rumores</a></li>
+    <li><a href="#peer-sampling">Peer-sampling</a></li>
+    <li><a href="#construccion-de-redes-superpuestas">Construccion de redes superpuestas</a></li>
+    <li><a href="#rumores-seguros">Rumores seguros</a></li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

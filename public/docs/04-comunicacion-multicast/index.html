@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="es-ar" dir="ltr">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="
+  Multicast
+  #
+
+¿Cómo enviar datos a múltiples receptores?
+Existen numerosas soluciones a nivel de protocoles de red y de transporte. Su principal desventaja es el costo en armar las rutas de difusión de datos.
+A nivel de aplicación, las redes p2p estructuradas facilitan la creación de estas rutas de difusión. Veremos técnicas de difusión a este nivel.
+
+  Basada en árboles
+  #
+
+La idea básica es que los nodos estan organizados en una red superpuesta, utilizada para difundir los datos.">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/docs/04-comunicacion-multicast/">
+  <meta property="og:site_name" content="IF022 -- Sistemas Distribuidos">
+  <meta property="og:title" content="Multicast">
+  <meta property="og:description" content=" Multicast # ¿Cómo enviar datos a múltiples receptores?
+Existen numerosas soluciones a nivel de protocoles de red y de transporte. Su principal desventaja es el costo en armar las rutas de difusión de datos.
+A nivel de aplicación, las redes p2p estructuradas facilitan la creación de estas rutas de difusión. Veremos técnicas de difusión a este nivel.
+Basada en árboles # La idea básica es que los nodos estan organizados en una red superpuesta, utilizada para difundir los datos.">
+  <meta property="og:locale" content="es_ar">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="docs">
+    <meta property="article:published_time" content="2024-09-18T23:04:03-03:00">
+    <meta property="article:modified_time" content="2024-09-18T23:04:03-03:00">
+<title>Multicast | IF022 -- Sistemas Distribuidos</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" >
+<link rel="canonical" href="http://localhost:1313/docs/04-comunicacion-multicast/">
+<link rel="stylesheet" href="/book.min.309b7ed028807cdb68d8d61e26d609f48369c098dbf5e4d8c0dcf4cdf49feafc.css" integrity="sha256-MJt&#43;0CiAfNto2NYeJtYJ9INpwJjb9eTYwNz0zfSf6vw=" crossorigin="anonymous">
+  <script defer src="/fuse.min.js"></script>
+  <script defer src="/en.search.min.19a97d093690a174ec5178a5a930f453463f38b1abb4b34e58010169a5c5e3e1.js" integrity="sha256-Gal9CTaQoXTsUXilqTD0U0Y/OLGrtLNOWAEBaaXF4&#43;E=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
+      inlineMath: [['\\(', '\\)'], ['$', '$']]                  
+    }
+  };
+</script>
+
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>IF022 -- Sistemas Distribuidos</span>
+  </a>
+</h2>
+
+
+<div class="book-search hidden">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+<script>document.querySelector(".book-search").classList.remove("hidden")</script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/01-introduccion/" class="">Introducción a los Sistemas Distribuidos</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/02-arquitectura/" class="">Arquitecturas</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/03-procesos/" class="">Procesos</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/04-comunicacion-rpc/" class="">Comunicación</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/04-comunicacion-mom/" class="">Middleware orientado a mensajes (MoM)</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/04-comunicacion-multicast/" class="active">Multicast</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/05-coordinacion/" class="">Coordinación</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/06-nombres-intro/" class="">Nombres, identificadores y direcciones</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/06-nombres-planos/" class="">Nombres planos</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/06-nombres-planos-chord/" class="">Nombres planos - DHT</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/07-replicacion/07-replicacion/" class="">Replicacion</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Multicast</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#basada-en-árboles">Basada en árboles</a></li>
+    <li><a href="#inundación-flooding">Inundación (flooding)</a></li>
+    <li><a href="#epidemico">Epidemico</a>
+      <ul>
+        <li><a href="#antientropia">Antientropia</a></li>
+        <li><a href="#rumores">Rumores</a></li>
+        <li><a href="#rumores-dirigidos">Rumores dirigidos</a></li>
+      </ul>
+    </li>
+    <li><a href="#eliminar-datos">Eliminar datos</a></li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown book-article"><h1 id="multicast">
+  Multicast
+  <a class="anchor" href="#multicast">#</a>
+</h1>
+<p>¿Cómo enviar datos a múltiples receptores?</p>
+<p>Existen numerosas soluciones a nivel de protocoles de red y de transporte. Su principal desventaja es el costo en armar las rutas de difusión de datos.</p>
+<p>A nivel de aplicación, las redes p2p estructuradas facilitan la creación de estas rutas de difusión. Veremos técnicas de difusión a este nivel.</p>
+<h2 id="basada-en-árboles">
+  Basada en árboles
+  <a class="anchor" href="#basada-en-%c3%a1rboles">#</a>
+</h2>
+<p>La idea básica es que los nodos estan organizados en una red superpuesta, utilizada para difundir los datos.</p>
+<p>Las conexiónes lógicas pueden no ser óptima desde el punto de vista de los enlaces físicos.</p>
+<p>Existen básicamente dos alternativas para la topología:</p>
+<ul>
+<li>Arbol: existe un único camino entre dos nodos cualesquiera de la red.</li>
+<li>Mesh: cada nodo tiene múltiples vecinos y por lo tanto requiere algún tipo de ruteo (existe más de un camino entre dos nodos cualesquiera)</li>
+</ul>
+<p>Principal diferencia: mesh ofrece mayor tolerancia a fallos que árbol.</p>
+<p>Principal desafío: ¿cómo construir la red superpuesta para la difusión?</p>
+<p>Adicional: ¿cómo construimos un árbol de difusión <em>eficiente</em>?</p>
+<p>La calidad del árbol para multidifusión se puede medir con tres métricas:</p>
+<ul>
+<li>Link stress: ¿cuántas veces debe un paquete atrevesar el mismo enlace?</li>
+<li>Link stretch: la razón entre el número de saltos en la red superpuesta y los enlaces físicos.</li>
+<li>Tree cost: métrica global, como reducir el costo agregado de los enlaces.</li>
+</ul>
+<p>Situación: un nuevo nodo quiere sumarse a la red superpuesta.</p>
+<ul>
+<li>Se contacta con un nodo bien conocido.</li>
+<li>¿Cómo decidir que nodo será su nodo padre en el árbol?</li>
+<li>Para evitar sobrecargar nodos, en general se pone un límite <em>k</em> de nodos vecinos.</li>
+<li>Este límite dificulta establecer el árbol, ya que agregar un nodo puede requerir una reconfiguración.</li>
+</ul>
+<h2 id="inundación-flooding">
+  Inundación (flooding)
+  <a class="anchor" href="#inundaci%c3%b3n-flooding">#</a>
+</h2>
+<p>Para minimizar el número de nodos que reciben un mensaje del cual no son destinatarios, es mejor construir una red superpuesta con los nodos destino.</p>
+<p>Ej: si en una topología de árbol un mensaje solo es para los nodos hoja.</p>
+<p>Posible solución: diferentes redes superpuestas para cada grupo multicast. Desventaja: un nodo puede pertencer a varias redes superpuestas, lo que incrementa el costo de administración.</p>
+<p>Una técnica sencilla de diseminar información a todos los nodos es la <em>inundación</em>:</p>
+<ul>
+<li>Enviar el mensaje a todos los nodos vecinos, excepto de quien lo recibió.</li>
+<li>Si se mantiene referencia de los mensajes enviados, se puede evitar duplicados.</li>
+</ul>
+<p>Problema: ineficiente (gran cantidad de mensajes). Sólo sería eficiente si la red superpuesta fuera un árbol.</p>
+<p>Se puede mejorar la situación utilizando <em>inundación probabilistica</em>:</p>
+<ul>
+<li>Un nodo reenviara el mensaje <em>m</em> a un nodo vecino con una probabilidad <em>p</em>.</li>
+<li>El número total de mensajes decrece de manera lineal con <em>p</em>.</li>
+<li>Problema: A menor valor de <em>p</em>, más chances que existan nodos que no reciban el mensaje.</li>
+<li>Se puede entonces tener en cuenta también el número de nodos vecinos al momento de decidir si reenviar el mensaje o no.</li>
+</ul>
+<p>¿Y si la red superpuesta tiene una topología estructurada? Las cosas se hacen más fáciles.</p>
+<p>Ejemplo: hipercubo. Reenviar mensajes a nodos con una dimension superior. Total de mensajes: 2^n - 1.</p>
+<p>Otro ejemplo: chord.</p>
+<h2 id="epidemico">
+  Epidemico
+  <a class="anchor" href="#epidemico">#</a>
+</h2>
+<p>Diseminar información siguiendo un comportamiento similar a los contagios de enfermedades. Como &ldquo;infectar&rdquo; rapidamente todos los nodos con un nuevo dato.</p>
+<p>Idea: difundir rápidamente información utilizando únicamente información local a cada nodo.</p>
+<p>Ventaja: es una técnica escalable, requiere pocas sincronizaciones entre nodos.</p>
+<p>Suponemos que las actualizaciones se inician en un único nodo.</p>
+<p>Terminología:</p>
+<ul>
+<li>Infectado: nodo que tiene un dato que desea transmitir.</li>
+<li>Susceptible: nodo que no ha visto aún este nuevo dato.</li>
+<li>Removido: nodo que no reenvia datos.</li>
+</ul>
+<p>Modelos de propagación: antientropía y rumores</p>
+<h3 id="antientropia">
+  Antientropia
+  <a class="anchor" href="#antientropia">#</a>
+</h3>
+<p>Un nodo P eligue al azar un nodo vecino Q para intercambiar datos.</p>
+<ul>
+<li>P puede sólo envíar datos a Q (<em>push</em>)</li>
+<li>P puede sólo requerir datos de Q (<em>pull</em>)</li>
+<li>P y Q intercambian datos (<em>push-pull</em>)</li>
+</ul>
+<p>Sólo utilizar <em>pull</em> no es eficiente si existen muchos nodos infectados: la probabilidad de escoger un nodo susceptible es baja. Usar <em>push</em> es conveniente cuando el número de nodos infectados es alto. Por lo tanto, la mejor estrategia es <em>push-pull</em>.</p>
+<p>Ronda: intervalo de tiempo en el cual cada nodo intercambio datos con un nodo vecino al azar.</p>
+<p>¿Cuántas rondas se necesitan para difundir a todos los nodos una actualización? Orden: O(log(N))</p>
+<h3 id="rumores">
+  Rumores
+  <a class="anchor" href="#rumores">#</a>
+</h3>
+<p>Variante de epidémico: si el nodo P contacta un nodo Q al azar para comunicar el dato x. Si Q ya conoce el dato, P dejará de transmitir el dato (con una probabilidad <em>p</em>).</p>
+<p>Ventajas: difunde muy rapidamente las actualizaciones.
+Desventaja: probabilidad de que no todos los nodos sean contactados.</p>
+<p>Incluso con valores bajos de <em>p</em> existe la posibilidad de que algunos nodos no sean actualizados. Para valores altos de <em>p</em> se deben tomar acciones adicionales en caso de que se requiera que la mayoría o todos de los nodos sean actualizados.</p>
+<h3 id="rumores-dirigidos">
+  Rumores dirigidos
+  <a class="anchor" href="#rumores-dirigidos">#</a>
+</h3>
+<p>Una presunción que se hace es que un nodo P puede contactar <em>cualquier</em> nodo Q de la red. Esto raramente es así (no se cuenta con una lista completa de los nodos).</p>
+<h2 id="eliminar-datos">
+  Eliminar datos
+  <a class="anchor" href="#eliminar-datos">#</a>
+</h2>
+<p>Los algoritmos epidemicos son excelentes para difundir una <em>actualización</em>.</p>
+<p>Problema: es muy complicado difundir una <em>eliminación</em>.</p>
+<p>Si un nodo elimina el datos <em>x</em> y posteriormente recibe una mensaje viejo de <em>actualización</em>, lo interpretará como un dato nuevo.</p>
+<p>Solución: realizar <em>borrados lógicos</em>, reenviando <em>certificados de defunción</em>.</p>
+<p>Problema: acumulación de <em>certificados</em>.</p>
+<p>Si se sabe que el tiempo de propagación de una actualización es <em>n</em>, se puede eliminar un certificado luego de <em>n</em>&hellip; pero por las dudas, ciertos nodos específicos mantienen copias de estos certificados.</p>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#basada-en-árboles">Basada en árboles</a></li>
+    <li><a href="#inundación-flooding">Inundación (flooding)</a></li>
+    <li><a href="#epidemico">Epidemico</a>
+      <ul>
+        <li><a href="#antientropia">Antientropia</a></li>
+        <li><a href="#rumores">Rumores</a></li>
+        <li><a href="#rumores-dirigidos">Rumores dirigidos</a></li>
+      </ul>
+    </li>
+    <li><a href="#eliminar-datos">Eliminar datos</a></li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

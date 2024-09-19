@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="es-ar" dir="ltr">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/posts/">
+  <meta property="og:site_name" content="IF022 -- Sistemas Distribuidos">
+  <meta property="og:title" content="Posts">
+  <meta property="og:locale" content="es_ar">
+  <meta property="og:type" content="website">
+<title>Posts | IF022 -- Sistemas Distribuidos</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" >
+<link rel="canonical" href="http://localhost:1313/posts/">
+<link rel="stylesheet" href="/book.min.309b7ed028807cdb68d8d61e26d609f48369c098dbf5e4d8c0dcf4cdf49feafc.css" integrity="sha256-MJt&#43;0CiAfNto2NYeJtYJ9INpwJjb9eTYwNz0zfSf6vw=" crossorigin="anonymous">
+  <script defer src="/fuse.min.js"></script>
+  <script defer src="/en.search.min.19a97d093690a174ec5178a5a930f453463f38b1abb4b34e58010169a5c5e3e1.js" integrity="sha256-Gal9CTaQoXTsUXilqTD0U0Y/OLGrtLNOWAEBaaXF4&#43;E=" crossorigin="anonymous"></script>
+<link rel="alternate" type="application/rss+xml" href="http://localhost:1313/posts/index.xml" title="IF022 -- Sistemas Distribuidos" />
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
+      inlineMath: [['\\(', '\\)'], ['$', '$']]                  
+    }
+  };
+</script>
+
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>IF022 -- Sistemas Distribuidos</span>
+  </a>
+</h2>
+
+
+<div class="book-search hidden">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+<script>document.querySelector(".book-search").classList.remove("hidden")</script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/01-introduccion/" class="">Introducción a los Sistemas Distribuidos</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/02-arquitectura/" class="">Arquitecturas</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/03-procesos/" class="">Procesos</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/04-comunicacion-rpc/" class="">Comunicación</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/04-comunicacion-mom/" class="">Middleware orientado a mensajes (MoM)</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/04-comunicacion-multicast/" class="">Multicast</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/05-coordinacion/" class="">Coordinación</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/06-nombres-intro/" class="">Nombres, identificadores y direcciones</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/06-nombres-planos/" class="">Nombres planos</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/06-nombres-planos-chord/" class="">Nombres planos - DHT</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/07-replicacion/07-replicacion/" class="">Replicacion</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Posts</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  <nav>
+  <ul>
+  
+    
+    <li class="book-section-flat">
+      <strong>Categories</strong>
+      <ul>
+      
+      </ul>
+    </li>
+    
+  
+    
+    <li class="book-section-flat">
+      <strong>Tags</strong>
+      <ul>
+      
+      </ul>
+    </li>
+    
+  
+  </ul>
+</nav>
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  
+  <article class="markdown book-post">
+    <h2>
+      <a href="/posts/06-nombres-planos/">Nombres planos</a>
+    </h2>
+    
+  <h5>September 18, 2024</h5>
+
+
+
+  
+
+  
+
+
+
+
+    <p><p>No contienen ningún tipo de información acerca de la entidad ni de su punto de acceso.</p>
+<p>Ejemplo: una dirección representada como una cadena aleatoria de bits.</p>
+<p>¿Cómo se puede resolver la entidad asociada?</p>
+<h2 id="broadcast">
+  Broadcast
+  <a class="anchor" href="#broadcast">#</a>
+</h2>
+<p>Para resolver un nombre plano se realiza un broadcast del identificador.</p>
+<ul>
+<li>
+<p>Una red LAN (cableada o wireless) ofrece servicios eficientes de broadcast.</p>
+</li>
+<li>
+<p>Cada máquina chequea si contiene la entidad asociada al identificador.</p>
+</li>
+<li>
+<p>Ejemplo: <a href="https://en.wikipedia.org/wiki/Address_Resolution_Protocol">ARP</a></p>
+</li>
+</ul>
+<p>A medida que la red incrementa su tamaño, el uso de broadcast se vuelve ineficiente.</p>
+        <a href="/posts/06-nombres-planos/">...</a>
+      
+    </p>
+  </article>
+  
+  <article class="markdown book-post">
+    <h2>
+      <a href="/posts/06-nombres-planos-chord/">Nombres planos - DHT</a>
+    </h2>
+    
+  <h5>September 18, 2024</h5>
+
+
+
+  
+
+  
+
+
+
+
+    <p><p>Chord es un sistema DHT (Distributed Hash Table) relativamente sencillo de entender.</p>
+<h2 id="mecanismo-general">
+  Mecanismo general
+  <a class="anchor" href="#mecanismo-general">#</a>
+</h2>
+<p>Usa un espacio de $m$ bits para asignar identificadores a nodos y claves a entidades.</p>
+<p>El número $m$ de bits usualmente esta entre 128 y 160.</p>
+<p>Una entidad con clave $k$ es administrada por el nodo cuyo identificador $id$ sea $id \geq k$.</p>
+<p>A dicho nodo se le denomina <strong>sucesor</strong> de $k$ y se denota como $succ(k)$</p>
+        <a href="/posts/06-nombres-planos-chord/">...</a>
+      
+    </p>
+  </article>
+  
+  <article class="markdown book-post">
+    <h2>
+      <a href="/posts/06-nombres-intro/">Nombres, identificadores y direcciones</a>
+    </h2>
+    
+  <h5>September 18, 2024</h5>
+
+
+
+  
+
+  
+
+
+
+
+    <p><p>Un nombre es un conjunto de bits que permiten identificar una <strong>entidad</strong>.</p>
+<p>Una <strong>entidad</strong> puede ser cualquier cosa: una página web, una impresora, un proceso.</p>
+<p>En general, una entidad se puede <em>operar</em>.</p>
+<ul>
+<li>Por ejemplo, si la entidad es una impresora, se puede enviar un documento para su impresión.</li>
+</ul>
+<p>Para operar una entidad se requiere acceder a la misma, mediante un <strong>punto de acceso</strong>.</p>
+<ul>
+<li>Un <strong>punto de acceso</strong> es una entidad en un sistema distribuido&hellip; y requiere un nombre.</li>
+<li>Una entidad puede tener uno, dos o más puntos de acceso.</li>
+<li>El punto de acceso puede cambiar con el tiempo.</li>
+<li>Ejemplo: IP:PUERTO</li>
+</ul>
+<p>El nombre de un <strong>punto de acceso</strong> se conoce como <strong>dirección</strong>.</p>
+        <a href="/posts/06-nombres-intro/">...</a>
+      
+    </p>
+  </article>
+  
+  <article class="markdown book-post">
+    <h2>
+      <a href="/posts/05-coordinacion/">Coordinación</a>
+    </h2>
+    
+  <h5>September 18, 2024</h5>
+
+
+
+  
+
+  
+
+
+
+
+    <p><p>En un sistema centralizado <code>x = timestamp(); y = timestamp()</code> da como resultado $x \leq y$.</p>
+<p>En un sistema distribuido, acordar en un valor temporal no es trivial.</p>
+<p>¿Es posible sincronizar los relojes de los nodos de un sistema distribuido? La respuesta es sorprendentemente complicada.</p>
+<p>Entonces&hellip; ¿Cómo coordinan sus actividades los procesos de un sistema distribuido?</p>
+<h2 id="relojes-físicos">
+  Relojes físicos
+  <a class="anchor" href="#relojes-f%c3%adsicos">#</a>
+</h2>
+<ul>
+<li>
+<p>Existen situaciones donde es necesario que todos los nodos en un sistema acuerden en un valor de tiempo determinado.</p>
+        <a href="/posts/05-coordinacion/">...</a>
+      
+    </p>
+  </article>
+  
+  <article class="markdown book-post">
+    <h2>
+      <a href="/posts/04-comunicacion-multicast/">Multicast</a>
+    </h2>
+    
+  <h5>September 18, 2024</h5>
+
+
+
+  
+
+  
+
+
+
+
+    <p><p>¿Cómo enviar datos a múltiples receptores?</p>
+<p>Existen numerosas soluciones a nivel de protocoles de red y de transporte. Su principal desventaja es el costo en armar las rutas de difusión de datos.</p>
+<p>A nivel de aplicación, las redes p2p estructuradas facilitan la creación de estas rutas de difusión. Veremos técnicas de difusión a este nivel.</p>
+<h2 id="basada-en-árboles">
+  Basada en árboles
+  <a class="anchor" href="#basada-en-%c3%a1rboles">#</a>
+</h2>
+<p>La idea básica es que los nodos estan organizados en una red superpuesta, utilizada para difundir los datos.</p>
+        <a href="/posts/04-comunicacion-multicast/">...</a>
+      
+    </p>
+  </article>
+  
+  <article class="markdown book-post">
+    <h2>
+      <a href="/posts/04-comunicacion-mom/">Middleware orientado a mensajes (MoM)</a>
+    </h2>
+    
+  <h5>September 18, 2024</h5>
+
+
+
+  
+
+  
+
+
+
+
+    <p><p>RPC o RMI no siempre son apropiados. Ej:</p>
+<ul>
+<li>el receptor no esta funcionando al mismo tiempo que el emisor.</li>
+<li>no se ajustan a la arquitectura cliente/servidor.</li>
+</ul>
+<p>Alternativa: envío de mensajes.</p>
+<h2 id="uso-de-sockets">
+  Uso de sockets
+  <a class="anchor" href="#uso-de-sockets">#</a>
+</h2>
+<p>Socket: abstraccion sobre un puerto, donde se puede escribir o leer datos, usando un protocolo específico (ej: TCP o UDP).</p>
+<p>No presenta el nivel de abstracción necesario. Cualquier funcionalidad adicional debe ser implementada por la aplicación.</p>
+        <a href="/posts/04-comunicacion-mom/">...</a>
+      
+    </p>
+  </article>
+  
+  <article class="markdown book-post">
+    <h2>
+      <a href="/posts/04-comunicacion-rpc/">Comunicación</a>
+    </h2>
+    
+  <h5>September 18, 2024</h5>
+
+
+
+  
+
+  
+
+
+
+
+    <p><p>Fundamental en un sistema distribuido. Las primitivas de comunicación que ofrece el sistema operativo pueden no tener el nivel de abstracción necesario.</p>
+<h2 id="fundaciones">
+  Fundaciones
+  <a class="anchor" href="#fundaciones">#</a>
+</h2>
+<h3 id="el-modelo-osi">
+  El modelo OSI
+  <a class="anchor" href="#el-modelo-osi">#</a>
+</h3>
+<p>Modelo de siete capas, no utilizado en la práctica, pero que es una referencia útil acerca de como esta estructurado lógicamente el stack de comunicación.</p>
+<h3 id="middleware">
+  Middleware
+  <a class="anchor" href="#middleware">#</a>
+</h3>
+<p>Los servicios middleware para un sistema distribuido estarían logicamente ubicados en las capas de sesión y presentación del modelo OSI, aunque también pueden incorporar servicios en la capa de aplicación.</p>
+        <a href="/posts/04-comunicacion-rpc/">...</a>
+      
+    </p>
+  </article>
+  
+  <article class="markdown book-post">
+    <h2>
+      <a href="/posts/03-procesos/">03 Procesos</a>
+    </h2>
+    
+  <h5>September 18, 2024</h5>
+
+
+
+  
+
+  
+
+
+
+
+    <p>
+    </p>
+  </article>
+  
+  <article class="markdown book-post">
+    <h2>
+      <a href="/posts/02-arquitectura/">Arquitecturas</a>
+    </h2>
+    
+  <h5>September 18, 2024</h5>
+
+
+
+  
+
+  
+
+
+
+
+    <p><p>Es fundamental una correcta organización para administrar la complejidad de un sistema distribuido.</p>
+<p>Podemos diferenciar:</p>
+<ul>
+<li>La organización de los componentes de software (<em>arquitectura de software</em>).</li>
+<li>Cómo están físicamente instanciados (<em>arquitectura del sistema</em>).</li>
+</ul>
+<h2 id="estilo-arquitectonico">
+  Estilo arquitectonico
+  <a class="anchor" href="#estilo-arquitectonico">#</a>
+</h2>
+<p>Organización lógica de los componentes de software del sistema:</p>
+<ul>
+<li>Componentes.
+<ul>
+<li>Unidad modular con interfaces bien definidas (reemplazable).</li>
+</ul>
+</li>
+<li>Cómo se conectan y comunican.
+<ul>
+<li>Conector: el mecanismo que media la comunicación entre los componentes.</li>
+</ul>
+</li>
+<li>Qué datos intercambian.</li>
+<li>Cómo están configurados.</li>
+</ul>
+<p>Según como se configuran componentes y conectores, tenemos una <em>arquitectura de software</em>.</p>
+        <a href="/posts/02-arquitectura/">...</a>
+      
+    </p>
+  </article>
+  
+  <article class="markdown book-post">
+    <h2>
+      <a href="/posts/01-introduccion/">Introducción a los Sistemas Distribuidos</a>
+    </h2>
+    
+  <h5>September 18, 2024</h5>
+
+
+
+  
+
+  
+
+
+
+
+    <p><p><em>the #1 rule of distribute computing: Don’t distribute your computing! At least if you can in any way avoid it</em></p>
+<p><em>You&rsquo;re not Google. Your company will never be Google&hellip; Is there a reason we can&rsquo;t just do this all in Postgres?</em></p>
+<p>Avances imporantes han ocurrido en las últimas décadas:</p>
+<ul>
+<li>Desarrollo de microprocesadores potentes, pequeños y ecónomicos.</li>
+<li>Avance de las tecnologías de comunicaciones.</li>
+<li>Miniaturización de los sistemas de cómputo (ES, IoT, SoCs, etc).</li>
+</ul>
+<p>En la actualidad es <em>relativamente sencillo</em> desarrollar un sistema compuesto de múltiples computadoras conectadas por una red. Al estar las computadoras físicamente separadas se habla de un <em>sistema distribuido</em>.</p>
+        <a href="/posts/01-introduccion/">...</a>
+      
+    </p>
+  </article>
+  
+
+  
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  <nav>
+  <ul>
+  
+    
+    <li class="book-section-flat">
+      <strong>Categories</strong>
+      <ul>
+      
+      </ul>
+    </li>
+    
+  
+    
+    <li class="book-section-flat">
+      <strong>Tags</strong>
+      <ul>
+      
+      </ul>
+    </li>
+    
+  
+  </ul>
+</nav>
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

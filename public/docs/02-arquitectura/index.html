@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="es-ar" dir="ltr">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="
+  Arquitecturas
+  #
+
+Es fundamental una correcta organización para administrar la complejidad de un sistema distribuido.
+Podemos diferenciar:
+
+La organización de los componentes de software (arquitectura de software).
+Cómo están físicamente instanciados (arquitectura del sistema).
+
+
+  Estilo arquitectonico
+  #
+
+Organización lógica de los componentes de software del sistema:
+
+Componentes.
+
+Unidad modular con interfaces bien definidas (reemplazable).
+
+
+Cómo se conectan y comunican.
+
+Conector: el mecanismo que media la comunicación entre los componentes.
+
+
+Qué datos intercambian.
+Cómo están configurados.
+
+Según como se configuran componentes y conectores, tenemos una arquitectura de software.">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/docs/02-arquitectura/">
+  <meta property="og:site_name" content="IF022 -- Sistemas Distribuidos">
+  <meta property="og:title" content="Arquitecturas">
+  <meta property="og:description" content=" Arquitecturas # Es fundamental una correcta organización para administrar la complejidad de un sistema distribuido.
+Podemos diferenciar:
+La organización de los componentes de software (arquitectura de software). Cómo están físicamente instanciados (arquitectura del sistema). Estilo arquitectonico # Organización lógica de los componentes de software del sistema:
+Componentes. Unidad modular con interfaces bien definidas (reemplazable). Cómo se conectan y comunican. Conector: el mecanismo que media la comunicación entre los componentes. Qué datos intercambian. Cómo están configurados. Según como se configuran componentes y conectores, tenemos una arquitectura de software.">
+  <meta property="og:locale" content="es_ar">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="docs">
+    <meta property="article:published_time" content="2024-09-18T23:02:19-03:00">
+    <meta property="article:modified_time" content="2024-09-18T23:02:19-03:00">
+<title>Arquitecturas | IF022 -- Sistemas Distribuidos</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" >
+<link rel="canonical" href="http://localhost:1313/docs/02-arquitectura/">
+<link rel="stylesheet" href="/book.min.309b7ed028807cdb68d8d61e26d609f48369c098dbf5e4d8c0dcf4cdf49feafc.css" integrity="sha256-MJt&#43;0CiAfNto2NYeJtYJ9INpwJjb9eTYwNz0zfSf6vw=" crossorigin="anonymous">
+  <script defer src="/fuse.min.js"></script>
+  <script defer src="/en.search.min.19a97d093690a174ec5178a5a930f453463f38b1abb4b34e58010169a5c5e3e1.js" integrity="sha256-Gal9CTaQoXTsUXilqTD0U0Y/OLGrtLNOWAEBaaXF4&#43;E=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
+      inlineMath: [['\\(', '\\)'], ['$', '$']]                  
+    }
+  };
+</script>
+
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>IF022 -- Sistemas Distribuidos</span>
+  </a>
+</h2>
+
+
+<div class="book-search hidden">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+<script>document.querySelector(".book-search").classList.remove("hidden")</script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/01-introduccion/" class="">Introducción a los Sistemas Distribuidos</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/02-arquitectura/" class="active">Arquitecturas</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/03-procesos/" class="">Procesos</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/04-comunicacion-rpc/" class="">Comunicación</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/04-comunicacion-mom/" class="">Middleware orientado a mensajes (MoM)</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/04-comunicacion-multicast/" class="">Multicast</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/05-coordinacion/" class="">Coordinación</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/06-nombres-intro/" class="">Nombres, identificadores y direcciones</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/06-nombres-planos/" class="">Nombres planos</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/06-nombres-planos-chord/" class="">Nombres planos - DHT</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/07-replicacion/07-replicacion/" class="">Replicacion</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Arquitecturas</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#estilo-arquitectonico">Estilo arquitectonico</a>
+      <ul>
+        <li><a href="#arquitectura-por-capas">Arquitectura por capas</a></li>
+        <li><a href="#orientadas-a-los-servicios">Orientadas a los servicios</a></li>
+        <li><a href="#publish-subscribe">Publish-subscribe</a></li>
+      </ul>
+    </li>
+    <li><a href="#el-middleware">El middleware</a></li>
+    <li><a href="#arquitectura-del-sistema">Arquitectura del sistema</a></li>
+    <li><a href="#arquitectura-en-capas">Arquitectura en capas</a></li>
+    <li><a href="#arquitecturas-simétricas">Arquitecturas simétricas</a>
+      <ul>
+        <li><a href="#p2p-estructurados">p2p estructurados</a></li>
+        <li><a href="#p2p-no-estructurados">p2p no estructurados</a></li>
+        <li><a href="#p2p-jerárquicos">p2p jerárquicos</a></li>
+      </ul>
+    </li>
+    <li><a href="#arquitecturas-híbridas">Arquitecturas híbridas</a>
+      <ul>
+        <li><a href="#cloud-computing">Cloud computing</a></li>
+        <li><a href="#edge-computing">Edge computing</a></li>
+        <li><a href="#blockchain-apps">Blockchain apps</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown book-article"><h1 id="arquitecturas">
+  Arquitecturas
+  <a class="anchor" href="#arquitecturas">#</a>
+</h1>
+<p>Es fundamental una correcta organización para administrar la complejidad de un sistema distribuido.</p>
+<p>Podemos diferenciar:</p>
+<ul>
+<li>La organización de los componentes de software (<em>arquitectura de software</em>).</li>
+<li>Cómo están físicamente instanciados (<em>arquitectura del sistema</em>).</li>
+</ul>
+<h2 id="estilo-arquitectonico">
+  Estilo arquitectonico
+  <a class="anchor" href="#estilo-arquitectonico">#</a>
+</h2>
+<p>Organización lógica de los componentes de software del sistema:</p>
+<ul>
+<li>Componentes.
+<ul>
+<li>Unidad modular con interfaces bien definidas (reemplazable).</li>
+</ul>
+</li>
+<li>Cómo se conectan y comunican.
+<ul>
+<li>Conector: el mecanismo que media la comunicación entre los componentes.</li>
+</ul>
+</li>
+<li>Qué datos intercambian.</li>
+<li>Cómo están configurados.</li>
+</ul>
+<p>Según como se configuran componentes y conectores, tenemos una <em>arquitectura de software</em>.</p>
+<p>Arquitecturas tipicamente utilizadas en sistemas distribuidos son:</p>
+<ul>
+<li>Arquitecturas por capas.</li>
+<li>Orientadas a los servicios.</li>
+<li>Publish-subscribe.</li>
+</ul>
+<h3 id="arquitectura-por-capas">
+  Arquitectura por capas
+  <a class="anchor" href="#arquitectura-por-capas">#</a>
+</h3>
+<p>Los componentes se organizan en capas. Un componente en la capa N invoca generalmente los servicios de un componente en la capa N-1. Excepcionalmente, un componente puede invocar un servicio de una capa superior (N+1).</p>
+<p>Ejemplo clásico: protocolos de comunicación de redes (TCP/IP, OSI, etc).</p>
+<p>Muchas aplicaciones se organizan en capas siguiendo el siguiente estilo:</p>
+<ul>
+<li>Capa de presentación o interfaz de usuario.</li>
+<li>Capa de procesamiento o de negocio.</li>
+<li>Capa de datos o persistencia.</li>
+</ul>
+<p>Desventaja:</p>
+<ul>
+<li>Existe una dependencia fuerte entre las distintas capas.</li>
+</ul>
+<h3 id="orientadas-a-los-servicios">
+  Orientadas a los servicios
+  <a class="anchor" href="#orientadas-a-los-servicios">#</a>
+</h3>
+<p>Organización más imprecisa, donde cada componente encapsula un servicio. El sistema se estructura como una <em>composición</em> de servicios.</p>
+<ul>
+<li>
+<p>Orientado a objetos (invocación de objetos remotos).</p>
+</li>
+<li>
+<p>Microservicios (cada componente representa un servicio separado e independiente).</p>
+</li>
+<li>
+<p>Basada en recursos (REST).</p>
+</li>
+<li>
+<p>Objetos:</p>
+<ul>
+<li>Cada componente corresponde con objeto.</li>
+<li>Se comunican mediante algún mecanismo de invocación.</li>
+<li>Encapsular datos y procedimientos dentro del objeto, ofreciendo una interface.</li>
+<li>Los objetos pueden estar distribuidos.</li>
+</ul>
+</li>
+<li>
+<p>Microservicios:</p>
+<ul>
+<li>Mas info: <a href="https://microservices.io/">https://microservices.io/</a></li>
+<li>&ldquo;same crap, but distributed&rdquo;</li>
+<li>the biggest issue with microservices is that they convert nice errors with a stack trace to network errors</li>
+</ul>
+</li>
+<li>
+<p>SOA:</p>
+<ul>
+<li>La aplicación es una composición de servicios.</li>
+<li>Estos pueden pertenecer a diferentes organizaciones administrativas.</li>
+<li>Ej: procesador de pagos.</li>
+</ul>
+</li>
+<li>
+<p>Basados en recursos:</p>
+<ul>
+<li>En lugar de servicios, se consideran recursos.</li>
+<li>Popular por su simplicidad.</li>
+</ul>
+</li>
+</ul>
+<h3 id="publish-subscribe">
+  Publish-subscribe
+  <a class="anchor" href="#publish-subscribe">#</a>
+</h3>
+<p>Separación de procesamiento y coordinación (comunicación y cooperación).</p>
+<p>El sistema es visto como un conjunto de componentes autónomos.</p>
+<p>Lograr que los componentes no tengan dependencias explicitas.</p>
+<p>Los componentes describen los eventos que le son de interés.</p>
+<ul>
+<li>
+<p>Event-based</p>
+<ul>
+<li>Referencialmente desacoplados</li>
+<li>Temporalmente acoplados</li>
+</ul>
+</li>
+<li>
+<p>Space-based</p>
+<ul>
+<li>Referencial y temporalmente desacoplados.</li>
+<li>Comunicación mediante tuplas</li>
+<li>Procesos ingresan tuplas en un espacio compartido.</li>
+<li>Recuperación mediante búsqueda</li>
+</ul>
+</li>
+</ul>
+<p>Ambos tipos se pueden combinar (generar evento cuando tuplas de interés son ingresadas al espacio de intercambio)</p>
+<p>En este caso, hablamos de publicación - subscripción.</p>
+<pre><code>- Se deben describir los eventos de interes.
+- Generalmente como (atributo, valor) o (atributo, rango)
+</code></pre>
+<h2 id="el-middleware">
+  El middleware
+  <a class="anchor" href="#el-middleware">#</a>
+</h2>
+<p>Facilita el desarrollo de un sistema distribuido. Es una capa que administra recursos y ofrece servicios comunes.</p>
+<p>El principal objetivo es ayudar en la transparencia de distribución.</p>
+<p>Por ejemplo, se puede encargar de:</p>
+<ul>
+<li>Acceso a recursos remotos.</li>
+<li>Ofrecer servicios para la comunicación entre componentes.</li>
+<li>Servicios de seguridad y administración.</li>
+<li>Recuperación de fallas.</li>
+<li>Coordinación.</li>
+<li>Etc.</li>
+</ul>
+<p>Algunos ejemplos concretos en sistemas distribuidos:</p>
+<ul>
+<li>Servicio de Mensajería: RabbitMQ, ZeroMQ,</li>
+<li>Llamadas a procedimientos remotos: RPC, RMI, gRPC</li>
+<li>Objetos distribuidos: CORBA</li>
+<li>Streaming de datos y eventos: Apache Kafka</li>
+<li>Monitores de transacciones distribuidas</li>
+</ul>
+<p>El middleware se puede organizar de varias maneras. Por ejemplo:</p>
+<ul>
+<li><em>Wrappers</em>: por aplicación o centralizado.</li>
+<li><em>Interceptores</em>: Permite ejecutar código adicional durante la ejecución de un servicio.</li>
+</ul>
+<h2 id="arquitectura-del-sistema">
+  Arquitectura del sistema
+  <a class="anchor" href="#arquitectura-del-sistema">#</a>
+</h2>
+<p>Ubicación e interaccion de los componentes software junto con el hardware.</p>
+<p>Pensar en clientes que piden servicios a servidores ayuda con la complejidad de los sistemas distribuidos.</p>
+<h2 id="arquitectura-en-capas">
+  Arquitectura en capas
+  <a class="anchor" href="#arquitectura-en-capas">#</a>
+</h2>
+<p>Cliente-servidor:</p>
+<ul>
+<li>Modelo más sencillo</li>
+<li>Procesos divididos en dos grupos: <em>clientes</em> que invocan un servicio implementado en <em>servidores</em></li>
+<li>La invocacion puede usar una conexión no confiable (quiza usando operaciones <em>idempotentes</em>) o confiable (TCP, cuando la red no es fiable).</li>
+<li>No siempre se puede definir de manera precisa la separación entre cliente y servidor. Puede variar.</li>
+</ul>
+<p>Existen múltiples alternativas de como distribuir tres capas lógicas en un modelo cliente-servidor.</p>
+<ul>
+<li>Dos capas (two-tier)</li>
+<li>Multicapa: distribuir las capas en múltiples máquinas, por ejemplo una arquitectura de 3-capas.</li>
+</ul>
+<p><em>Distribución vertical</em>: componentes lógicos separados en máquinas separadas.</p>
+<h2 id="arquitecturas-simétricas">
+  Arquitecturas simétricas
+  <a class="anchor" href="#arquitecturas-sim%c3%a9tricas">#</a>
+</h2>
+<p><em>Distribución horizontal</em>: dividir cada componente lógico (servidor, cliente).</p>
+<p><em>peer to peer</em> (<em>p2p</em>): las funcionalidades del sistema están presentes en todos los procesos que constituyen el sistema. Un nodo puede actuar tanto como cliente o como servidor. La arquitectura del sistema toma la forma de una red sobrepuesta, que puede ser estructurada o no.</p>
+<h3 id="p2p-estructurados">
+  p2p estructurados
+  <a class="anchor" href="#p2p-estructurados">#</a>
+</h3>
+<p>Los nodos se organizan según alguna topología concreta: anillo, árbol, matriz, etc. En general cada nodo es responsable de mantener un cierto conjunto de datos, identificados mediante un identificador (generalmente, una función hash de los datos). Así, la red p2p es básicamente un tabla hash distribuida. La topología define como debe realizarse el ruteo de una consulta al nodo correspondiente.</p>
+<p>Ejemplo: chord</p>
+<h3 id="p2p-no-estructurados">
+  p2p no estructurados
+  <a class="anchor" href="#p2p-no-estructurados">#</a>
+</h3>
+<p>No existe una topología predefinida y cada nodo mantiene una lista ad-hoc de nodos vecinos, lo que da como resultado un grafo aleatorio. Al momento de unirse, un nodo contacta un nodo bien conocido para obtener una lista inicial de vecinos. La búsqueda de datos requiere técnicas como inundación o <em>random walks</em>.</p>
+<ul>
+<li>
+<p>Inundación: se pasa la búsqueda a todos los nodos vecinos. Un nodo ignora una búsqueda que ya recibió. Puede responder al nodo que originó la búsqueda o al que se la reenvió. La búsqueda tiene un TTL asociado. TTL igual a 1 para buscar entre nodos vecinos.</p>
+</li>
+<li>
+<p>Aleatorio: se pregunto a un nodo vecino al azar. Si no tiene el dato, este repite el procedimiento. Menor trafico, mayor tiempo de búsqueda. Se puede paralelizar y también tiene un TTL asociado.</p>
+</li>
+<li>
+<p>Por política: mantener una lista de nodos que han respondido peticiones, etc.</p>
+</li>
+</ul>
+<h3 id="p2p-jerárquicos">
+  p2p jerárquicos
+  <a class="anchor" href="#p2p-jer%c3%a1rquicos">#</a>
+</h3>
+<p>Para aliviar problemas de escalabilidad, un p2p no-estructurado puede tener nodos especiales que mantengan un índice de items o datos, conocidos como &ldquo;super pares&rdquo;.</p>
+<ul>
+<li>Nodo &ldquo;weak&rdquo; se conecta a la red a travez de un super-par. Puede ser siempre el mismo o no.</li>
+<li>Para mejorar confiabilidad, puede requerirse conectarse a n &gt; 1 superpares.</li>
+<li>Los nodos superpares se organizan en una red p2p propia (de ahí la jerarquía)</li>
+<li>Problemas: ¿Cómo elegir que nodo superpar utilizar? ¿Cómo elegir cuales seran superpares? Elección de lider.</li>
+</ul>
+<p>Ejemplo: bittorrent, CDN.</p>
+<h2 id="arquitecturas-híbridas">
+  Arquitecturas híbridas
+  <a class="anchor" href="#arquitecturas-h%c3%adbridas">#</a>
+</h2>
+<p>En la práctica, un sistema complejo abarca múltiples arquitecturas.</p>
+<h3 id="cloud-computing">
+  Cloud computing
+  <a class="anchor" href="#cloud-computing">#</a>
+</h3>
+<p>Permite el acceso a un conjunto de recursos <em>virtualizados</em> de fácil acceso. Cúantos de estos recursos son necesarios y cómo serán usados, es definido dinámicamente: por ejemplo, si un cliente requiere más poder de cómputo, simplemente puede pedir procesador virtuales adicionales. Básicamente, una nube se organiza en cuatro capas:</p>
+<ul>
+<li>Hardware: la capa más baja, que los clientes generalmente no ven, organizada en data-centers.</li>
+<li>Infraestructura: una capa de virtualización sobre los recursos de hardware, para ofrecerlos a los clientes.</li>
+<li>Plataforma: provee una capa de abstracción para la ejecución de aplicaciones y/o administración de recursos como almacenamiento.</li>
+<li>Aplicación: aplicaciones que pueden ser adaptadas por los clientes, como suites ofimáticas.</li>
+</ul>
+<p>Estas capas son accesibles mediante una multitud de interfaces (web-services, APIs, etc).</p>
+<p>A su vez, da lugar a tres capas de servicios diferenciados:</p>
+<ul>
+<li>IasS (Infraestructure-as-a-service)</li>
+<li>PaaS (Platform-as-a-service)</li>
+<li>SaaS (Software-as-a-service)</li>
+<li>FaaS (Function-as-a-service): ejemplo AWS Lambda.</li>
+</ul>
+<p>El uso de un servicio en la nube tiene similitudes con la arquitectura cliente-servidor. Sin embargo, el servidor es totalmente opaco al cliente: no se sabe donde ejecuta, como esta implementado, etc.</p>
+<h3 id="edge-computing">
+  Edge computing
+  <a class="anchor" href="#edge-computing">#</a>
+</h3>
+<p>Como colocar los recursos en el &ldquo;límite&rdquo; de la red, entre los dispositivos y la nube. Generalmente, en los ISPs. Complementa cloud para reducir la latencia y el uso de ancho de banda. También permite aumentar la confiabilidad, y puede ser necesario para cumplir con políticas de privacidad y seguridad. Aumenta la complejidad de la administración de la aplicación.</p>
+<p>Ej: Akamai, Netflix CDN, IoT, etc.</p>
+<p>Argumentos a favor de edge computing:</p>
+<ul>
+<li>
+<p>Latencia y ancho de banda: aunque el ancho de banda se ha incrementado en los últimos años, contar con los recursos más cerca del usuario final permite mejores garantías acerca del ancho de banda negociado. En cambio, la latencia es un problemas más complicado y donde existe un límite físico. En este caso, la cercanía reduce la latencia.</p>
+</li>
+<li>
+<p>Confiabilidad: Existen ciertos casos donde se debe garantizar el funcionamiento aún ante falta de conectividad a la nube.</p>
+</li>
+<li>
+<p>Seguridad y privacidad: por razones politicas/regulatorias ciertos datos no pueden ser subidos a la nube.</p>
+</li>
+</ul>
+<p>Desafios en orquestación:</p>
+<ul>
+<li>
+<p>Recursos: para garantizar la disponibilidad de recursos, ¿como deben ser asignados o provisionados?</p>
+</li>
+<li>
+<p>Ubicación: Dónde y cúando los recursos deben ser hechos disponibles.</p>
+</li>
+<li>
+<p>Selección: no necesariamente el nodo más cercano es el mejor.</p>
+</li>
+</ul>
+<h3 id="blockchain-apps">
+  Blockchain apps
+  <a class="anchor" href="#blockchain-apps">#</a>
+</h3>
+<p>Una presunción en el diseño de estas aplicaciones es que ningún nodo es <em>confiable</em>. Las transacciones son registras por un gran número de nodos participantes. Entre todos los nodos se mantiene una sola cadena de transacciones validadas. Dado que cada bloque es inmutable, la estructura de datos es fácilmente replicable.</p>
+<p>La diferencia fundamental entre múltiples implementaciones es cuales nodos se encargan de realizar las validaciones (esto es, agregar nuevos bloques a la cadena). Agregar un bloque es básicamente llegar a un consenso entre los distintos nodos con rol de validador. Los tipos de consenso pueden ser:</p>
+<ul>
+<li>
+<p>Centralizado: posible, pero en contra del diseño del sistema.</p>
+</li>
+<li>
+<p>Distribuido: un grupo preseleccionado de nodos se encarga de este rol.</p>
+<ul>
+<li>Los nodos llegan a un consenso, tolerando así participantes maliciosos.</li>
+<li>Si hay n nodos validadores, se toleran hasta k &lt;= (n - 1)/3 nodos maliciosos/defectuosos.</li>
+<li>El problema es que en general n es un numero pequeño.</li>
+</ul>
+</li>
+<li>
+<p>Descentralizada: todos los nodos participantes llegan a un consenso.</p>
+<ul>
+<li>Mediante consenso todos los nodos escogen un nodo que llevara adelante la validación.</li>
+<li>Este validación puede ser premiada.</li>
+<li>No todos los nodos desearan ser elegibles, principalmente por costo de la validación.</li>
+</ul>
+</li>
+</ul>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#estilo-arquitectonico">Estilo arquitectonico</a>
+      <ul>
+        <li><a href="#arquitectura-por-capas">Arquitectura por capas</a></li>
+        <li><a href="#orientadas-a-los-servicios">Orientadas a los servicios</a></li>
+        <li><a href="#publish-subscribe">Publish-subscribe</a></li>
+      </ul>
+    </li>
+    <li><a href="#el-middleware">El middleware</a></li>
+    <li><a href="#arquitectura-del-sistema">Arquitectura del sistema</a></li>
+    <li><a href="#arquitectura-en-capas">Arquitectura en capas</a></li>
+    <li><a href="#arquitecturas-simétricas">Arquitecturas simétricas</a>
+      <ul>
+        <li><a href="#p2p-estructurados">p2p estructurados</a></li>
+        <li><a href="#p2p-no-estructurados">p2p no estructurados</a></li>
+        <li><a href="#p2p-jerárquicos">p2p jerárquicos</a></li>
+      </ul>
+    </li>
+    <li><a href="#arquitecturas-híbridas">Arquitecturas híbridas</a>
+      <ul>
+        <li><a href="#cloud-computing">Cloud computing</a></li>
+        <li><a href="#edge-computing">Edge computing</a></li>
+        <li><a href="#blockchain-apps">Blockchain apps</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

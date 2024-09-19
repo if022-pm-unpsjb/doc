@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="es-ar" dir="ltr">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="
+  Comunicación
+  #
+
+Fundamental en un sistema distribuido. Las primitivas de comunicación que ofrece el sistema operativo pueden no tener el nivel de abstracción necesario.
+
+  Fundaciones
+  #
+
+
+  El modelo OSI
+  #
+
+Modelo de siete capas, no utilizado en la práctica, pero que es una referencia útil acerca de como esta estructurado lógicamente el stack de comunicación.
+
+  Middleware
+  #
+
+Los servicios middleware para un sistema distribuido estarían logicamente ubicados en las capas de sesión y presentación del modelo OSI, aunque también pueden incorporar servicios en la capa de aplicación.">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/docs/04-comunicacion-rpc/">
+  <meta property="og:site_name" content="IF022 -- Sistemas Distribuidos">
+  <meta property="og:title" content="Comunicación">
+  <meta property="og:description" content=" Comunicación # Fundamental en un sistema distribuido. Las primitivas de comunicación que ofrece el sistema operativo pueden no tener el nivel de abstracción necesario.
+Fundaciones # El modelo OSI # Modelo de siete capas, no utilizado en la práctica, pero que es una referencia útil acerca de como esta estructurado lógicamente el stack de comunicación.
+Middleware # Los servicios middleware para un sistema distribuido estarían logicamente ubicados en las capas de sesión y presentación del modelo OSI, aunque también pueden incorporar servicios en la capa de aplicación.">
+  <meta property="og:locale" content="es_ar">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="docs">
+    <meta property="article:published_time" content="2024-09-18T23:04:01-03:00">
+    <meta property="article:modified_time" content="2024-09-18T23:04:01-03:00">
+<title>Comunicación | IF022 -- Sistemas Distribuidos</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" >
+<link rel="canonical" href="http://localhost:1313/docs/04-comunicacion-rpc/">
+<link rel="stylesheet" href="/book.min.309b7ed028807cdb68d8d61e26d609f48369c098dbf5e4d8c0dcf4cdf49feafc.css" integrity="sha256-MJt&#43;0CiAfNto2NYeJtYJ9INpwJjb9eTYwNz0zfSf6vw=" crossorigin="anonymous">
+  <script defer src="/fuse.min.js"></script>
+  <script defer src="/en.search.min.19a97d093690a174ec5178a5a930f453463f38b1abb4b34e58010169a5c5e3e1.js" integrity="sha256-Gal9CTaQoXTsUXilqTD0U0Y/OLGrtLNOWAEBaaXF4&#43;E=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
+      inlineMath: [['\\(', '\\)'], ['$', '$']]                  
+    }
+  };
+</script>
+
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>IF022 -- Sistemas Distribuidos</span>
+  </a>
+</h2>
+
+
+<div class="book-search hidden">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+<script>document.querySelector(".book-search").classList.remove("hidden")</script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/01-introduccion/" class="">Introducción a los Sistemas Distribuidos</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/02-arquitectura/" class="">Arquitecturas</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/03-procesos/" class="">Procesos</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/04-comunicacion-rpc/" class="active">Comunicación</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/04-comunicacion-mom/" class="">Middleware orientado a mensajes (MoM)</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/04-comunicacion-multicast/" class="">Multicast</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/05-coordinacion/" class="">Coordinación</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/06-nombres-intro/" class="">Nombres, identificadores y direcciones</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/06-nombres-planos/" class="">Nombres planos</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/06-nombres-planos-chord/" class="">Nombres planos - DHT</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/07-replicacion/07-replicacion/" class="">Replicacion</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Comunicación</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#fundaciones">Fundaciones</a>
+      <ul>
+        <li><a href="#el-modelo-osi">El modelo OSI</a></li>
+        <li><a href="#middleware">Middleware</a></li>
+      </ul>
+    </li>
+    <li><a href="#tipos-de-comunicación">Tipos de comunicación</a></li>
+    <li><a href="#rpc">RPC</a>
+      <ul>
+        <li><a href="#paso-de-parámetros">Paso de parámetros</a></li>
+        <li><a href="#soporte">Soporte</a></li>
+        <li><a href="#variantes">Variantes</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown book-article"><h1 id="comunicación">
+  Comunicación
+  <a class="anchor" href="#comunicaci%c3%b3n">#</a>
+</h1>
+<p>Fundamental en un sistema distribuido. Las primitivas de comunicación que ofrece el sistema operativo pueden no tener el nivel de abstracción necesario.</p>
+<h2 id="fundaciones">
+  Fundaciones
+  <a class="anchor" href="#fundaciones">#</a>
+</h2>
+<h3 id="el-modelo-osi">
+  El modelo OSI
+  <a class="anchor" href="#el-modelo-osi">#</a>
+</h3>
+<p>Modelo de siete capas, no utilizado en la práctica, pero que es una referencia útil acerca de como esta estructurado lógicamente el stack de comunicación.</p>
+<h3 id="middleware">
+  Middleware
+  <a class="anchor" href="#middleware">#</a>
+</h3>
+<p>Los servicios middleware para un sistema distribuido estarían logicamente ubicados en las capas de sesión y presentación del modelo OSI, aunque también pueden incorporar servicios en la capa de aplicación.</p>
+<h2 id="tipos-de-comunicación">
+  Tipos de comunicación
+  <a class="anchor" href="#tipos-de-comunicaci%c3%b3n">#</a>
+</h2>
+<p>El middleware puede ser visto como un servicio adicional que media en la comunicación en una arquitectura cliente/servidor.</p>
+<p>Los tipos de comunicación se pueden categorizar en:</p>
+<ul>
+<li>
+<p><strong>Persistente</strong>:</p>
+<ul>
+<li>El mensaje es almacenado por el middleware todo el tiempo que sea necesario para realizar la entrega.</li>
+<li>El emisor no necesita esperar a que se complete la recepción.</li>
+<li>El receptor no tiene por que estar ejecutando al ser enviado el mensaje.</li>
+</ul>
+</li>
+<li>
+<p><strong>Transitoria</strong>:</p>
+<ul>
+<li>El mensaje es almacenado únicamente el tiempo suficiente para el envío, sólo si emisor y receptor estan ejecutando.</li>
+<li>Cualquier error descarta el mensaje.</li>
+</ul>
+</li>
+<li>
+<p><strong>Asincrónica</strong>:</p>
+<ul>
+<li>El emisor continua con la ejecución luego de envíar el mensaje, quiza sin confirmación de envío ni recepción.</li>
+</ul>
+</li>
+<li>
+<p><strong>Sincrónica</strong>:</p>
+<ul>
+<li>El emisor se bloquea hasa que el mensaje sea aceptado (envío, recepción, procesamiento).</li>
+</ul>
+</li>
+</ul>
+<h2 id="rpc">
+  RPC
+  <a class="anchor" href="#rpc">#</a>
+</h2>
+<p>Los desarrolladores estan familiarizados con el paradigma procedural. Si un procedimiento esta diseñado de manera que funcione aislado, no hay impedimento en principio que pueda ejecutar en otra maquina.</p>
+<p>Idea básica de RPC: Permitir invocar funciones remotas como si fueran locales.</p>
+<p>Idea sencilla pero de implementación compleja. Contribuye a la transparencia de distribución, especialmente a la transparencia de acceso. Problemas: falta de un espacio de direcciones común, diferencia en arquitecturas, caída de alguno de los procesos que se comunican, etc.</p>
+<p>El proceso cliente invoca una función local que se denomina <em>stub</em>, que tiene la misma sintaxis que la función remota deseada, pero que se encarga de agrupar los parámetros en un mensaje y enviarlo al servidor, esperar la respuesta y desampaquetar los datos y retornar el resultado de la invocación.</p>
+<p>En el servidor ocurre algo análogo: una funcion <em>stub</em> recibe la petición, desempaqueta los parámetros e invoca la función local en el servidor, y luego envía la respuesta a al cliente.</p>
+<h3 id="paso-de-parámetros">
+  Paso de parámetros
+  <a class="anchor" href="#paso-de-par%c3%a1metros">#</a>
+</h3>
+<p>Aspecto dificultoso del esquema RPC:</p>
+<ul>
+<li>¿Cómo interpretar los párametros?</li>
+<li>¿Cómo asegurar la misma representación de los datos?
+<ul>
+<li>Existen diferencias en las arquitecturas, por ejemplo ordenamiento de los bytes o tamaño de palabras.</li>
+<li>Distintos lenguajes tiene diferentes tipos de datos.</li>
+</ul>
+</li>
+</ul>
+<p><em>Solución</em>: enviar datos en un formato independiente de la maquina.</p>
+<ul>
+<li>Por ejemplo, se utiliza big endian para ordenar los bytes en los mensajes en la red.</li>
+<li>Acuerdo en la codificación de tipos basicos y complejos.</li>
+</ul>
+<p>¿Cómo pasamos punteros?</p>
+<ul>
+<li>Prohibirlos (no es realista)</li>
+<li>Serializar toda la estructura de datos (por ejemplo el arreglo, lista, etc)</li>
+<li>Generalmente se puede utilizar un <em>handle</em>. Por ejemplo, nombre de archivo o url.</li>
+</ul>
+<h3 id="soporte">
+  Soporte
+  <a class="anchor" href="#soporte">#</a>
+</h3>
+<p>Dos alternativas:</p>
+<ul>
+<li>
+<p>Especificar detalladamente funciones y parametros, para generar <em>stubs</em>.</p>
+<ul>
+<li>Indicar como empaquetar el nombre de la función y sus parámetros.</li>
+<li>Representación de los tipos de datos.</li>
+<li>Decidir en el mecanismo de comunicación, por ejemplo mediante TCP/IP.</li>
+<li>La interface es especificada mediante un IDL (Interface Definition Language).</li>
+<li>Mediante un programa específico, la descripción mediante IDL es compilada en <em>stubs</em>.</li>
+</ul>
+</li>
+<li>
+<p>Incorporar la funcionalidad en el lenguaje de programación.</p>
+<ul>
+<li>Facilita el desarrollo de la aplicación.</li>
+<li>Ej: Java cuenta con RMI (Remote Method Invocation)</li>
+</ul>
+</li>
+</ul>
+<p>Descubrimiento:</p>
+<ul>
+<li>¿Cómo puede el cliente saber qué servidor implementa la funcionalidad requerida?</li>
+<li>Solucion 1: el servidor puede ser bien conocido.</li>
+<li>Solucion 2: usar un servicio de directorio:
+<ul>
+<li>El servidor registra en un directorio el servicio que ofrece y su dirección.</li>
+<li>El cliente contacta el directorio y consulta por un servicio en particular.</li>
+<li>El cliente se conecta al servidor que le indica el directorio.</li>
+</ul>
+</li>
+</ul>
+<h3 id="variantes">
+  Variantes
+  <a class="anchor" href="#variantes">#</a>
+</h3>
+<ul>
+<li><strong>RPC sincrónico</strong>: el emisor espera a que el receptor ejecute la función.</li>
+<li><strong>RPC asincrónico</strong>: el emisor sólo espera hasta la confirmación de recepción por parte del emisor.</li>
+<li><strong>RPC diferido</strong>: RPC asincrónico más un <em>callback</em> que se ejecuta al recibir la respuesta del receptor.
+<ul>
+<li>Alternativamente al <em>callback</em>, el cliente puede realizar un <em>polling</em>.</li>
+</ul>
+</li>
+<li><strong>one-way RPC</strong>: el emisor genera el RPC pero no espera ni siquiera la confirmación de recepción.</li>
+<li><strong>RPC Multicast</strong>: uso de <em>one-way RPC</em> para enviar múltiples peticiones, posiblemente con un callback.
+<ul>
+<li>La aplicación puede no conocer que se realiza un multicast, lo oculta el <em>stub</em>.</li>
+<li>Es posible que tampoco lo sepa el <em>stub</em>, si se realiza mediante multicast en la capa de transporte.</li>
+<li>¿Cómo procesar las respuestas? ¿La primera unicamente, todas? Depende de la aplicación.</li>
+</ul>
+</li>
+</ul>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#fundaciones">Fundaciones</a>
+      <ul>
+        <li><a href="#el-modelo-osi">El modelo OSI</a></li>
+        <li><a href="#middleware">Middleware</a></li>
+      </ul>
+    </li>
+    <li><a href="#tipos-de-comunicación">Tipos de comunicación</a></li>
+    <li><a href="#rpc">RPC</a>
+      <ul>
+        <li><a href="#paso-de-parámetros">Paso de parámetros</a></li>
+        <li><a href="#soporte">Soporte</a></li>
+        <li><a href="#variantes">Variantes</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

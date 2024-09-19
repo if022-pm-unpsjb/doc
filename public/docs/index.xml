@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>IF022 -- Sistemas Distribuidos</title>
+    <link>http://localhost:1313/docs/</link>
+    <description>Recent content on IF022 -- Sistemas Distribuidos</description>
+    <generator>Hugo</generator>
+    <language>es-ar</language>
+    <lastBuildDate>Wed, 18 Sep 2024 23:06:02 -0300</lastBuildDate>
+    <atom:link href="http://localhost:1313/docs/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Introducción a los Sistemas Distribuidos</title>
+      <link>http://localhost:1313/docs/01-introduccion/</link>
+      <pubDate>Wed, 18 Sep 2024 22:59:19 -0300</pubDate>
+      <guid>http://localhost:1313/docs/01-introduccion/</guid>
+      <description>&lt;h1 id=&#34;introducción&#34;&gt;&#xA;  Introducción&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#introducci%c3%b3n&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;p&gt;&lt;em&gt;the #1 rule of distribute computing: Don’t distribute your computing! At least if you can in any way avoid it&lt;/em&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;em&gt;You&amp;rsquo;re not Google. Your company will never be Google&amp;hellip; Is there a reason we can&amp;rsquo;t just do this all in Postgres?&lt;/em&gt;&lt;/p&gt;&#xA;&lt;p&gt;Avances imporantes han ocurrido en las últimas décadas:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Desarrollo de microprocesadores potentes, pequeños y ecónomicos.&lt;/li&gt;&#xA;&lt;li&gt;Avance de las tecnologías de comunicaciones.&lt;/li&gt;&#xA;&lt;li&gt;Miniaturización de los sistemas de cómputo (ES, IoT, SoCs, etc).&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;En la actualidad es &lt;em&gt;relativamente sencillo&lt;/em&gt; desarrollar un sistema compuesto de múltiples computadoras conectadas por una red. Al estar las computadoras físicamente separadas se habla de un &lt;em&gt;sistema distribuido&lt;/em&gt;.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Arquitecturas</title>
+      <link>http://localhost:1313/docs/02-arquitectura/</link>
+      <pubDate>Wed, 18 Sep 2024 23:02:19 -0300</pubDate>
+      <guid>http://localhost:1313/docs/02-arquitectura/</guid>
+      <description>&lt;h1 id=&#34;arquitecturas&#34;&gt;&#xA;  Arquitecturas&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#arquitecturas&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;p&gt;Es fundamental una correcta organización para administrar la complejidad de un sistema distribuido.&lt;/p&gt;&#xA;&lt;p&gt;Podemos diferenciar:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;La organización de los componentes de software (&lt;em&gt;arquitectura de software&lt;/em&gt;).&lt;/li&gt;&#xA;&lt;li&gt;Cómo están físicamente instanciados (&lt;em&gt;arquitectura del sistema&lt;/em&gt;).&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;estilo-arquitectonico&#34;&gt;&#xA;  Estilo arquitectonico&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#estilo-arquitectonico&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;&#xA;&lt;p&gt;Organización lógica de los componentes de software del sistema:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Componentes.&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Unidad modular con interfaces bien definidas (reemplazable).&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;Cómo se conectan y comunican.&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Conector: el mecanismo que media la comunicación entre los componentes.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;Qué datos intercambian.&lt;/li&gt;&#xA;&lt;li&gt;Cómo están configurados.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;Según como se configuran componentes y conectores, tenemos una &lt;em&gt;arquitectura de software&lt;/em&gt;.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Procesos</title>
+      <link>http://localhost:1313/docs/03-procesos/</link>
+      <pubDate>Wed, 18 Sep 2024 23:03:01 -0300</pubDate>
+      <guid>http://localhost:1313/docs/03-procesos/</guid>
+      <description>&lt;h1 id=&#34;procesos&#34;&gt;&#xA;  Procesos&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#procesos&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;p&gt;Hilos, virtualización, cliente/servidor, migración.&lt;/p&gt;&#xA;&lt;h2 id=&#34;procesos-1&#34;&gt;&#xA;  Procesos&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#procesos-1&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;&#xA;&lt;p&gt;Un proceso ofrece mejor isolación entre tareas.&lt;/p&gt;&#xA;&lt;p&gt;Sobre todo, la protección puede ser asegurada por el hardware.&lt;/p&gt;&#xA;&lt;h2 id=&#34;hilos&#34;&gt;&#xA;  Hilos&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#hilos&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;&#xA;&lt;p&gt;Los hilos nos permiten mantener la idea de procesos secuenciales que se bloquean por E/S junto con concurrencia:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Un mismo proceso puede tener multiples hilos, cada uno visto como un programa secuencial.&lt;/li&gt;&#xA;&lt;li&gt;Evita tener que lidiar con callbacks asincrónicos.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;El uso de hilos provee un mejor nivel de granularidad para el desarrollo de aplicaciones distribuidas y provee un mejor nivel de performance.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Comunicación</title>
+      <link>http://localhost:1313/docs/04-comunicacion-rpc/</link>
+      <pubDate>Wed, 18 Sep 2024 23:04:01 -0300</pubDate>
+      <guid>http://localhost:1313/docs/04-comunicacion-rpc/</guid>
+      <description>&lt;h1 id=&#34;comunicación&#34;&gt;&#xA;  Comunicación&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#comunicaci%c3%b3n&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;p&gt;Fundamental en un sistema distribuido. Las primitivas de comunicación que ofrece el sistema operativo pueden no tener el nivel de abstracción necesario.&lt;/p&gt;&#xA;&lt;h2 id=&#34;fundaciones&#34;&gt;&#xA;  Fundaciones&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#fundaciones&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;&#xA;&lt;h3 id=&#34;el-modelo-osi&#34;&gt;&#xA;  El modelo OSI&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#el-modelo-osi&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h3&gt;&#xA;&lt;p&gt;Modelo de siete capas, no utilizado en la práctica, pero que es una referencia útil acerca de como esta estructurado lógicamente el stack de comunicación.&lt;/p&gt;&#xA;&lt;h3 id=&#34;middleware&#34;&gt;&#xA;  Middleware&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#middleware&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h3&gt;&#xA;&lt;p&gt;Los servicios middleware para un sistema distribuido estarían logicamente ubicados en las capas de sesión y presentación del modelo OSI, aunque también pueden incorporar servicios en la capa de aplicación.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Middleware orientado a mensajes (MoM)</title>
+      <link>http://localhost:1313/docs/04-comunicacion-mom/</link>
+      <pubDate>Wed, 18 Sep 2024 23:04:02 -0300</pubDate>
+      <guid>http://localhost:1313/docs/04-comunicacion-mom/</guid>
+      <description>&lt;h1 id=&#34;middleware-orientado-a-mensajes-mom&#34;&gt;&#xA;  Middleware orientado a mensajes (MoM)&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#middleware-orientado-a-mensajes-mom&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;p&gt;RPC o RMI no siempre son apropiados. Ej:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;el receptor no esta funcionando al mismo tiempo que el emisor.&lt;/li&gt;&#xA;&lt;li&gt;no se ajustan a la arquitectura cliente/servidor.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;Alternativa: envío de mensajes.&lt;/p&gt;&#xA;&lt;h2 id=&#34;uso-de-sockets&#34;&gt;&#xA;  Uso de sockets&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#uso-de-sockets&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;&#xA;&lt;p&gt;Socket: abstraccion sobre un puerto, donde se puede escribir o leer datos, usando un protocolo específico (ej: TCP o UDP).&lt;/p&gt;&#xA;&lt;p&gt;No presenta el nivel de abstracción necesario. Cualquier funcionalidad adicional debe ser implementada por la aplicación.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Multicast</title>
+      <link>http://localhost:1313/docs/04-comunicacion-multicast/</link>
+      <pubDate>Wed, 18 Sep 2024 23:04:03 -0300</pubDate>
+      <guid>http://localhost:1313/docs/04-comunicacion-multicast/</guid>
+      <description>&lt;h1 id=&#34;multicast&#34;&gt;&#xA;  Multicast&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#multicast&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;p&gt;¿Cómo enviar datos a múltiples receptores?&lt;/p&gt;&#xA;&lt;p&gt;Existen numerosas soluciones a nivel de protocoles de red y de transporte. Su principal desventaja es el costo en armar las rutas de difusión de datos.&lt;/p&gt;&#xA;&lt;p&gt;A nivel de aplicación, las redes p2p estructuradas facilitan la creación de estas rutas de difusión. Veremos técnicas de difusión a este nivel.&lt;/p&gt;&#xA;&lt;h2 id=&#34;basada-en-árboles&#34;&gt;&#xA;  Basada en árboles&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#basada-en-%c3%a1rboles&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;&#xA;&lt;p&gt;La idea básica es que los nodos estan organizados en una red superpuesta, utilizada para difundir los datos.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Coordinación</title>
+      <link>http://localhost:1313/docs/05-coordinacion/</link>
+      <pubDate>Wed, 18 Sep 2024 23:05:01 -0300</pubDate>
+      <guid>http://localhost:1313/docs/05-coordinacion/</guid>
+      <description>&lt;h1 id=&#34;coordinación&#34;&gt;&#xA;  Coordinación&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#coordinaci%c3%b3n&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;p&gt;En un sistema centralizado &lt;code&gt;x = timestamp(); y = timestamp()&lt;/code&gt; da como resultado \( x \leq y \).&lt;/p&gt;&#xA;&lt;p&gt;En un sistema distribuido, acordar en un valor temporal no es trivial.&lt;/p&gt;&#xA;&lt;p&gt;¿Es posible sincronizar los relojes de los nodos de un sistema distribuido? La respuesta es sorprendentemente complicada.&lt;/p&gt;&#xA;&lt;p&gt;Entonces&amp;hellip; ¿Cómo coordinan sus actividades los procesos de un sistema distribuido?&lt;/p&gt;&#xA;&lt;h2 id=&#34;relojes-físicos&#34;&gt;&#xA;  Relojes físicos&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#relojes-f%c3%adsicos&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;Existen situaciones donde es necesario que todos los nodos en un sistema acuerden en un valor de tiempo determinado.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Nombres, identificadores y direcciones</title>
+      <link>http://localhost:1313/docs/06-nombres-intro/</link>
+      <pubDate>Wed, 18 Sep 2024 23:06:01 -0300</pubDate>
+      <guid>http://localhost:1313/docs/06-nombres-intro/</guid>
+      <description>&lt;h1 id=&#34;nombres-identificadores-y-direcciones&#34;&gt;&#xA;  Nombres, identificadores y direcciones&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#nombres-identificadores-y-direcciones&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;p&gt;Un nombre es un conjunto de bits que permiten identificar una &lt;strong&gt;entidad&lt;/strong&gt;.&lt;/p&gt;&#xA;&lt;p&gt;Una &lt;strong&gt;entidad&lt;/strong&gt; puede ser cualquier cosa: una página web, una impresora, un proceso.&lt;/p&gt;&#xA;&lt;p&gt;En general, una entidad se puede &lt;em&gt;operar&lt;/em&gt;.&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Por ejemplo, si la entidad es una impresora, se puede enviar un documento para su impresión.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;Para operar una entidad se requiere acceder a la misma, mediante un &lt;strong&gt;punto de acceso&lt;/strong&gt;.&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Un &lt;strong&gt;punto de acceso&lt;/strong&gt; es una entidad en un sistema distribuido&amp;hellip; y requiere un nombre.&lt;/li&gt;&#xA;&lt;li&gt;Una entidad puede tener uno, dos o más puntos de acceso.&lt;/li&gt;&#xA;&lt;li&gt;El punto de acceso puede cambiar con el tiempo.&lt;/li&gt;&#xA;&lt;li&gt;Ejemplo: IP:PUERTO&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;El nombre de un &lt;strong&gt;punto de acceso&lt;/strong&gt; se conoce como &lt;strong&gt;dirección&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Nombres planos</title>
+      <link>http://localhost:1313/docs/06-nombres-planos/</link>
+      <pubDate>Wed, 18 Sep 2024 23:06:02 -0300</pubDate>
+      <guid>http://localhost:1313/docs/06-nombres-planos/</guid>
+      <description>&lt;h1 id=&#34;nombres-planos&#34;&gt;&#xA;  Nombres planos&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#nombres-planos&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;p&gt;No contienen ningún tipo de información acerca de la entidad ni de su punto de acceso.&lt;/p&gt;&#xA;&lt;p&gt;Ejemplo: una dirección representada como una cadena aleatoria de bits.&lt;/p&gt;&#xA;&lt;p&gt;¿Cómo se puede resolver la entidad asociada?&lt;/p&gt;&#xA;&lt;h2 id=&#34;broadcast&#34;&gt;&#xA;  Broadcast&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#broadcast&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;&#xA;&lt;p&gt;Para resolver un nombre plano se realiza un broadcast del identificador.&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;Una red LAN (cableada o wireless) ofrece servicios eficientes de broadcast.&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;Cada máquina chequea si contiene la entidad asociada al identificador.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Nombres planos - DHT</title>
+      <link>http://localhost:1313/docs/06-nombres-planos-chord/</link>
+      <pubDate>Wed, 18 Sep 2024 23:06:02 -0300</pubDate>
+      <guid>http://localhost:1313/docs/06-nombres-planos-chord/</guid>
+      <description>&lt;h1 id=&#34;chord&#34;&gt;&#xA;  Chord&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#chord&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;p&gt;Chord es un sistema DHT (Distributed Hash Table) relativamente sencillo de entender.&lt;/p&gt;&#xA;&lt;h2 id=&#34;mecanismo-general&#34;&gt;&#xA;  Mecanismo general&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#mecanismo-general&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;&#xA;&lt;p&gt;Usa un espacio de $m$ bits para asignar identificadores a nodos y claves a entidades.&lt;/p&gt;&#xA;&lt;p&gt;El número $m$ de bits usualmente esta entre 128 y 160.&lt;/p&gt;&#xA;&lt;p&gt;Una entidad con clave $k$ es administrada por el nodo cuyo identificador $id$ sea $id \geq k$.&lt;/p&gt;&#xA;&lt;p&gt;A dicho nodo se le denomina &lt;strong&gt;sucesor&lt;/strong&gt; de $k$ y se denota como $succ(k)$&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Replicacion</title>
+      <link>http://localhost:1313/docs/07-replicacion/07-replicacion/</link>
+      <pubDate>Wed, 18 Sep 2024 23:04:03 -0300</pubDate>
+      <guid>http://localhost:1313/docs/07-replicacion/07-replicacion/</guid>
+      <description>&lt;h1 id=&#34;hola&#34;&gt;&#xA;  hola&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#hola&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h1&gt;</description>
+    </item>
+  </channel>
+</rss>

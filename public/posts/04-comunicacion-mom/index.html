@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="es-ar" dir="ltr">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="RPC o RMI no siempre son apropiados. Ej:
+
+el receptor no esta funcionando al mismo tiempo que el emisor.
+no se ajustan a la arquitectura cliente/servidor.
+
+Alternativa: envío de mensajes.
+
+  Uso de sockets
+  #
+
+Socket: abstraccion sobre un puerto, donde se puede escribir o leer datos, usando un protocolo específico (ej: TCP o UDP).
+No presenta el nivel de abstracción necesario. Cualquier funcionalidad adicional debe ser implementada por la aplicación.">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/posts/04-comunicacion-mom/">
+  <meta property="og:site_name" content="IF022 -- Sistemas Distribuidos">
+  <meta property="og:title" content="Middleware orientado a mensajes (MoM)">
+  <meta property="og:description" content="RPC o RMI no siempre son apropiados. Ej:
+el receptor no esta funcionando al mismo tiempo que el emisor. no se ajustan a la arquitectura cliente/servidor. Alternativa: envío de mensajes.
+Uso de sockets # Socket: abstraccion sobre un puerto, donde se puede escribir o leer datos, usando un protocolo específico (ej: TCP o UDP).
+No presenta el nivel de abstracción necesario. Cualquier funcionalidad adicional debe ser implementada por la aplicación.">
+  <meta property="og:locale" content="es_ar">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-09-18T23:04:02-03:00">
+    <meta property="article:modified_time" content="2024-09-18T23:04:02-03:00">
+<title>Middleware orientado a mensajes (MoM) | IF022 -- Sistemas Distribuidos</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" >
+<link rel="canonical" href="http://localhost:1313/posts/04-comunicacion-mom/">
+<link rel="stylesheet" href="/book.min.309b7ed028807cdb68d8d61e26d609f48369c098dbf5e4d8c0dcf4cdf49feafc.css" integrity="sha256-MJt&#43;0CiAfNto2NYeJtYJ9INpwJjb9eTYwNz0zfSf6vw=" crossorigin="anonymous">
+  <script defer src="/fuse.min.js"></script>
+  <script defer src="/en.search.min.19a97d093690a174ec5178a5a930f453463f38b1abb4b34e58010169a5c5e3e1.js" integrity="sha256-Gal9CTaQoXTsUXilqTD0U0Y/OLGrtLNOWAEBaaXF4&#43;E=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
+      inlineMath: [['\\(', '\\)'], ['$', '$']]                  
+    }
+  };
+</script>
+
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>IF022 -- Sistemas Distribuidos</span>
+  </a>
+</h2>
+
+
+<div class="book-search hidden">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+<script>document.querySelector(".book-search").classList.remove("hidden")</script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/01-introduccion/" class="">Introducción a los Sistemas Distribuidos</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/02-arquitectura/" class="">Arquitecturas</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/03-procesos/" class="">Procesos</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/04-comunicacion-rpc/" class="">Comunicación</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/04-comunicacion-mom/" class="">Middleware orientado a mensajes (MoM)</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/04-comunicacion-multicast/" class="">Multicast</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/05-coordinacion/" class="">Coordinación</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/06-nombres-intro/" class="">Nombres, identificadores y direcciones</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/06-nombres-planos/" class="">Nombres planos</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/06-nombres-planos-chord/" class="">Nombres planos - DHT</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/07-replicacion/07-replicacion/" class="">Replicacion</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Middleware orientado a mensajes (MoM)</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#uso-de-sockets">Uso de sockets</a></li>
+    <li><a href="#uso-de-patrones">Uso de patrones</a></li>
+    <li><a href="#mpi">MPI</a></li>
+    <li><a href="#comunicación-persistente">Comunicación persistente</a>
+      <ul>
+        <li><a href="#arquitectura-de-un-mom">Arquitectura de un MoM</a></li>
+        <li><a href="#brokers">Brokers</a></li>
+        <li><a href="#ejemplo-amqp">Ejemplo: AMQP</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+<article class="markdown book-post">
+  <h1>
+    <a href="/posts/04-comunicacion-mom/">Middleware orientado a mensajes (MoM)</a>
+  </h1>
+  
+  <h5>September 18, 2024</h5>
+
+
+
+  
+
+  
+
+
+
+<p>RPC o RMI no siempre son apropiados. Ej:</p>
+<ul>
+<li>el receptor no esta funcionando al mismo tiempo que el emisor.</li>
+<li>no se ajustan a la arquitectura cliente/servidor.</li>
+</ul>
+<p>Alternativa: envío de mensajes.</p>
+<h2 id="uso-de-sockets">
+  Uso de sockets
+  <a class="anchor" href="#uso-de-sockets">#</a>
+</h2>
+<p>Socket: abstraccion sobre un puerto, donde se puede escribir o leer datos, usando un protocolo específico (ej: TCP o UDP).</p>
+<p>No presenta el nivel de abstracción necesario. Cualquier funcionalidad adicional debe ser implementada por la aplicación.</p>
+<h2 id="uso-de-patrones">
+  Uso de patrones
+  <a class="anchor" href="#uso-de-patrones">#</a>
+</h2>
+<p>La mayoría de las comunicaciones realizadas por las aplicaciones pueden ser categorizadas en unos pocos patrones:</p>
+<p>Ej: request-reply, publish-subscribe, pipeline</p>
+<p>Ej de implementación: ZeroMQ.</p>
+<h2 id="mpi">
+  MPI
+  <a class="anchor" href="#mpi">#</a>
+</h2>
+<p>Uso de paso de mensajes en computación de alto perfomance, por ejemplo clusters. TCP esta orientado a su uso sobre IP, por lo cual no es necesariamente efectivo en estas situaciones.</p>
+<p>El estándar MPI se definio para lograr interoperabilidad entre soluciones de paso de mensajes para este tipo de escenarios.</p>
+<p>Ej: no asume que un error en la red es recuperable.</p>
+<p>Considera grupos de procesos, donde cada proceso tiene un identificador (grupoID, procesoID). Un proceso puede pertenecer a mas de un grupo.</p>
+<p>Mas de 650 operaciones definidas.</p>
+<h2 id="comunicación-persistente">
+  Comunicación persistente
+  <a class="anchor" href="#comunicaci%c3%b3n-persistente">#</a>
+</h2>
+<p>Sistemas de manejos de colas: ofrecen soporte para la comunicación asincrónica persistente.</p>
+<p>Idea básica: las aplicaciones se comunican enviando mensajes a buzones. Estos mensajes pueden a su vez ser reenviados a otros servidores de colas. En general cada aplicación tiene asociada una cola de mensajes.</p>
+<p>Garantía: en general se da la garantía que el mensaje será puesto en la cola de mensajes del receptor, pero no que este lo leerá.</p>
+<p>Emisor y receptor quedan así totalmente desacoplados en tiempo y espacio.</p>
+<p>El contenido de los mensajes es arbitrario, aunque posiblemente limitado en tamaño. Solamente debe estar correctamente indicado el receptor.</p>
+<p>Primitivas: PUT, GET, POLL, NOTIFY.</p>
+<h3 id="arquitectura-de-un-mom">
+  Arquitectura de un MoM
+  <a class="anchor" href="#arquitectura-de-un-mom">#</a>
+</h3>
+<p>En general las colas de mensajes son responsabilidad de un administrador de colas de mensajes (<em>queue manager</em>).</p>
+<p>En general el administrador de colas de mensajes es un proceso separado del cliente y/o el emisor.</p>
+<p>El administrador tiene la responsabilidad de &ldquo;rutear&rdquo; los mensajes correctamente.</p>
+<p>En general las direcciones de las colas de mensajes deben proveer transparencia de ubicación.</p>
+<p>Una cuestión a tener en cuenta es cómo informar a los distinos administradores de las direcciones existentes.</p>
+<p>En sistemas complejos, no es realista que un administrador conozca a todo el resto: se debe rutear los mensajes con información incompleta (problema analogo a los routers en una red IP). Se utiliza una red superpuesta.</p>
+<h3 id="brokers">
+  Brokers
+  <a class="anchor" href="#brokers">#</a>
+</h3>
+<p>Un uso común de los sistemas de mensajes es integrar aplicaciones nuevas y existentes en un sistema coherente (¿suena?)</p>
+<p>La integración requiere que las aplicaciones comprendan los mensajes que reciben del resto.</p>
+<p>Esto requiere que cada aplicacion entienda la sintaxis y la semántica de los protocolos utilizados por el resto.</p>
+<p>Soluciones?</p>
+<ul>
+<li>Cada aplicación convierte los mensajes: impráctico, en un sistema con N aplicaciones, se requieren N^2 convertidores.</li>
+<li>Protocolo común: no es realista, dada la heterogeneidad de las aplicaciones.</li>
+<li>Información de sintaxis en cada mensaje: ejemplo, con esquemas XML. Falta entender la <em>semántica</em>.</li>
+</ul>
+<p>Entonces? No se puede esconder la situación, por lo tanto se debe ofrecer un mecanismo lo más simple posible para las conversiones.</p>
+<p>Un broker es una aplicación en un sistema de mensajería que se encarga de la conversión de mensajes.</p>
+<p>Mucho más que un convertidor, puede actuar también como un <em>gateway</em> a nivel de aplicación:</p>
+<ul>
+<li>Manejo de publicación/subscripción.</li>
+<li>Prioridades.</li>
+<li>Multicasting.</li>
+<li>Logging.</li>
+<li>Balanceo de carga.</li>
+<li>Etc.</li>
+</ul>
+<p>Para todo esto, un broker maneja una serie de reglas de transformación, ruteo, etc., que deben ser configuradas por un experto.</p>
+<h3 id="ejemplo-amqp">
+  Ejemplo: AMQP
+  <a class="anchor" href="#ejemplo-amqp">#</a>
+</h3>
+<p>Advanced Message-Queuing Protocol (AMQP).</p>
+<p>AMQP ofrece:</p>
+<ul>
+<li>Un servicio de mensajería.</li>
+<li>Un protocolo de mensajes.</li>
+<li>Una interfaz de mensajería para las aplicaciones.</li>
+</ul>
+<p>Comunicación:</p>
+<ul>
+<li>Una aplicación establece una conexión con el administrador de colas de mensajes.</li>
+<li>Una conexión incorpora múltiples canales de una sola vía.</li>
+<li>Conexión -&gt; mayor tiempo de vida, estable</li>
+<li>Canal -&gt; dinámica, tiempo de vida breve</li>
+<li>Sesión: agrupamiento lógico de dos canales para comunicación full-duplex</li>
+</ul>
+<p>Manejo de mensajes:</p>
+<ul>
+<li>Tipos de nodos: productor, consumidor, cola</li>
+<li>Los mensajes pueden ser persistentes (los nodos intermedios deben poder recuperarlo luego de un error)</li>
+</ul>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#uso-de-sockets">Uso de sockets</a></li>
+    <li><a href="#uso-de-patrones">Uso de patrones</a></li>
+    <li><a href="#mpi">MPI</a></li>
+    <li><a href="#comunicación-persistente">Comunicación persistente</a>
+      <ul>
+        <li><a href="#arquitectura-de-un-mom">Arquitectura de un MoM</a></li>
+        <li><a href="#brokers">Brokers</a></li>
+        <li><a href="#ejemplo-amqp">Ejemplo: AMQP</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="es-ar" dir="ltr">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="the #1 rule of distribute computing: Don’t distribute your computing! At least if you can in any way avoid it
+You&rsquo;re not Google. Your company will never be Google&hellip; Is there a reason we can&rsquo;t just do this all in Postgres?
+Avances imporantes han ocurrido en las últimas décadas:
+
+Desarrollo de microprocesadores potentes, pequeños y ecónomicos.
+Avance de las tecnologías de comunicaciones.
+Miniaturización de los sistemas de cómputo (ES, IoT, SoCs, etc).
+
+En la actualidad es relativamente sencillo desarrollar un sistema compuesto de múltiples computadoras conectadas por una red. Al estar las computadoras físicamente separadas se habla de un sistema distribuido.">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/posts/01-introduccion/">
+  <meta property="og:site_name" content="IF022 -- Sistemas Distribuidos">
+  <meta property="og:title" content="Introducción a los Sistemas Distribuidos">
+  <meta property="og:description" content="the #1 rule of distribute computing: Don’t distribute your computing! At least if you can in any way avoid it
+You’re not Google. Your company will never be Google… Is there a reason we can’t just do this all in Postgres?
+Avances imporantes han ocurrido en las últimas décadas:
+Desarrollo de microprocesadores potentes, pequeños y ecónomicos. Avance de las tecnologías de comunicaciones. Miniaturización de los sistemas de cómputo (ES, IoT, SoCs, etc). En la actualidad es relativamente sencillo desarrollar un sistema compuesto de múltiples computadoras conectadas por una red. Al estar las computadoras físicamente separadas se habla de un sistema distribuido.">
+  <meta property="og:locale" content="es_ar">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-09-18T22:59:19-03:00">
+    <meta property="article:modified_time" content="2024-09-18T22:59:19-03:00">
+<title>Introducción a los Sistemas Distribuidos | IF022 -- Sistemas Distribuidos</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" >
+<link rel="canonical" href="http://localhost:1313/posts/01-introduccion/">
+<link rel="stylesheet" href="/book.min.309b7ed028807cdb68d8d61e26d609f48369c098dbf5e4d8c0dcf4cdf49feafc.css" integrity="sha256-MJt&#43;0CiAfNto2NYeJtYJ9INpwJjb9eTYwNz0zfSf6vw=" crossorigin="anonymous">
+  <script defer src="/fuse.min.js"></script>
+  <script defer src="/en.search.min.19a97d093690a174ec5178a5a930f453463f38b1abb4b34e58010169a5c5e3e1.js" integrity="sha256-Gal9CTaQoXTsUXilqTD0U0Y/OLGrtLNOWAEBaaXF4&#43;E=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
+      inlineMath: [['\\(', '\\)'], ['$', '$']]                  
+    }
+  };
+</script>
+
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>IF022 -- Sistemas Distribuidos</span>
+  </a>
+</h2>
+
+
+<div class="book-search hidden">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+<script>document.querySelector(".book-search").classList.remove("hidden")</script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/01-introduccion/" class="">Introducción a los Sistemas Distribuidos</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/02-arquitectura/" class="">Arquitecturas</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/03-procesos/" class="">Procesos</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/04-comunicacion-rpc/" class="">Comunicación</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/04-comunicacion-mom/" class="">Middleware orientado a mensajes (MoM)</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/04-comunicacion-multicast/" class="">Multicast</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/05-coordinacion/" class="">Coordinación</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/06-nombres-intro/" class="">Nombres, identificadores y direcciones</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/06-nombres-planos/" class="">Nombres planos</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/06-nombres-planos-chord/" class="">Nombres planos - DHT</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/07-replicacion/07-replicacion/" class="">Replicacion</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Introducción a los Sistemas Distribuidos</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#definición">Definición</a>
+      <ul>
+        <li><a href="#caracteristica-1-elementos-independientes">Caracteristica 1: elementos independientes</a></li>
+        <li><a href="#caracteristica-2-sistema-coherente">Caracteristica 2: sistema coherente</a></li>
+        <li><a href="#distribuido-vs-descentralizado">Distribuido vs Descentralizado</a></li>
+        <li><a href="#complejidad">Complejidad</a></li>
+      </ul>
+    </li>
+    <li><a href="#middleware">Middleware</a></li>
+    <li><a href="#objetivos-de-diseño">Objetivos de diseño</a>
+      <ul>
+        <li><a href="#compartir-recursos">Compartir recursos</a></li>
+        <li><a href="#transparencia-de-distribución">Transparencia de distribución</a></li>
+        <li><a href="#abierto">Abierto</a></li>
+        <li><a href="#escalabilidad">Escalabilidad</a></li>
+      </ul>
+    </li>
+    <li><a href="#tipos-de-sistemas-distribuidos">Tipos de sistemas distribuidos</a></li>
+    <li><a href="#falacias">Falacias</a></li>
+    <li><a href="#que-vamos-a-estudiar">¿Que vamos a estudiar?</a></li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+<article class="markdown book-post">
+  <h1>
+    <a href="/posts/01-introduccion/">Introducción a los Sistemas Distribuidos</a>
+  </h1>
+  
+  <h5>September 18, 2024</h5>
+
+
+
+  
+
+  
+
+
+
+<p><em>the #1 rule of distribute computing: Don’t distribute your computing! At least if you can in any way avoid it</em></p>
+<p><em>You&rsquo;re not Google. Your company will never be Google&hellip; Is there a reason we can&rsquo;t just do this all in Postgres?</em></p>
+<p>Avances imporantes han ocurrido en las últimas décadas:</p>
+<ul>
+<li>Desarrollo de microprocesadores potentes, pequeños y ecónomicos.</li>
+<li>Avance de las tecnologías de comunicaciones.</li>
+<li>Miniaturización de los sistemas de cómputo (ES, IoT, SoCs, etc).</li>
+</ul>
+<p>En la actualidad es <em>relativamente sencillo</em> desarrollar un sistema compuesto de múltiples computadoras conectadas por una red. Al estar las computadoras físicamente separadas se habla de un <em>sistema distribuido</em>.</p>
+<h2 id="definición">
+  Definición
+  <a class="anchor" href="#definici%c3%b3n">#</a>
+</h2>
+<p><em>You know you have a distributed system when the crash of a computer you have never heard of stops you from getting any work done.</em> &ndash; Leslie Lamport</p>
+<p><em>Una colección de elementos computacionales autónomos que dan la apariencia a sus usuarios de ser un sistema coherente</em> &ndash; Tanenbaum y Van Steen.</p>
+<p>Aunque no existe una definición que sea ampliamente aceptada por toda la disciplina, la distribución de los componentes en diferentes sistemas comunicados mediante una red es una característica común.</p>
+<h3 id="caracteristica-1-elementos-independientes">
+  Caracteristica 1: elementos independientes
+  <a class="anchor" href="#caracteristica-1-elementos-independientes">#</a>
+</h3>
+<ul>
+<li>Nodos independientes que colaboran para alcanzar un objetivo común.</li>
+<li>Los nodos son heterogéneos.</li>
+<li>La comunicación entre los nodos se realiza mediante paso de mensajes.</li>
+<li>No se existe un <em>reloj global</em> (dificulta la sincronización y coordinación).</li>
+<li>La concurrencia y el paralelismo es natural.</li>
+<li>Organizado como una red superpuesta, estructurada o no-estructurada (ej: sistemas p2p).</li>
+<li>Fallas parciales (independientes).</li>
+<li>Se tiene que resolver cuestiones de organización y membresía (grupos cerrados, abiertos).</li>
+</ul>
+<h3 id="caracteristica-2-sistema-coherente">
+  Caracteristica 2: sistema coherente
+  <a class="anchor" href="#caracteristica-2-sistema-coherente">#</a>
+</h3>
+<ul>
+<li>El sistema se comporta de acuerdo a las expectativas de sus usuarios.</li>
+<li>Transparencia de distribución: no importa como, cuando ni donde se conecte al sistema, el usuario debe tener el mismos servicio.</li>
+<li>Sin embargo, no es posible (ni deseable) ocultar todos los detalles de la distribución del sistema.</li>
+<li>Fundamental poder lidiar con fallas parciales.</li>
+</ul>
+<h3 id="distribuido-vs-descentralizado">
+  Distribuido vs Descentralizado
+  <a class="anchor" href="#distribuido-vs-descentralizado">#</a>
+</h3>
+<ul>
+<li>
+<p>Conceptos relacionados</p>
+</li>
+<li>
+<p>Sistema distribuido: componentes colaboran para realizar una tarea o proveer un servicio.</p>
+</li>
+<li>
+<p>Sistema descentralizado: componentes con mayor autonomía sin único punto de control.</p>
+</li>
+<li>
+<p>Un sistema distribuido puede estar <em>logicamente centralizado</em>: DNS.</p>
+</li>
+<li>
+<p>Un sistema descentralizado no tiene una autoridad central: blockchain (ej. Bitcoin)</p>
+</li>
+<li>
+<p>Otra vision es la siguiente:</p>
+<ul>
+<li>Sistema <em>integrativo</em> (conectar sistemas existentes formando así uno nuevo)</li>
+<li>Sistema <em>expansivo</em> (agregar nodos a un sistema existente).</li>
+</ul>
+</li>
+<li>
+<p>Luego:</p>
+<ul>
+<li><em>Sistema descentralizado</em>: visión <em>integrativa</em>, los recursos se encuentran <em>necesariamente</em> dispersos.</li>
+<li><em>Sistema distribuido</em>: visión <em>expansiva</em>, los recursos se encuentran <em>suficientemente</em> dispersos.</li>
+</ul>
+</li>
+</ul>
+<h3 id="complejidad">
+  Complejidad
+  <a class="anchor" href="#complejidad">#</a>
+</h3>
+<ul>
+<li>Los sistemas distribuidos son inherentemente complejos.</li>
+<li>Los sistemas centralizados son más sencillos.</li>
+<li>La distribución no es un fin en sí mismo: considerar soluciones lo más simples posibles.</li>
+</ul>
+<h2 id="middleware">
+  Middleware
+  <a class="anchor" href="#middleware">#</a>
+</h2>
+<p>Los componentes y funciones comunmente usados en un sistema distribuido se agrupan en un middleware, una capa de software entre el sistema operativo y las aplicaciones que intenta abstraer los detalles escabrosos y ofrecer una interfaz más amigable.</p>
+<p>Por ejemplo, un middleware ofrece:</p>
+<ul>
+<li>Comunicación (RPC, RMI, paso de mensajes, etc.)</li>
+<li>Manejo de transacciones.</li>
+<li>Composición de servicios.</li>
+<li>Confiabilidad.</li>
+</ul>
+<h2 id="objetivos-de-diseño">
+  Objetivos de diseño
+  <a class="anchor" href="#objetivos-de-dise%c3%b1o">#</a>
+</h2>
+<ul>
+<li>
+<p>Sólo por que sea posible no quiere decir que diseñar un sistema distribuido sea siempre una buena idea.</p>
+</li>
+<li>
+<p>Un sistema distribuido debe poder satisfacer alguno de los siguientes objetivos, para que su implementación valga la pena:</p>
+<ul>
+<li>Permitir que los recursos sean más fácilmente accesibles.</li>
+<li>Ocultar en lo posible que los recursos están desperdigados (transparencia de distribución).</li>
+<li>Debe ser <em>abierto</em>.</li>
+<li>Debe poder ser escalable.</li>
+</ul>
+</li>
+</ul>
+<h3 id="compartir-recursos">
+  Compartir recursos
+  <a class="anchor" href="#compartir-recursos">#</a>
+</h3>
+<ul>
+<li>Por cuestiones económicas.</li>
+<li>Mejorar la colaboración.</li>
+<li>Ejemplo clásico: p2p</li>
+</ul>
+<h3 id="transparencia-de-distribución">
+  Transparencia de distribución
+  <a class="anchor" href="#transparencia-de-distribuci%c3%b3n">#</a>
+</h3>
+<p>Un sistema distribuido debe (en lo posible) ocultar que los procesos y recursos estan fisicamente distribuidos: esto se conoce como <em>transparencia de distribución</em>.</p>
+<p>Diversos tipos:</p>
+<ul>
+<li><em>Acceso</em>: ocultar cómo se accede al recurso y la representación de datos.</li>
+<li><em>Ubicación</em>: ocultar la ubicación de un recurso.</li>
+<li><em>Reubicación</em>: ocultar el hecho de que el recurso pueda cambiar su ubicación mientras esta en uso.</li>
+<li><em>Migración</em>: ocultar el hecho de que un recurso cambie su ubicación.</li>
+<li><em>Replicación</em>: ocultar el hecho de que existan múltiples copias de un mismo recurso.</li>
+<li><em>Concurrencia</em>: ocultar el hecho de que un recurso pueda ser accedido por múltiples usuarios.</li>
+<li><em>Falla</em>: ocultar la falla y recuperación de un recurso u objeto.</li>
+</ul>
+<p>No siempre es deseable o <em>posible</em> alcanzar el máximo grado de transparencia.</p>
+<ul>
+<li>Es imposible ocultar las latencias de una red WAN u ocultar la falla de un nodo.</li>
+<li>Compromiso entre el nivel de transparencia y perfomance:
+<ul>
+<li>Mantener las replicas consistentes incurre en un costo temporal que no se puede ocultar.</li>
+</ul>
+</li>
+<li>Se puede argumentar que es mejor exponer la distribución al usuario, en lugar de ocultarla.</li>
+</ul>
+<h3 id="abierto">
+  Abierto
+  <a class="anchor" href="#abierto">#</a>
+</h3>
+<p>Poder interactuar con otros sistemas. Requiere interfaces bien definidas.</p>
+<p>Un sistema abierto es aquel que permite que sus componentes sean utilizados en otros sistemas. También generalmente un sistema abierto esta compuesto por componentes de otros sistemas. Beneficia la interoperabilidad, portabilidad, <em>composibility</em> y extensibilidad. Una característica importante para lograr este objetivo es la de separar política de mecanismo, evitando soluciones monolíticas.</p>
+<h3 id="escalabilidad">
+  Escalabilidad
+  <a class="anchor" href="#escalabilidad">#</a>
+</h3>
+<p>La escalabilidad abarca tres dimensiones:</p>
+<ul>
+<li>
+<p>Tamaño: la facilidad con que se pueden sumar usuarios o recursos.</p>
+<ul>
+<li>Generalmente relacionado con limites en capacidad de cómputo, almacenamiento y ancho de banda.</li>
+<li>Pueden ser formalmente analizados mediante teoría de colas.</li>
+</ul>
+</li>
+<li>
+<p>Geografía: los recursos y usuarios pueden estar desperdigados pero las latencias no afectan seriamente al sistema.</p>
+<ul>
+<li>El principal problema es la comunicación sincrónica sobre enlaces con alta latencia.</li>
+<li>Las WANs ofrecen menor confiabilidad que una LAN, menor capacidad de ancho de banda.</li>
+<li>¿Multicast / Broadcast? Posible en LANs, no tan así en WANs.</li>
+</ul>
+</li>
+<li>
+<p>Administrativa: el sistema abarca distintas unidades organizacionales pero aún así es fácilmente administrable.</p>
+<ul>
+<li>Cómo resolver conflictos de políticas acerca de uso, pago, administración, seguridad, etc.</li>
+</ul>
+</li>
+</ul>
+<p>Ejemplos:</p>
+<ul>
+<li>Tamaño: incrementar fácilmente el número de usuarios o procesos.</li>
+<li>Geografía: poder aumentar la distancia entre nodos.</li>
+<li>Administrativo: integrar recursos de otra organización.</li>
+</ul>
+<p>Soluciones:</p>
+<ul>
+<li><em>Escalar verticalmente</em>: simplemente incrementar la capacidad del servicio (computo, almacenamiento o ancho de banda).</li>
+<li><em>Escalar horizontalmente</em>:
+<ul>
+<li>Ocultar latencias: comunicación asíncrona, fat-clients, etc.</li>
+<li>Distribuir el trabajo: dividir un componente y dispersarlo por el sistema.
+<ul>
+<li>Ej: mover computo al cliente (Java Applet), descentralizar un servicio (DNS), descentralizar contenido (WWW), etc.</li>
+</ul>
+</li>
+<li>Replicar: contar con una copia cercana, cache, etc.
+<ul>
+<li><em>Problemas de consistencia</em>.</li>
+<li>Consistencia estricta requiere sincronización global (costoso, reduce escalabilidad).</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="tipos-de-sistemas-distribuidos">
+  Tipos de sistemas distribuidos
+  <a class="anchor" href="#tipos-de-sistemas-distribuidos">#</a>
+</h2>
+<p>A grandes rasgos, podemos clasificar los sistemas distribuidos en sistemas distribuidos de cómputo, de información y pervasivos.</p>
+<ul>
+<li>Cómputo:
+<ul>
+<li>Cluster: conjunto de sistemas interconectados por una red de alta velocidad.</li>
+<li>Grid: nodos dispersos, heterogéneos, diferentes organizaciones.</li>
+<li>Cloud: software/infraestructura como servicio.</li>
+<li>Edge</li>
+</ul>
+</li>
+<li>Información:
+<ul>
+<li>Integración de sistemas de información ya existentes; ofrecer servicios como transacciones distribuidas.</li>
+</ul>
+</li>
+<li>Pervasiva:
+<ul>
+<li>Sistemas móviles, embebidos, IoT. No existe una topología estática, ni conexión permanente, etc.</li>
+<li>Tres tipos: ubicuos, móviles y redes de sensores (los límites entre la categorías son difusos).</li>
+</ul>
+</li>
+</ul>
+<h2 id="falacias">
+  Falacias
+  <a class="anchor" href="#falacias">#</a>
+</h2>
+<p>Desarrollar un (buen) sistema distribuido es una tarea ardua. Las siguientes falsas presunciones durante el diseño del sistema, traen como consecuencia complejidad innecesaria y errores:</p>
+<ul>
+<li>La red es confiable.</li>
+<li>La red es segura.</li>
+<li>La red es homogenea.</li>
+<li>La topología no cambia.</li>
+<li>La latencia es cero.</li>
+<li>El ancho de banda es infinito.</li>
+<li>El costo del transporte es cero.</li>
+<li>Sólo existe un administrador.</li>
+</ul>
+<p>Algunas más:</p>
+<ul>
+<li>Un sistema centralizado no escala:
+<ul>
+<li>Un sistema físicamente centralizado quizá no, pero uno <em>lógicamente</em> centralizado sí (ejemplo DNS).</li>
+</ul>
+</li>
+<li>Un sistema centralizado tiene un unico punto de falla:
+<ul>
+<li>Si, pero un solo punto de falla es más fácil de administrar, más fácil de arreglar.</li>
+<li>Soluciones: en el caso de DNS, cada <em>root server</em> es a su vez un cluster.</li>
+</ul>
+</li>
+</ul>
+<h2 id="que-vamos-a-estudiar">
+  ¿Que vamos a estudiar?
+  <a class="anchor" href="#que-vamos-a-estudiar">#</a>
+</h2>
+<ul>
+<li>Arquitectura: ¿Como organizar el sistema?</li>
+<li>Procesos: ¿Procesos, hilos?</li>
+<li>Comunicacion: ¿Como comunicar entre los nodos?</li>
+<li>Coordinación: ¿Cómo coordinar acciones? ¿Y cómo hacerlo de una manera independiente de la aplicación?</li>
+<li>Nombres: ¿Cómo identificar los diferentes recursos?</li>
+<li>Consistencia y replicación: Si se replica, ¿como se maneja la consistencia?</li>
+<li>Tolerancia a fallas: como mantener el sistema funcionando ante la falla de un componente.</li>
+<li>Seguridad: asegurar acceso autorizado a los recursos.</li>
+</ul>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#definición">Definición</a>
+      <ul>
+        <li><a href="#caracteristica-1-elementos-independientes">Caracteristica 1: elementos independientes</a></li>
+        <li><a href="#caracteristica-2-sistema-coherente">Caracteristica 2: sistema coherente</a></li>
+        <li><a href="#distribuido-vs-descentralizado">Distribuido vs Descentralizado</a></li>
+        <li><a href="#complejidad">Complejidad</a></li>
+      </ul>
+    </li>
+    <li><a href="#middleware">Middleware</a></li>
+    <li><a href="#objetivos-de-diseño">Objetivos de diseño</a>
+      <ul>
+        <li><a href="#compartir-recursos">Compartir recursos</a></li>
+        <li><a href="#transparencia-de-distribución">Transparencia de distribución</a></li>
+        <li><a href="#abierto">Abierto</a></li>
+        <li><a href="#escalabilidad">Escalabilidad</a></li>
+      </ul>
+    </li>
+    <li><a href="#tipos-de-sistemas-distribuidos">Tipos de sistemas distribuidos</a></li>
+    <li><a href="#falacias">Falacias</a></li>
+    <li><a href="#que-vamos-a-estudiar">¿Que vamos a estudiar?</a></li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
