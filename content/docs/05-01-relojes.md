@@ -105,7 +105,13 @@ Generalmente lo que importa es que los nodos esten de acuerdo en el _orden_ de l
 
 El servicio de relojes lógicos es implementado en un middleware, idealmente la aplicación no tiene por que ocuparse.
 
-Ejemplo de uso: multicast totalmente ordenado
+### Ejemplo
+
+{{< logical-clocks >}} 
+
+### Multicast totalmente ordenado
+
+Es posible realizar un multicas totalmente ordenado mediante el uso de relojes lógicos:w
 
 ## Relojes vectoriales
 
@@ -132,3 +138,4 @@ Implementación: similar al reloj lógico
 
 Ejemplo de uso: multicast totalmente ordenado.
 
+{{< vector-clocks >}} 

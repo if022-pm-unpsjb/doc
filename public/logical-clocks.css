@@ -1,0 +1,18 @@
+
+#container1 {
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
+
+#container2 {
+  margin: 20px auto;
+  width: 600px;
+  height: 400px;
+  border: 1px solid #ccc;
+}
+
+button {
+  margin: 10px;
+  padding: 10px;
+  font-size: 16px;
+}

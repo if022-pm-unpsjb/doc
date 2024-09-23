@@ -55,10 +55,10 @@ weight = 520
     - monitoreo
     - etc
 - Diseñado para ofrecer confiabilidad, tolerancia a fallas y escalabilidad
-    - Aunque es logicamente un servicio centralizado, su implementación es un sistema distribuido
+    - Aunque logicamente centralizado, [su implementación es un sistema distribuido](https://zookeeper.apache.org/doc/current/zookeeperOver.html#sc_designGoals)
 - Usar zookeeper o servicios similares: ¡no hay que reinventar la rueda! (sobre todo una rueda complicada)
 
-- Zookeeper 101:
+- [Zookeeper 101](https://zookeeper.apache.org/doc/current/zookeeperOver.html#sc_dataModelNameSpace):
     - No hay primitivas bloqueantes
         - Las peticiones de un cliente siempre reciben una respuesta.
     - Ofrece un espacio de nombres, similar a un sistema de archivos.
@@ -72,7 +72,7 @@ weight = 520
     - Servicio de notificaciones
         - Evita polling por parte de los clientes.
 
-- Ejemplo: obtener acceso exclusivo
+- Ejemplo: obtener acceso exclusivo a un recurso
     - Un proceso crea un nodo, por ejemplo con nombre `/lock`
     - Si existe, la operación falla indicando que ya existe
     - El proceso debe repetir la operación para obtenerlo

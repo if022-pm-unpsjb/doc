@@ -9,13 +9,24 @@ weight = 610
 
 No contienen ningún tipo de información acerca de la entidad ni de su punto de acceso.
 
+En general los identificadores son de este tipo.
+
 Ejemplo:
 
 - Una dirección representada como una cadena aleatoria de bits.
 
-- `00:26:c7:d9:98:54` (suerte con intentar saber algo acerca de la entidad)
+- `00:26:c7:d9:98:54` (suerte con intentar conocer la entidad solo leyendo esto)
 
-Pero entonces ¿Cómo se puede resolver la entidad asociada?
+Son sencillos de generar, pero transfieren la complejidad al mecanismo de resolución de nombres.
+
+¿Cómo se puede resolver la entidad asociada?
+
+Vamos a ver una serie de posibles soluciones simples:
+
+- [Broadcast](#broadcast)
+- [Multicast](#multicast)
+- [Forwarding Pointers](#forwarding-pointers)
+- [Basados en hogar](#basados-en-hogar-home-based)
 
 ## Broadcast
 
@@ -29,9 +40,9 @@ Una opción es realizar un _broadcast_ del identificador.
 
 A medida que la red incrementa su tamaño, el uso de broadcast se vuelve ineficiente.
 
-Alternativa: **multicasting**
+## Multicast
 
-- Evita interrumpir nodos que no esten interesados en el mensaje.
+El objetivo es evitar interrumpir nodos que no esten interesados en el mensaje.
 
 - Posible de implementar en redes [Ethernet](https://en.wikipedia.org/wiki/Multicast#Ethernet)
 
@@ -43,9 +54,11 @@ Alternativa: **multicasting**
 
 ## Forwarding Pointers
 
-Mantener una referencia a la nueva ubicación una entidad.
+Mantener una referencia a la nueva ubicación una entidad ([dio para una tesis](https://digital.lib.washington.edu/researchworks/items/10a1b19e-519e-4b4b-8840-3242bb8fe487))
 
-Ejemplo: 
+Su ventaja es la sencillez: basta seguir la cadena de referencias para ubicar la entidad.
+
+### Ejemplo
 
 - Si una entidad se mueve de _A_ a _B_, entonces en _A_ queda una referencia a _B_.
 
@@ -53,55 +66,56 @@ Ejemplo:
 
 - ¿Y si despues se mueve a _D_? Creo que se capta la idea...
 
-Su ventaja es la sencillez: basta seguir la cadena de referencias para ubicar la entidad.
-
-Desventajas:
+### Desventajas
 
 - La cadena de referencias puede terminar siendo demasiado extensa.
 
-- Las ubicaciones intermedias deben preservar la referencia.
+- Las ubicaciones intermedias deben preservar las referencias.
 
-- La cadena de referencias es vulnerable a la pérdida de alguno de sus componentes.
+- La cadena es vulnerable a la pérdida de alguno de sus componentes.
 
-- Osea, una lista enlazada con nodos en distintas maquinas, ¿que puede malir sal?
+Por lo tanto, es una solución principalmente aplicable en LANs.
 
 ## Basados en hogar (home-based)
 
 Consiste en mantener una referencia a la ubicación actual de una entidad.
 
-- La referencia se mantiene en una entidad conocida como **home location**
+- La referencia se mantiene en una entidad conocida como **hogar** (**home location**)
 
-- Por lo general, la dirección hogar es donde se creo la entidad inicialmente.
+- Por lo general, el hogar es donde se creo la entidad inicialmente.
 
-- Generalmente utilizado para referir entidades móviles en redes de gran escala
+### Desventajas
+    
+- Incremento de la latencia.
+
+- El hogar _siempre_ tiene que existir.
+
+### Aplicaciones
+
+- Utilizado para referir entidades móviles en redes de gran escala
 
 - Sirve como mecanismo de respaldo para servicios basados en [forwarding pointers](#forwarding-pointers)
 
-Ejemplo: [Mobile IP](https://en.wikipedia.org/wiki/Mobile_IP)
+### Ejemplo: Mobile IP
 
-- Ofrece un elevado nivel de transparencia de ubicación.
+- [Mobile IP](https://en.wikipedia.org/wiki/Mobile_IP)
+
+- Intenta ofrecer un elevado nivel de transparencia de ubicación.
 
 - Funcionamiento:
     
     - Cada nodo móvil tiene una IP fija.
 
-    - La comunicación inicial con el nodo móvil se realiza con el *home agent*
+    - La comunicación inicial con el nodo móvil se realiza con un *home agent* (vendría ser el **hogar**)
 
-    - El *home agent* reside en la red inicial
+    - El *home agent* reside en la red inicial, donde se generó el nodo 
 
-    - Cuando el nodo se mueve a otra red, solicita una nueva IP que es registrada en el *home agent*
+    - Cuando el nodo se mueve a otra red, solicita allí una nueva IP que registra en el *home agent*
 
-    - Cuando el *home agent* recibe un request para el nodo, reenvia el paquete al nodo.
+    - Cuando el *home agent* recibe una consulta para el nodo, la reenvía.
 
-    - El emisor es informado por el *home agent* de la ubicación del nodo móvil.
+    - El emisor es informado por el *home agent* de la ubicación actual del nodo móvil.
 
     - Este proceso se oculta en lo posible a la aplicación.
 
-- Desventajas:
-    
-    - Incremento de latencia.
-
-    - La ubicación hogar _siempre_ tiene que existir.
-
 ![06-01.png](/06-01.png)
-

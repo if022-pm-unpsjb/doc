@@ -177,6 +177,8 @@ A grandes rasgos, podemos clasificar los sistemas distribuidos en sistemas distr
 
 ## Falacias
 
+![Falacias](/8-fallacies.png)
+
 Desarrollar un (buen) sistema distribuido es una tarea ardua. Las siguientes falsas presunciones durante el diseño del sistema, traen como consecuencia complejidad innecesaria y errores:
 
 - La red es confiable.

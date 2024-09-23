@@ -1,5 +1,5 @@
 +++
-title = 'Nombres planos - DHT'
+title = 'Nombres planos - Chord'
 date = 2024-09-18T23:06:02-03:00
 draft = false
 weight = 630
@@ -7,9 +7,14 @@ weight = 630
 
 # Chord
 
-Chord es un sistema DHT (Distributed Hash Table) relativamente sencillo de entender.
+[Chord](https://en.wikipedia.org/wiki/Chord_(peer-to-peer)) es un sistema [DHT](https://en.wikipedia.org/wiki/Distributed_hash_table) (Distributed Hash Table) relativamente sencillo de entender, utilizado en redes [p2p]({{< ref "02-arquitectura.md#arquitecturas-simétricas" >}})
 
-Puede probar este [simulador](/chordgen/chordgen.html)
+Algunos links interesantes:
+- [Paper original](https://doi.org/10.1145%2F964723.383071)
+
+## Simulador
+
+Pueden probar como funciona Chord con este [simulador](/chordgen/chordgen.html)
 
 ## Mecanismo general
 
@@ -29,6 +34,18 @@ xxx
 
 ### Tablas finger
 
-yyy
+Cada nodo mantiene una tabla de $m$ entradas:
 
+$$ F_p[i] = succ((p + 2^{i-1}) \quad mod \quad 2^m) $$
 
+Por ejemplo, con $m=5$ ($2^5=32$ nodos) la tabla del nodo 1 ($p=1$) es:
+
+| índice   | sucesor   |
+|:-:|:-:|
+| 1 | $ F_1[1] = 1 + 2^{1-1} = 2 $ |
+| 2 | $ F_1[2] = 1 + 2^{2-1} = 3 $ |
+| 3 | $ F_1[3] = 1 + 2^{3-1} = 5 $ |
+| 4 | $ F_1[4] = 1 + 2^{4-1} = 9 $ |
+| 5 | $ F_1[5] = 1 + 2^{5-1} = 17 $ |
+
+![06-02.png](/06-02.png)
