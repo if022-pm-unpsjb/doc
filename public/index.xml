@@ -100,7 +100,7 @@
       <description>&lt;h1 id=&#34;nombres-planos&#34;&gt;&#xA;  Nombres planos&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#nombres-planos&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;p&gt;No contienen ningún tipo de información acerca de la entidad ni de su punto de acceso.&lt;/p&gt;&#xA;&lt;p&gt;En general los identificadores son de este tipo.&lt;/p&gt;&#xA;&lt;p&gt;Ejemplo:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;Una dirección representada como una cadena aleatoria de bits.&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;&lt;code&gt;00:26:c7:d9:98:54&lt;/code&gt; (suerte con intentar conocer la entidad solo leyendo esto)&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;Son sencillos de generar, pero transfieren la complejidad al mecanismo de resolución de nombres.&lt;/p&gt;&#xA;&lt;p&gt;¿Cómo se puede resolver la entidad asociada?&lt;/p&gt;&#xA;&lt;p&gt;Vamos a ver una serie de posibles soluciones simples:&lt;/p&gt;</description>
     </item>
     <item>
-      <title>Nombres planos - Chord</title>
+      <title>Chord</title>
       <link>http://localhost:1313/docs/06-nombres-planos-chord/</link>
       <pubDate>Wed, 18 Sep 2024 23:06:02 -0300</pubDate>
       <guid>http://localhost:1313/docs/06-nombres-planos-chord/</guid>

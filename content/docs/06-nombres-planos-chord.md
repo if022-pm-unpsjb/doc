@@ -1,5 +1,5 @@
 +++
-title = 'Nombres planos - Chord'
+title = 'Chord'
 date = 2024-09-18T23:06:02-03:00
 draft = false
 weight = 630
