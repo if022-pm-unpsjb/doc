@@ -7,33 +7,45 @@
   Nombres planos
   #
 
-No contienen ningún tipo de información acerca de la entidad ni de su punto de acceso.
+No contienen información acerca de la entidad, su ubicación o su punto de acceso.
 En general los identificadores son de este tipo.
 Ejemplo:
 
 
-Una dirección representada como una cadena aleatoria de bits.
+0b0adad386f3f0836c994e8487c1b470cbb6f682 (suerte con intentar conocer la entidad sin contexto)
 
 
-00:26:c7:d9:98:54 (suerte con intentar conocer la entidad solo leyendo esto)
+00:26:c7:d9:98:54
 
 
 Son sencillos de generar, pero transfieren la complejidad al mecanismo de resolución de nombres.
 ¿Cómo se puede resolver la entidad asociada?
-Vamos a ver una serie de posibles soluciones simples:">
+Vamos a ver una serie de posibles soluciones simples:
+
+Broadcast
+Multicast
+Forwarding Pointers
+Basados en hogar
+
+
+  Broadcast
+  #
+
+Una opción es realizar un broadcast del identificador.">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
 <meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/docs/06-nombres-planos/">
   <meta property="og:site_name" content="Sistemas Distribuidos">
   <meta property="og:title" content="Nombres planos">
-  <meta property="og:description" content=" Nombres planos # No contienen ningún tipo de información acerca de la entidad ni de su punto de acceso.
+  <meta property="og:description" content=" Nombres planos # No contienen información acerca de la entidad, su ubicación o su punto de acceso.
 En general los identificadores son de este tipo.
 Ejemplo:
-Una dirección representada como una cadena aleatoria de bits.
-00:26:c7:d9:98:54 (suerte con intentar conocer la entidad solo leyendo esto)
+0b0adad386f3f0836c994e8487c1b470cbb6f682 (suerte con intentar conocer la entidad sin contexto)
+00:26:c7:d9:98:54
 Son sencillos de generar, pero transfieren la complejidad al mecanismo de resolución de nombres.
 ¿Cómo se puede resolver la entidad asociada?
-Vamos a ver una serie de posibles soluciones simples:">
+Vamos a ver una serie de posibles soluciones simples:
+Broadcast Multicast Forwarding Pointers Basados en hogar Broadcast # Una opción es realizar un broadcast del identificador.">
   <meta property="og:locale" content="es_ar">
   <meta property="og:type" content="article">
     <meta property="article:section" content="docs">
@@ -45,7 +57,7 @@ Vamos a ver una serie de posibles soluciones simples:">
 <link rel="canonical" href="http://localhost:1313/docs/06-nombres-planos/">
 <link rel="stylesheet" href="/book.min.4964903a822a7acb10dac6d1ab524833c97fb5f99b141976bcb8a47d539be9c0.css" integrity="sha256-SWSQOoIqessQ2sbRq1JIM8l/tfmbFBl2vLikfVOb6cA=" crossorigin="anonymous">
   <script defer src="/fuse.min.js"></script>
-  <script defer src="/en.search.min.8122a934441ef4656c458474f8fda2c668b6ee9205a298eece592d5c9e8dd8c1.js" integrity="sha256-gSKpNEQe9GVsRYR0&#43;P2ixmi27pIFopjuzlktXJ6N2ME=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.d8f9b3279869748d39a6509bd482f04c13b39fecacf1a886c617eb0db0a6f2ea.js" integrity="sha256-2PmzJ5hpdI05plCb1ILwTBOzn&#43;ys8aiGxhfrDbCm8uo=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -392,15 +404,15 @@ https://github.com/alex-shpak/hugo-book
   Nombres planos
   <a class="anchor" href="#nombres-planos">#</a>
 </h1>
-<p>No contienen ningún tipo de información acerca de la entidad ni de su punto de acceso.</p>
-<p>En general los identificadores son de este tipo.</p>
+<p>No contienen información acerca de la entidad, su ubicación o su punto de acceso.</p>
+<p>En general los <strong>identificadores</strong> son de este tipo.</p>
 <p>Ejemplo:</p>
 <ul>
 <li>
-<p>Una dirección representada como una cadena aleatoria de bits.</p>
+<p><code>0b0adad386f3f0836c994e8487c1b470cbb6f682</code> (suerte con intentar conocer la entidad sin contexto)</p>
 </li>
 <li>
-<p><code>00:26:c7:d9:98:54</code> (suerte con intentar conocer la entidad solo leyendo esto)</p>
+<p><code>00:26:c7:d9:98:54</code></p>
 </li>
 </ul>
 <p>Son sencillos de generar, pero transfieren la complejidad al mecanismo de resolución de nombres.</p>
@@ -422,13 +434,13 @@ https://github.com/alex-shpak/hugo-book
 <p>Una red LAN (cableada o wireless) ofrece servicios eficientes de broadcast.</p>
 </li>
 <li>
-<p>Cada máquina chequea si contiene la entidad asociada al identificador.</p>
+<p>Cada nodo chequea si contiene la entidad asociada al identificador recibido.</p>
 </li>
 <li>
 <p>Ejemplo: <a href="https://en.wikipedia.org/wiki/Address_Resolution_Protocol">ARP</a></p>
 </li>
 </ul>
-<p>A medida que la red incrementa su tamaño, el uso de broadcast se vuelve ineficiente.</p>
+<p><strong>Problema</strong>: a medida que la red incrementa su tamaño, el uso de broadcast se vuelve ineficiente.</p>
 <h2 id="multicast">
   Multicast
   <a class="anchor" href="#multicast">#</a>
@@ -439,13 +451,19 @@ https://github.com/alex-shpak/hugo-book
 <p>Posible de implementar en redes <a href="https://en.wikipedia.org/wiki/Multicast#Ethernet">Ethernet</a></p>
 </li>
 <li>
-<p>En IP se puede definir <a href="https://en.wikipedia.org/wiki/Multicast#IP">grupos de multicasting</a>, identificados mediante una dirección.</p>
+<p>En IP se puede definir <a href="https://en.wikipedia.org/wiki/IP_multicast">grupos de multicasting</a></p>
+<ul>
+<li>Cada grupo es identificado mediante una dirección.</li>
+</ul>
 </li>
 <li>
 <p>Útil como mecanismo de ubicación</p>
+<ul>
+<li>El multicast puede ser una consulta por la dirección de un nodo en particular.</li>
+</ul>
 </li>
 <li>
-<p>Se puede utilizar para enviar la petición a múltiples replicas.</p>
+<p>Otro uso es enviar una petición a múltiples replicas.</p>
 </li>
 </ul>
 <h2 id="forwarding-pointers">
@@ -529,6 +547,13 @@ https://github.com/alex-shpak/hugo-book
 <ul>
 <li>
 <p><a href="https://en.wikipedia.org/wiki/Mobile_IP">Mobile IP</a></p>
+<ul>
+<li><a href="https://datatracker.ietf.org/doc/rfc5944/">RFC 5944</a> - IP Mobility Support for IPv4, Revised</li>
+<li><a href="https://datatracker.ietf.org/doc/rfc6275/">RFC 6275</a> - Mobility Support in IPv6</li>
+</ul>
+</li>
+<li>
+<p>Es un estándar de la <a href="https://ietf.org/">IETF</a> que permite a un dispositivo móvil mantener una dirección IP permanente.</p>
 </li>
 <li>
 <p>Intenta ofrecer un elevado nivel de transparencia de ubicación.</p>
@@ -540,19 +565,28 @@ https://github.com/alex-shpak/hugo-book
 <p>Cada nodo móvil tiene una IP fija.</p>
 </li>
 <li>
-<p>La comunicación inicial con el nodo móvil se realiza con un <em>home agent</em> (vendría ser el <strong>hogar</strong>)</p>
+<p>La comunicación inicial con el nodo móvil se realiza mediante el <em>home agent</em> (vendría ser el <strong>hogar</strong>)</p>
+<ul>
+<li>El <em>home agent</em> reside en la red origen, por lo general donde se generó el nodo móvil</li>
+</ul>
 </li>
 <li>
-<p>El <em>home agent</em> reside en la red inicial, donde se generó el nodo</p>
+<p>Cuando el nodo se muda a otra red, solicita allí una nueva IP que registra en el <em>home agent</em></p>
+<ul>
+<li>Esta dirección se conoce como <em>care-of address</em></li>
+</ul>
 </li>
 <li>
-<p>Cuando el nodo se mueve a otra red, solicita allí una nueva IP que registra en el <em>home agent</em></p>
+<p>Cuando el <em>home agent</em> recibe una consulta para el nodo, se la reenvía.</p>
+<ul>
+<li>Puede usar por ejemplo, <a href="https://www.cloudflare.com/learning/network-layer/what-is-tunneling/">tunneling</a></li>
+</ul>
 </li>
 <li>
-<p>Cuando el <em>home agent</em> recibe una consulta para el nodo, la reenvía.</p>
+<p>Al mismo tiempo, el emisor de la consulta recibe del <em>home agent</em> la ubicación actual del nodo móvil.</p>
 </li>
 <li>
-<p>El emisor es informado por el <em>home agent</em> de la ubicación actual del nodo móvil.</p>
+<p>El nodo móvil, luego se comunica directamente con el emisor de la consulta.</p>
 </li>
 <li>
 <p>Este proceso se oculta en lo posible a la aplicación.</p>

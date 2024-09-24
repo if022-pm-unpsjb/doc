@@ -7,15 +7,15 @@ weight = 610
 
 # Nombres planos
 
-No contienen ningún tipo de información acerca de la entidad ni de su punto de acceso.
+No contienen información acerca de la entidad, su ubicación o su punto de acceso.
 
-En general los identificadores son de este tipo.
+En general los **identificadores** son de este tipo.
 
 Ejemplo:
 
-- Una dirección representada como una cadena aleatoria de bits.
+- `0b0adad386f3f0836c994e8487c1b470cbb6f682` (suerte con intentar conocer la entidad sin contexto)
 
-- `00:26:c7:d9:98:54` (suerte con intentar conocer la entidad solo leyendo esto)
+- `00:26:c7:d9:98:54`
 
 Son sencillos de generar, pero transfieren la complejidad al mecanismo de resolución de nombres.
 
@@ -34,11 +34,11 @@ Una opción es realizar un _broadcast_ del identificador.
 
 - Una red LAN (cableada o wireless) ofrece servicios eficientes de broadcast.
 
-- Cada máquina chequea si contiene la entidad asociada al identificador.
+- Cada nodo chequea si contiene la entidad asociada al identificador recibido.
 
 - Ejemplo: [ARP](https://en.wikipedia.org/wiki/Address_Resolution_Protocol)
 
-A medida que la red incrementa su tamaño, el uso de broadcast se vuelve ineficiente.
+**Problema**: a medida que la red incrementa su tamaño, el uso de broadcast se vuelve ineficiente.
 
 ## Multicast
 
@@ -46,11 +46,13 @@ El objetivo es evitar interrumpir nodos que no esten interesados en el mensaje.
 
 - Posible de implementar en redes [Ethernet](https://en.wikipedia.org/wiki/Multicast#Ethernet)
 
-- En IP se puede definir [grupos de multicasting](https://en.wikipedia.org/wiki/Multicast#IP), identificados mediante una dirección.
+- En IP se puede definir [grupos de multicasting](https://en.wikipedia.org/wiki/IP_multicast)
+    - Cada grupo es identificado mediante una dirección.
 
 - Útil como mecanismo de ubicación
+    - El multicast puede ser una consulta por la dirección de un nodo en particular.
 
-- Se puede utilizar para enviar la petición a múltiples replicas.
+- Otro uso es enviar una petición a múltiples replicas.
 
 ## Forwarding Pointers
 
@@ -100,21 +102,32 @@ Consiste en mantener una referencia a la ubicación actual de una entidad.
 
 - [Mobile IP](https://en.wikipedia.org/wiki/Mobile_IP)
 
+    - [RFC 5944](https://datatracker.ietf.org/doc/rfc5944/) - IP Mobility Support for IPv4, Revised 
+    - [RFC 6275](https://datatracker.ietf.org/doc/rfc6275/) - Mobility Support in IPv6 
+
+- Es un estándar de la [IETF](https://ietf.org/) que permite a un dispositivo móvil mantener una dirección IP permanente.
+
 - Intenta ofrecer un elevado nivel de transparencia de ubicación.
 
 - Funcionamiento:
     
     - Cada nodo móvil tiene una IP fija.
 
-    - La comunicación inicial con el nodo móvil se realiza con un *home agent* (vendría ser el **hogar**)
+    - La comunicación inicial con el nodo móvil se realiza mediante el *home agent* (vendría ser el **hogar**)
 
-    - El *home agent* reside en la red inicial, donde se generó el nodo 
+        - El *home agent* reside en la red origen, por lo general donde se generó el nodo móvil
 
-    - Cuando el nodo se mueve a otra red, solicita allí una nueva IP que registra en el *home agent*
+    - Cuando el nodo se muda a otra red, solicita allí una nueva IP que registra en el *home agent*
 
-    - Cuando el *home agent* recibe una consulta para el nodo, la reenvía.
+        - Esta dirección se conoce como _care-of address_
 
-    - El emisor es informado por el *home agent* de la ubicación actual del nodo móvil.
+    - Cuando el *home agent* recibe una consulta para el nodo, se la reenvía.
+
+        - Puede usar por ejemplo, [tunneling](https://www.cloudflare.com/learning/network-layer/what-is-tunneling/)
+
+    - Al mismo tiempo, el emisor de la consulta recibe del *home agent* la ubicación actual del nodo móvil.
+
+    - El nodo móvil, luego se comunica directamente con el emisor de la consulta.
 
     - Este proceso se oculta en lo posible a la aplicación.
 

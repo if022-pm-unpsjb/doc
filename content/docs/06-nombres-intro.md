@@ -26,13 +26,17 @@ Para operar una entidad se requiere acceder a la misma mediante un **punto de ac
 - Un **punto de acceso** es una entidad... y requiere un nombre.
 - Una entidad puede tener uno, dos o más puntos de acceso.
 - El punto de acceso puede cambiar con el tiempo.
-- Ejemplo: 200.45.21.42:80
+- Ejemplo: `200.45.21.42:80`
 
 ## Dirección
 
-El nombre de un **punto de acceso** se conoce como **dirección**.
+Una dirección es un nombre que identifica la _ubicación_ de una entidad.
+
+El nombre de un **punto de acceso** es una **dirección**.
 
 Es mucho más flexible mantener el nombre de una entidad independiente de su dirección.
+
+- La entidad puede moverse de ubicación, con lo cual cambia su dirección
 
 - Se conoce como **independencia de ubicación**
 
@@ -56,7 +60,14 @@ Pero otros nombres son diseñados para que sean fácilmente legibles por un huma
 
 ## Resolución de nombres
 
+Tiene que existir un mecanismo que resuelva los nombres.
+
+Esto es, obtenga información acerca de la entidad en base a su nombre.
+
 ¿Cómo resolvemos un nombre a una entidad? Dos opciones:
 
-1. Mantener un registro (nombre, dirección)
+1. Mantener un registro de tipo `(nombre, dirección)`
+
 2. Realizar un ruteo hacia la **dirección** o **punto de acceso**
+
+![dns-lookup](/dns-lookup.png)
