@@ -62,12 +62,14 @@ Pero otros nombres son diseñados para que sean fácilmente legibles por un huma
 
 Tiene que existir un mecanismo que resuelva los nombres.
 
-Esto es, obtenga información acerca de la entidad en base a su nombre.
+Esto es, obtener información acerca de la entidad en base a su nombre.
 
-¿Cómo resolvemos un nombre a una entidad? Dos opciones:
+¿Cómo resolvemos un nombre a una entidad? Basicamente, hay dos opciones:
 
 1. Mantener un registro de tipo `(nombre, dirección)`
 
 2. Realizar un ruteo hacia la **dirección** o **punto de acceso**
+
+    - Generalmente utilizado en redes p2p.
 
 ![dns-lookup](/dns-lookup.png)
