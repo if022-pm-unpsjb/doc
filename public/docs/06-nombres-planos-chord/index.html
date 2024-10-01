@@ -8,6 +8,11 @@
   #
 
 Chord es un sistema DHT (Distributed Hash Table) relativamente sencillo de entender, utilizado en redes p2p
+Otros sistemas similares:
+
+Pastry
+Tapestry
+
 Algunos links interesantes:
 
 Paper original
@@ -18,23 +23,24 @@ Paper original
 
 Pueden probar como funciona Chord con este simulador
 
-  Mecanismo general
+  Descripción general
   #
 
 Usa un espacio de $m$ bits para asignar identificadores a nodos y claves a entidades.
 El número $m$ de bits usualmente esta entre 128 y 160.
-Una entidad con clave $k$ es administrada por el nodo cuyo identificador $id$ sea $id \geq k$.">
+Una entidad con clave $k$ es administrada por el nodo con el menor identificador $p$ tal que $p \geq k$.">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
 <meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/docs/06-nombres-planos-chord/">
   <meta property="og:site_name" content="Sistemas Distribuidos">
   <meta property="og:title" content="Chord">
   <meta property="og:description" content=" Chord # Chord es un sistema DHT (Distributed Hash Table) relativamente sencillo de entender, utilizado en redes p2p
-Algunos links interesantes:
+Otros sistemas similares:
+Pastry Tapestry Algunos links interesantes:
 Paper original Simulador # Pueden probar como funciona Chord con este simulador
-Mecanismo general # Usa un espacio de $m$ bits para asignar identificadores a nodos y claves a entidades.
+Descripción general # Usa un espacio de $m$ bits para asignar identificadores a nodos y claves a entidades.
 El número $m$ de bits usualmente esta entre 128 y 160.
-Una entidad con clave $k$ es administrada por el nodo cuyo identificador $id$ sea $id \geq k$.">
+Una entidad con clave $k$ es administrada por el nodo con el menor identificador $p$ tal que $p \geq k$.">
   <meta property="og:locale" content="es_ar">
   <meta property="og:type" content="article">
     <meta property="article:section" content="docs">
@@ -46,7 +52,7 @@ Una entidad con clave $k$ es administrada por el nodo cuyo identificador $id$ se
 <link rel="canonical" href="http://localhost:1313/docs/06-nombres-planos-chord/">
 <link rel="stylesheet" href="/book.min.4964903a822a7acb10dac6d1ab524833c97fb5f99b141976bcb8a47d539be9c0.css" integrity="sha256-SWSQOoIqessQ2sbRq1JIM8l/tfmbFBl2vLikfVOb6cA=" crossorigin="anonymous">
   <script defer src="/fuse.min.js"></script>
-  <script defer src="/en.search.min.d8f9b3279869748d39a6509bd482f04c13b39fecacf1a886c617eb0db0a6f2ea.js" integrity="sha256-2PmzJ5hpdI05plCb1ILwTBOzn&#43;ys8aiGxhfrDbCm8uo=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.8d5ff75c83156a2057bcc006b3f863a36c187cf417240cae8bb5be2815040152.js" integrity="sha256-jV/3XIMVaiBXvMAGs/hjo2wYfPQXJAyui7W&#43;KBUEAVI=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -363,12 +369,16 @@ https://github.com/alex-shpak/hugo-book
 <nav id="TableOfContents">
   <ul>
     <li><a href="#simulador">Simulador</a></li>
-    <li><a href="#mecanismo-general">Mecanismo general</a>
+    <li><a href="#descripción-general">Descripción general</a></li>
+    <li><a href="#resolución-de-nombres">Resolución de nombres</a>
       <ul>
         <li><a href="#solución-lineal">Solución lineal</a></li>
-        <li><a href="#tablas-finger">Tablas finger</a></li>
+        <li><a href="#solución-exponencial">Solución exponencial</a></li>
+        <li><a href="#ejemplo">Ejemplo</a></li>
       </ul>
     </li>
+    <li><a href="#topología-dinámica">Topología dinámica</a></li>
+    <li><a href="#proximidad">Proximidad</a></li>
   </ul>
 </nav>
 
@@ -386,6 +396,11 @@ https://github.com/alex-shpak/hugo-book
   <a class="anchor" href="#chord">#</a>
 </h1>
 <p><a href="https://en.wikipedia.org/wiki/Chord_%28peer-to-peer%29">Chord</a> es un sistema <a href="https://en.wikipedia.org/wiki/Distributed_hash_table">DHT</a> (Distributed Hash Table) relativamente sencillo de entender, utilizado en redes <a href="http://localhost:1313/docs/02-arquitectura/#arquitecturas-simétricas">p2p</a></p>
+<p>Otros sistemas similares:</p>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Pastry_%28DHT%29">Pastry</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Tapestry_%28DHT%29">Tapestry</a></li>
+</ul>
 <p>Algunos links interesantes:</p>
 <ul>
 <li><a href="https://doi.org/10.1145%2F964723.383071">Paper original</a></li>
@@ -395,27 +410,43 @@ https://github.com/alex-shpak/hugo-book
   <a class="anchor" href="#simulador">#</a>
 </h2>
 <p>Pueden probar como funciona Chord con este <a href="/chordgen/chordgen.html">simulador</a></p>
-<h2 id="mecanismo-general">
-  Mecanismo general
-  <a class="anchor" href="#mecanismo-general">#</a>
+<h2 id="descripción-general">
+  Descripción general
+  <a class="anchor" href="#descripci%c3%b3n-general">#</a>
 </h2>
-<p>Usa un espacio de $m$ bits para asignar identificadores a nodos y claves a entidades.</p>
+<p>Usa un espacio de $m$ bits para asignar <strong>identificadores</strong> a nodos y <strong>claves</strong> a entidades.</p>
 <p>El número $m$ de bits usualmente esta entre 128 y 160.</p>
-<p>Una entidad con clave $k$ es administrada por el nodo cuyo identificador $id$ sea $id \geq k$.</p>
-<p>A dicho nodo se le denomina <strong>sucesor</strong> de $k$ y se denota como $succ(k)$</p>
-<p>Problema: ¿Cómo resolver eficientemente $k$ a la dirección de $succ(k)$?</p>
+<p>Una entidad con clave $k$ es administrada por el nodo con el menor identificador $p$ tal que $p \geq k$.</p>
+<p>Dicho nodo se denomina <strong>sucesor</strong> de $k$ y se denota $succ(k)$</p>
+<p>Los nodos se organizan en un <strong>anillo</strong>:</p>
+<ul>
+<li>Cada nodo mantiene referencias a su <em>sucesor</em> y <em>predecesor</em></li>
+</ul>
+<h2 id="resolución-de-nombres">
+  Resolución de nombres
+  <a class="anchor" href="#resoluci%c3%b3n-de-nombres">#</a>
+</h2>
+<p>Problema: Dado un clave $k$ ¿Cómo resolver <strong>eficientemente</strong> la dirección de $succ(k)$?</p>
 <h3 id="solución-lineal">
   Solución lineal
   <a class="anchor" href="#soluci%c3%b3n-lineal">#</a>
 </h3>
-<p>xxx</p>
-<h3 id="tablas-finger">
-  Tablas finger
-  <a class="anchor" href="#tablas-finger">#</a>
+<p>Una solución simple es pasar la consulta al siguiente nodo en el anillo.</p>
+<p>Cuando un nodo $p$ recibe una consulta por una entidad con clave $k$</p>
+<ul>
+<li>Responde la consulta si $pred(p) &lt; k \leq p$</li>
+<li>Caso contrario, pasa la consulta a $succ(p+1)$</li>
+</ul>
+<p>En promedio, una consulta requerirá recorrer <strong>la mitad del anillo</strong>.</p>
+<h3 id="solución-exponencial">
+  Solución exponencial
+  <a class="anchor" href="#soluci%c3%b3n-exponencial">#</a>
 </h3>
-<p>Cada nodo mantiene una tabla de $m$ entradas:</p>
+<p>Cada nodo mantiene una tabla con $s \leq m$ entradas conocida como <em>tabla finger</em></p>
+<p>La tabla del nodo $p$ se denota $F_p$</p>
+<p>Cada entrada $i$ contiene lo siguiente:</p>
 <p>$$ F_p[i] = succ((p + 2^{i-1}) \quad mod \quad 2^m) $$</p>
-<p>Por ejemplo, con $m=5$ ($2^5=32$ nodos) la tabla del nodo 1 ($p=1$) es:</p>
+<p><strong>Ejemplo:</strong> con $m=5$ ($2^5=32$ identificadores) y suponiendo que existe un nodo por identificador, la tabla del nodo 1 ($p=1$) es:</p>
 <table>
   <thead>
       <tr>
@@ -426,27 +457,104 @@ https://github.com/alex-shpak/hugo-book
   <tbody>
       <tr>
           <td style="text-align: center">1</td>
-          <td style="text-align: center">$ F_1[1] = 1 + 2^{1-1} = 2 $</td>
+          <td style="text-align: center">$ succ(1 + 2^{1-1}) = 2 $</td>
       </tr>
       <tr>
           <td style="text-align: center">2</td>
-          <td style="text-align: center">$ F_1[2] = 1 + 2^{2-1} = 3 $</td>
+          <td style="text-align: center">$ succ(1 + 2^{2-1}) = 3 $</td>
       </tr>
       <tr>
           <td style="text-align: center">3</td>
-          <td style="text-align: center">$ F_1[3] = 1 + 2^{3-1} = 5 $</td>
+          <td style="text-align: center">$ succ(1 + 2^{3-1}) = 5 $</td>
       </tr>
       <tr>
           <td style="text-align: center">4</td>
-          <td style="text-align: center">$ F_1[4] = 1 + 2^{4-1} = 9 $</td>
+          <td style="text-align: center">$ succ(1 + 2^{4-1}) = 9 $</td>
       </tr>
       <tr>
           <td style="text-align: center">5</td>
-          <td style="text-align: center">$ F_1[5] = 1 + 2^{5-1} = 17 $</td>
+          <td style="text-align: center">$ succ(1 + 2^{5-1}) = 17 $</td>
       </tr>
   </tbody>
 </table>
+<p>Cada entrada contiene el identificador del primer sucesor a una distancia de al menos $2^{i-1}$ unidades.</p>
+<p>Notar que $F_p[1]$ es el sucesor del nodo en el anillo.</p>
+<p>Ahora, cuando un nodo $p$ recibe una consulta por una entidad con clave $k$:</p>
+<ul>
+<li>Responde la consulta si $k \in (pred(p), p]$</li>
+<li>Si $p &lt; k \leq F_p[1]$ reenvia la consulta a su <em>sucesor</em></li>
+<li>Caso contario, reenvia la consulta al nodo $i$ tal que $F_p[i] \leq k &lt; F_p[i+1]$</li>
+</ul>
+<p>El costo en general sera $O(log(N))$</p>
+<h3 id="ejemplo">
+  Ejemplo
+  <a class="anchor" href="#ejemplo">#</a>
+</h3>
+<p>Notar que no tienen que existir $2^m$ nodos: pueden haber muchos menos en el anillo.</p>
+<p>Por ejemplo, para $F_p(1)$, $succ(2) = 4$ ya que el nodo 4 es responsable de las claves 2, 3 y 4.</p>
 <p><img src="/06-02.png" alt="06-02.png" /></p>
+<h2 id="topología-dinámica">
+  Topología dinámica
+  <a class="anchor" href="#topolog%c3%ada-din%c3%a1mica">#</a>
+</h2>
+<p>Los nodos pueden entrar o salir del anillo, voluntariamente o por un fallo</p>
+<p>Un nodo $p$ que quiera sumarse a una anillo Chord debe:</p>
+<ul>
+<li>Consultar a alguno de los nodos existentes $succ(p+1)$</li>
+<li>Cuando este nodo se identifica, se agrega como predecesor.</li>
+</ul>
+<p>Se tienen que actualizar las <em>tablas finger</em></p>
+<ul>
+<li>Periódicamente mediante algun hilo o proceso en segundo plano</li>
+</ul>
+<p>Para la primer entrada ($F_p[1]$):</p>
+<ul>
+<li>Periodicamente cada nodo contacta su sucesor</li>
+<li>Consulta si sigue siendo el <strong>predecesor de su sucesor</strong>.</li>
+<li>Osea, el nodo $p$ verifica si $p=pred(succ(p+1))$</li>
+<li>Si no lo es, entonces se sumo un nuevo nodo $q$
+<ul>
+<li>Repite el proceso con $q$ como sucesor.</li>
+</ul>
+</li>
+</ul>
+<p>Para el resto de las entradas, debe encontrar el $succ(p + 2^{i-1})$</p>
+<p>De manera similar, cada nodo debe verificar su <strong>predecesor</strong>:</p>
+<ul>
+<li>Si un nodo $q$ detecta que su predecesor no esta presente, lo marca como <em>desconocido</em></li>
+<li>Si el nodo $q$ detecta que su sucesor no conoce a su predecesor, se presenta como tal</li>
+<li>De la misma manera, un nuevo predecesor se presentará como tal a $q$</li>
+</ul>
+<h2 id="proximidad">
+  Proximidad
+  <a class="anchor" href="#proximidad">#</a>
+</h2>
+<p>Un problema potencial es que dos nodos lógicamente próximos pueden estar físicamente lejanos</p>
+<ul>
+<li>Nodo 19 en Madryn, nodo 20 en Tokio, nodo 21 en Madrid</li>
+</ul>
+<p>Posibles soluciones:</p>
+<ul>
+<li>
+<p>Asignar los identificadores a nodos en base a la topología</p>
+<ul>
+<li>Nodos físicamente cercanos tendrán identificadores próximos</li>
+</ul>
+</li>
+<li>
+<p>Ruteo por proximidad</p>
+<ul>
+<li>Se mantienen varios sucesores por cada entrada de la <em>tabla finger</em></li>
+</ul>
+</li>
+<li>
+<p>Selección del vecino más cercano</p>
+<ul>
+<li>Válida cuando puede haber varios nodos que sirvan de predecesor.</li>
+<li>No es el caso de Chord, pero sí de Pastry.</li>
+</ul>
+</li>
+</ul>
 </article>
  
       
@@ -489,12 +597,16 @@ https://github.com/alex-shpak/hugo-book
 <nav id="TableOfContents">
   <ul>
     <li><a href="#simulador">Simulador</a></li>
-    <li><a href="#mecanismo-general">Mecanismo general</a>
+    <li><a href="#descripción-general">Descripción general</a></li>
+    <li><a href="#resolución-de-nombres">Resolución de nombres</a>
       <ul>
         <li><a href="#solución-lineal">Solución lineal</a></li>
-        <li><a href="#tablas-finger">Tablas finger</a></li>
+        <li><a href="#solución-exponencial">Solución exponencial</a></li>
+        <li><a href="#ejemplo">Ejemplo</a></li>
       </ul>
     </li>
+    <li><a href="#topología-dinámica">Topología dinámica</a></li>
+    <li><a href="#proximidad">Proximidad</a></li>
   </ul>
 </nav>
 

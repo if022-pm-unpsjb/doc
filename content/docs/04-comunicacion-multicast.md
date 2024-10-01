@@ -97,7 +97,7 @@ Un nodo P eligue al azar un nodo vecino Q para intercambiar datos.
 - P puede sólo requerir datos de Q (*pull*)
 - P y Q intercambian datos (*push-pull*)
 
-Sólo utilizar *pull* no es eficiente si existen muchos nodos infectados: la probabilidad de escoger un nodo susceptible es baja. Usar *push* es conveniente cuando el número de nodos infectados es alto. Por lo tanto, la mejor estrategia es *push-pull*.
+Sólo utilizar *push* no es eficiente si existen muchos nodos infectados: la probabilidad de escoger un nodo susceptible es baja. Usar *pull* es conveniente cuando el número de nodos infectados es alto. Por lo tanto, la mejor estrategia es *push-pull*.
 
 Ronda: intervalo de tiempo en el cual cada nodo intercambio datos con un nodo vecino al azar.
 
