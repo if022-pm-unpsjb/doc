@@ -9,16 +9,53 @@ weight = 630
 
 [Chord](https://en.wikipedia.org/wiki/Chord_(peer-to-peer)) es un sistema [DHT](https://en.wikipedia.org/wiki/Distributed_hash_table) (Distributed Hash Table) relativamente sencillo de entender, utilizado en redes [p2p]({{< ref "02-arquitectura.md#arquitecturas-simétricas" >}})
 
-Otros sistemas similares:
+Sistemas similares:
 - [Pastry](https://en.wikipedia.org/wiki/Pastry_(DHT))
 - [Tapestry](https://en.wikipedia.org/wiki/Tapestry_(DHT))
 
-Algunos links interesantes:
-- [Paper original](https://doi.org/10.1145%2F964723.383071)
+## Material de lectura
+
+Estos apuntes estan basados en:
+
+- La sección *6.2.3 Distributed Hash tables* del libro *Distributed Systems*, donde se describe brevemente Chord. No es necesario leer la nota avanzada, pero sí la subsección *Exploiting network proximity*.
+
+- En el [paper original](https://pdos.csail.mit.edu/papers/chord:sigcomm01/chord_sigcomm.pdf). Recomendado leer la sección 1 y la sección 4.3 (hasta el Teorema, que no es necesario leer ni entender).
 
 ## Simulador
 
 Pueden probar como funciona Chord con este [simulador](/chordgen/chordgen.html)
+
+## ¿Pero qué es?
+
+Es un sistema de _lookup_ distribuido.
+
+En criollo: dado una _clave_ (nombre) obtiene el nodo asociado.
+
+- Ej: `lookup(key)` retorna la IP del nodo asociado.
+
+- Y lo trata de hacer de manera _eficiente_
+
+El protocolo especifica:
+
+- Como realizar el _lookup_ (obviamente).
+
+- Como nuevos nodos se unen al sistema.
+
+- Como manejar la salida de nodos (planeada o no).
+
+## Propiedades bonitas
+
+- Balanceo de carga
+
+- Descentralizado
+
+- Escalable
+
+- Alta disponibilidad
+
+- Flexibilidad en asignación de nombres
+
+(Estas propiedades son las que debe tener cualquier servicio de nombres)
 
 ## Descripción general
 
@@ -26,28 +63,43 @@ Usa un espacio de $m$ bits para asignar **identificadores** a nodos y **claves**
 
 El número $m$ de bits usualmente esta entre 128 y 160.
 
+- Tiene que ser lo suficientemente grande para evitar colisiones.
+
+Requiere *hash consistente* para distribuir de manera uniforme las claves en el espacio de nombres.
+
+- Ej: SHA1
+- El objetivo es todos los nodos administren (aproximadamente) la misma cantidad de claves.
+
 Una entidad con clave $k$ es administrada por el nodo con el menor identificador $p$ tal que $p \geq k$.
+
+- Para simplificar, vamos a decir que la entidad $k$ es administrada por el nodo $p$, tal que $p \geq k$
 
 Dicho nodo se denomina **sucesor** de $k$ y se denota $succ(k)$
 
-Los nodos se organizan en un **anillo**:
+Los nodos se organizan en un **anillo**
+
 - Cada nodo mantiene referencias a su *sucesor* y *predecesor*
 
 ## Resolución de nombres
 
-Problema: Dado un clave $k$ ¿Cómo resolver **eficientemente** la dirección de $succ(k)$?
+Problema: Dado un clave $k$ ¿Cómo resolver la dirección de $succ(k)$?
 
 ### Solución lineal
 
-Una solución simple es pasar la consulta al siguiente nodo en el anillo.
+Veamos primero una solución que sencilla, que **no** usa Chord.
 
-Cuando un nodo $p$ recibe una consulta por una entidad con clave $k$
+Lo más simple es pasar la consulta al siguiente nodo en el anillo.
+
+Cuando un nodo $p$ recibe una consulta por una entidad $k$
+
 - Responde la consulta si $pred(p) < k \leq p$
 - Caso contrario, pasa la consulta a $succ(p+1)$
 
 En promedio, una consulta requerirá recorrer **la mitad del anillo**.
 
 ### Solución exponencial
+
+Chord intenta resolver **eficientemente** la dirección de $succ(k)$
 
 Cada nodo mantiene una tabla con $s \leq m$ entradas conocida como _tabla finger_
 
@@ -57,7 +109,7 @@ Cada entrada $i$ contiene lo siguiente:
 
 $$ F_p[i] = succ((p + 2^{i-1}) \quad mod \quad 2^m) $$
 
-**Ejemplo:** con $m=5$ ($2^5=32$ identificadores) y suponiendo que existe un nodo por identificador, la tabla del nodo 1 ($p=1$) es:
+Por ejemplo, con $m=5$ ($2^5=32$ identificadores), la tabla del nodo 1 ($p=1$) es:
 
 | índice   | sucesor   |
 |:-:|:-:|
@@ -69,13 +121,16 @@ $$ F_p[i] = succ((p + 2^{i-1}) \quad mod \quad 2^m) $$
 
 Cada entrada contiene el identificador del primer sucesor a una distancia de al menos $2^{i-1}$ unidades.
 
+Cada nodo sólo guarda una cantidad reducida de información de los demás.
+
 Notar que $F_p[1]$ es el sucesor del nodo en el anillo.
 
 Ahora, cuando un nodo $p$ recibe una consulta por una entidad con clave $k$:
 
 - Responde la consulta si $k \in (pred(p), p]$
 - Si $p < k \leq F_p[1]$ reenvia la consulta a su _sucesor_
-- Caso contario, reenvia la consulta al nodo $i$ tal que $F_p[i] \leq k < F_p[i+1]$
+- Caso contrario, reenvia la consulta al nodo $i$ tal que $F_p[i] \leq k < F_p[i+1]$
+    - Osea, $k \in (,]$
 
 El costo en general sera $O(log(N))$
 
@@ -93,17 +148,16 @@ Los nodos pueden entrar o salir del anillo, voluntariamente o por un fallo
 
 Un nodo $p$ que quiera sumarse a una anillo Chord debe:
 
-- Consultar a alguno de los nodos existentes $succ(p+1)$
-- Cuando este nodo se identifica, se agrega como predecesor.
+- Consulta $succ(p+1)$ a alguno de los nodos existentes
+- Luego se agrega como predcesor de $succ(p+1)$
 
 Se tienen que actualizar las _tablas finger_
 
 - Periódicamente mediante algun hilo o proceso en segundo plano
 
-Para la primer entrada ($F_p[1]$):
+Para la primer entrada ($F_p[1]$, o sea el sucesor):
 
-- Periodicamente cada nodo contacta su sucesor
-- Consulta si sigue siendo el **predecesor de su sucesor**.
+- Periodicamente consulta si sigue siendo el **predecesor de su sucesor**.
 - Osea, el nodo $p$ verifica si $p=pred(succ(p+1))$
 - Si no lo es, entonces se sumo un nuevo nodo $q$
     - Repite el proceso con $q$ como sucesor.
@@ -133,10 +187,4 @@ Posibles soluciones:
 - Selección del vecino más cercano
     - Válida cuando puede haber varios nodos que sirvan de predecesor.
     - No es el caso de Chord, pero sí de Pastry.
-
-
-
-
-
-
 
