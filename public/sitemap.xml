@@ -44,7 +44,10 @@
     <loc>http://localhost:1313/docs/06-nombres-planos-chord/</loc>
     <lastmod>2024-09-18T23:06:02-03:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/docs/07-replicacion/07-01-replicacion/</loc>
+    <loc>http://localhost:1313/docs/07-replicacion/07-01-introduccion/</loc>
+    <lastmod>2024-09-18T23:04:03-03:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/docs/07-replicacion/07-02-data-centric/</loc>
     <lastmod>2024-09-18T23:04:03-03:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/docs/07-replicacion/07-02-replicacion/</loc>

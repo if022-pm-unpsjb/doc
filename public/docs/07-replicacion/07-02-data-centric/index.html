@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="es-ar" dir="ltr">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="
+  Modelos de consistencia centrado en datos
+  #
+
+
+  Generalidades
+  #
+
+Suponer un data store replicado en varias máquinas (nodos).
+Un modelo de consistencia es un contrato entre los clientes y el data store
+
+Si se respeta el contrato, todos contentos
+
+Por ejemplo, normalmente un cliente espera que una lectura refleje la última escritura.
+¿Pero qué es la última escritura en un sistema distribuido?
+
+¡No tenemos un reloj global!
+
+Diferentes modelos de consistencia dan una respuesta distinta:">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/docs/07-replicacion/07-02-data-centric/">
+  <meta property="og:site_name" content="Sistemas Distribuidos">
+  <meta property="og:title" content="Consistencia centrada en datos">
+  <meta property="og:description" content=" Modelos de consistencia centrado en datos # Generalidades # Suponer un data store replicado en varias máquinas (nodos).
+Un modelo de consistencia es un contrato entre los clientes y el data store
+Si se respeta el contrato, todos contentos Por ejemplo, normalmente un cliente espera que una lectura refleje la última escritura.
+¿Pero qué es la última escritura en un sistema distribuido?
+¡No tenemos un reloj global! Diferentes modelos de consistencia dan una respuesta distinta:">
+  <meta property="og:locale" content="es_ar">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="docs">
+    <meta property="article:published_time" content="2024-09-18T23:04:03-03:00">
+    <meta property="article:modified_time" content="2024-09-18T23:04:03-03:00">
+<title>Consistencia centrada en datos | Sistemas Distribuidos</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" >
+<link rel="canonical" href="http://localhost:1313/docs/07-replicacion/07-02-data-centric/">
+<link rel="stylesheet" href="/book.min.4964903a822a7acb10dac6d1ab524833c97fb5f99b141976bcb8a47d539be9c0.css" integrity="sha256-SWSQOoIqessQ2sbRq1JIM8l/tfmbFBl2vLikfVOb6cA=" crossorigin="anonymous">
+  <script defer src="/fuse.min.js"></script>
+  <script defer src="/en.search.min.07a5f4ff679b7919c7301f28bf7055965a2a76879adb736cd893a995270288ce.js" integrity="sha256-B6X0/2ebeRnHMB8ov3BVlloqdoea23Ns2JOplScCiM4=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
+      inlineMath: [['\\(', '\\)'], ['$', '$']]                  
+    }
+  };
+</script>
+<link rel="stylesheet" href="/logical-clocks.css">
+
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>Sistemas Distribuidos</span>
+  </a>
+</h2>
+
+
+<div class="book-search hidden">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+<script>document.querySelector(".book-search").classList.remove("hidden")</script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/01-introduccion/" class="">Introducción</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/02-arquitectura/" class="">Arquitecturas</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/03-procesos/" class="">Procesos</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/04-01-protocolos/" class="">Protocolos de comunicación</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/04-02-rpc/" class="">RPC</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/04-comunicacion-mom/" class="">MoM</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/04-comunicacion-multicast/" class="">Multicast</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/05-01-relojes/" class="">Relojes</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/05-02-mutex/" class="">Mutex</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/05-03-eleccion/" class="">Algoritmos de elección</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/05-04-agregacion/" class="">Coordinación mediante rumores</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/06-nombres-intro/" class="">Nombres, identificadores y direcciones</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/06-nombres-planos/" class="">Nombres planos</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/06-nombres-planos-chord/" class="">Chord</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/07-replicacion/07-01-introduccion/" class="">Consistencia</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/07-replicacion/07-02-data-centric/" class="active">Consistencia centrada en datos</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/07-replicacion/07-02-replicacion/" class="">Consistencia centrada en el cliente</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Consistencia centrada en datos</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#generalidades">Generalidades</a></li>
+    <li><a href="#orden-consistente-de-las-operaciones">Orden consistente de las operaciones</a>
+      <ul>
+        <li><a href="#consistencia-secuencial">Consistencia secuencial</a></li>
+        <li><a href="#consistencia-causal">Consistencia causal</a></li>
+        <li><a href="#agrupamiento-de-operaciones">Agrupamiento de operaciones</a></li>
+      </ul>
+    </li>
+    <li><a href="#consistencia-eventual">Consistencia eventual</a></li>
+    <li><a href="#consistencia-continua">Consistencia continua</a>
+      <ul>
+        <li><a href="#conit">Conit</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown book-article"><h1 id="modelos-de-consistencia-centrado-en-datos">
+  Modelos de consistencia centrado en datos
+  <a class="anchor" href="#modelos-de-consistencia-centrado-en-datos">#</a>
+</h1>
+<h2 id="generalidades">
+  Generalidades
+  <a class="anchor" href="#generalidades">#</a>
+</h2>
+<p>Suponer un <em>data store</em> replicado en varias máquinas (nodos).</p>
+<p>Un <strong>modelo de consistencia</strong> es un <strong>contrato</strong> entre los clientes y el <strong>data store</strong></p>
+<ul>
+<li>Si se respeta el contrato, todos contentos</li>
+</ul>
+<p>Por ejemplo, normalmente un cliente espera que una lectura refleje la última escritura.</p>
+<p>¿Pero qué es la <strong>última escritura</strong> en un sistema distribuido?</p>
+<ul>
+<li>¡No tenemos un reloj global!</li>
+</ul>
+<p>Diferentes modelos de consistencia dan una respuesta distinta:</p>
+<ul>
+<li>
+<p>En un extremo, los modelos &ldquo;relajados&rdquo;:</p>
+<ul>
+<li>Mejor desempeño</li>
+<li>Más complicados de implementar / entender.</li>
+</ul>
+</li>
+<li>
+<p>En el otro, los modelos &ldquo;estrictos&rdquo;:</p>
+<ul>
+<li>Menor desempeño.</li>
+<li>Más fáciles de entender / utilizar.</li>
+</ul>
+</li>
+</ul>
+<p><strong>No existe el modelo de consistencia ideal</strong></p>
+<h2 id="orden-consistente-de-las-operaciones">
+  Orden consistente de las operaciones
+  <a class="anchor" href="#orden-consistente-de-las-operaciones">#</a>
+</h2>
+<h3 id="consistencia-secuencial">
+  Consistencia secuencial
+  <a class="anchor" href="#consistencia-secuencial">#</a>
+</h3>
+<p><strong>Cualquier</strong> orden de operaciones de lectura / escritura es válido.</p>
+<p><strong>Todos</strong> los nodos deben ver el mismo orden de operaciones.</p>
+<p>Debe respetar el orden de operaciones en <strong>cada programa</strong>.</p>
+<p>Por lo tanto, los clientes deben <strong>aceptar</strong> cualquier orden (válido) de lectura.</p>
+<p>Ejemplo: <a href="https://zookeeper.apache.org/doc/current/zookeeperOver.html#Guarantees">Zookeeper</a></p>
+<p>Mas info: <a href="https://jepsen.io/consistency/models/sequential">Jepsen</a></p>
+<h3 id="consistencia-causal">
+  Consistencia causal
+  <a class="anchor" href="#consistencia-causal">#</a>
+</h3>
+<p>Tiene en cuenta las operaciones que pueden estar <strong>causalmente</strong> relacionadas.</p>
+<p>Entonces, si $a \rightarrow b$ todos los procesos deben ver primero $a$ y luego $b$.</p>
+<p>Las operaciones <strong>concurrentes</strong> pueden aparecer en <strong>cualquier orden</strong>.</p>
+<p>Requiere mantener información de qué proceso vio cuál actualización.</p>
+<p>Ejemplo: <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadConsistency.html">DynamoDB</a></p>
+<p>Mas info: <a href="https://jepsen.io/consistency/models/causal">Jepsen</a></p>
+<h3 id="agrupamiento-de-operaciones">
+  Agrupamiento de operaciones
+  <a class="anchor" href="#agrupamiento-de-operaciones">#</a>
+</h3>
+<p>Uso de secciones críticas (ingreso y salida).</p>
+<p>Al ejecutar un ingreso, el proceso sabe que todos los datos de su data store estan actualizados.</p>
+<p>El uso de estos <em>locks</em> debe respetar la <em>consistencia secuencial</em></p>
+<h2 id="consistencia-eventual">
+  Consistencia eventual
+  <a class="anchor" href="#consistencia-eventual">#</a>
+</h2>
+<p>Se basa en la siguiente observación:</p>
+<ul>
+<li>La mayoría de los procesos realizan <strong>lecturas</strong></li>
+<li>Sólo unos pocos nodos realizan <strong>escrituras</strong></li>
+</ul>
+<p>¿Que tán rápido deberían propagarse estos cambios?</p>
+<p>Si lo clientes se conectan siempre a la misma replica&hellip; en general no verían inconsistencias.</p>
+<ul>
+<li>Podemos propagar los cambios de manera &ldquo;lenta&rdquo; (ideal para WANs)</li>
+</ul>
+<p>Un ejemplo son las páginas web.</p>
+<p>Dado un lapso de tiempo <strong>eventualmente</strong> todas las replicas tendrán el mismo valor.</p>
+<ul>
+<li>
+<p>Suponiendo que no existen conflictos <em>write / write</em></p>
+</li>
+<li>
+<p>Requiere que se garantice que las actualizaciones serán enviadas a <em>todas</em> las replicas.</p>
+</li>
+</ul>
+<p>Bueno, suponer que no hay conflictos es algo ideal:</p>
+<p>Problemas <em>write/write</em>:</p>
+<ul>
+<li>Son pocos los nodos que escriben, se pueden solucionar fácilmente
+<ul>
+<li>Por ejemplo una de las operaciones <em>write</em> sobreescribe al resto.</li>
+</ul>
+</li>
+<li>Uso de <a href="https://crdt.tech/">CRDT</a> (conflict-free data types)
+<ul>
+<li>Permiten actualización sin necesidad de coordinación</li>
+<li>Consistencia eventual fuerte: aún cuando haya conflictos, las replicas donde se aplicaron tendrán el mismo estado.</li>
+</ul>
+</li>
+<li>Si todo falla, utilizar algun mecanismo de exclusión mutua.</li>
+</ul>
+<p>Ejemplos:</p>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/azure/cosmos-db/consistency-levels#eventual-consistency">CosmosDB</a></li>
+<li><a href="https://cassandra.apache.org/doc/latest/cassandra/architecture/guarantees.html#eventual-consistency">Cassandra</a></li>
+</ul>
+<h2 id="consistencia-continua">
+  Consistencia continua
+  <a class="anchor" href="#consistencia-continua">#</a>
+</h2>
+<p>Muchas aplicaciones pueden tolerar falta de consistencia.</p>
+<p>Pero requieren también definir algun tope o cota a dicha inconsistencia.</p>
+<p>En general, especifican una desviación tolerable como un rango sobre un atributo:</p>
+<ul>
+<li>Desviación numérica
+<ul>
+<li>Absoluta</li>
+<li>Relativa</li>
+</ul>
+</li>
+<li>Antigüedad</li>
+<li>Orden de los eventos</li>
+<li>Número de actualizaciones</li>
+</ul>
+<h3 id="conit">
+  Conit
+  <a class="anchor" href="#conit">#</a>
+</h3>
+<p>Unidad de consistencia (<em>consistency unit</em>)</p>
+<p>Especifica la <em>unidad</em> sobre la cual la consistencia va a ser medida.</p>
+<ul>
+<li>Ejemplo, una acción en un mercado de valores.</li>
+</ul>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#generalidades">Generalidades</a></li>
+    <li><a href="#orden-consistente-de-las-operaciones">Orden consistente de las operaciones</a>
+      <ul>
+        <li><a href="#consistencia-secuencial">Consistencia secuencial</a></li>
+        <li><a href="#consistencia-causal">Consistencia causal</a></li>
+        <li><a href="#agrupamiento-de-operaciones">Agrupamiento de operaciones</a></li>
+      </ul>
+    </li>
+    <li><a href="#consistencia-eventual">Consistencia eventual</a></li>
+    <li><a href="#consistencia-continua">Consistencia continua</a>
+      <ul>
+        <li><a href="#conit">Conit</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
