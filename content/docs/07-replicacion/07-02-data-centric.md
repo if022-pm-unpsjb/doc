@@ -53,7 +53,6 @@ Ejemplos:
     - Zookeeper logra la consistencia secuencial mediante su protocolo [ZAB](https://zookeeper.apache.org/doc/r3.3.6/zookeeperInternals.html)
 
 Mas info: 
-
 - [Jepsen](https://jepsen.io/consistency/models/sequential)
 
 ### Consistencia causal
@@ -141,4 +140,14 @@ Unidad de consistencia (_consistency unit_)
 Especifica la _unidad_ sobre la cual la consistencia va a ser medida.
 
 - Ejemplo, una acción en un mercado de valores.
+
+## Material de lectura
+
+### Libro Distributed Systems 4th
+
+Leer las siguientes secciones:
+
+- 7.2.1: consistencia secuencial y causal, agrupamiento de operaciones. No es necesario leer las notas 7.1 y 7.2 (aunque son interesantes).
+- 7.2.2: consistencia eventual (no es necesario leer la nota 7.3)
+- 7.2.3: consistencia continua (no es necesario leer las notas 7.4 y 7.5)
 

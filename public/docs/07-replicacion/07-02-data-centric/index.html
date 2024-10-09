@@ -43,7 +43,7 @@ Si se respeta el contrato, todos contentos Por ejemplo, normalmente un cliente e
 <link rel="canonical" href="http://localhost:1313/docs/07-replicacion/07-02-data-centric/">
 <link rel="stylesheet" href="/book.min.4964903a822a7acb10dac6d1ab524833c97fb5f99b141976bcb8a47d539be9c0.css" integrity="sha256-SWSQOoIqessQ2sbRq1JIM8l/tfmbFBl2vLikfVOb6cA=" crossorigin="anonymous">
   <script defer src="/fuse.min.js"></script>
-  <script defer src="/en.search.min.07a5f4ff679b7919c7301f28bf7055965a2a76879adb736cd893a995270288ce.js" integrity="sha256-B6X0/2ebeRnHMB8ov3BVlloqdoea23Ns2JOplScCiM4=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.2228f02ab18ed9f00d7b8c08e39cd3db8f06a53da2dbc863f856848680af449e.js" integrity="sha256-IijwKrGO2fANe4wI45zT248GpT2i28hj&#43;FaEhoCvRJ4=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -386,6 +386,11 @@ https://github.com/alex-shpak/hugo-book
         <li><a href="#conit">Conit</a></li>
       </ul>
     </li>
+    <li><a href="#material-de-lectura">Material de lectura</a>
+      <ul>
+        <li><a href="#libro-distributed-systems-4th">Libro Distributed Systems 4th</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
 
@@ -446,8 +451,18 @@ https://github.com/alex-shpak/hugo-book
 <p><strong>Todos</strong> los nodos deben ver el mismo orden de operaciones.</p>
 <p>Debe respetar el orden de operaciones en <strong>cada programa</strong>.</p>
 <p>Por lo tanto, los clientes deben <strong>aceptar</strong> cualquier orden (válido) de lectura.</p>
-<p>Ejemplo: <a href="https://zookeeper.apache.org/doc/current/zookeeperOver.html#Guarantees">Zookeeper</a></p>
-<p>Mas info: <a href="https://jepsen.io/consistency/models/sequential">Jepsen</a></p>
+<p>Ejemplos:</p>
+<ul>
+<li><a href="https://zookeeper.apache.org/doc/current/zookeeperOver.html#Guarantees">Zookeeper</a>
+<ul>
+<li>Zookeeper logra la consistencia secuencial mediante su protocolo <a href="https://zookeeper.apache.org/doc/r3.3.6/zookeeperInternals.html">ZAB</a></li>
+</ul>
+</li>
+</ul>
+<p>Mas info:</p>
+<ul>
+<li><a href="https://jepsen.io/consistency/models/sequential">Jepsen</a></li>
+</ul>
 <h3 id="consistencia-causal">
   Consistencia causal
   <a class="anchor" href="#consistencia-causal">#</a>
@@ -456,14 +471,20 @@ https://github.com/alex-shpak/hugo-book
 <p>Entonces, si $a \rightarrow b$ todos los procesos deben ver primero $a$ y luego $b$.</p>
 <p>Las operaciones <strong>concurrentes</strong> pueden aparecer en <strong>cualquier orden</strong>.</p>
 <p>Requiere mantener información de qué proceso vio cuál actualización.</p>
-<p>Ejemplo: <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadConsistency.html">DynamoDB</a></p>
-<p>Mas info: <a href="https://jepsen.io/consistency/models/causal">Jepsen</a></p>
+<p>Ejemplo:</p>
+<ul>
+<li><a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadConsistency.html">DynamoDB</a></li>
+</ul>
+<p>Mas info:</p>
+<ul>
+<li><a href="https://jepsen.io/consistency/models/causal">Jepsen</a></li>
+</ul>
 <h3 id="agrupamiento-de-operaciones">
   Agrupamiento de operaciones
   <a class="anchor" href="#agrupamiento-de-operaciones">#</a>
 </h3>
 <p>Uso de secciones críticas (ingreso y salida).</p>
-<p>Al ejecutar un ingreso, el proceso sabe que todos los datos de su data store estan actualizados.</p>
+<p>Al ejecutar un ingreso, el proceso sabe que todos los datos de su <em>data store</em> estan actualizados.</p>
 <p>El uso de estos <em>locks</em> debe respetar la <em>consistencia secuencial</em></p>
 <h2 id="consistencia-eventual">
   Consistencia eventual
@@ -537,6 +558,20 @@ https://github.com/alex-shpak/hugo-book
 <ul>
 <li>Ejemplo, una acción en un mercado de valores.</li>
 </ul>
+<h2 id="material-de-lectura">
+  Material de lectura
+  <a class="anchor" href="#material-de-lectura">#</a>
+</h2>
+<h3 id="libro-distributed-systems-4th">
+  Libro Distributed Systems 4th
+  <a class="anchor" href="#libro-distributed-systems-4th">#</a>
+</h3>
+<p>Leer las siguientes secciones:</p>
+<ul>
+<li>7.2.1: consistencia secuencial y causal, agrupamiento de operaciones. No es necesario leer las notas 7.1 y 7.2 (aunque son interesantes).</li>
+<li>7.2.2: consistencia eventual (no es necesario leer la nota 7.3)</li>
+<li>7.2.3: consistencia continua (no es necesario leer las notas 7.4 y 7.5)</li>
+</ul>
 </article>
  
       
@@ -590,6 +625,11 @@ https://github.com/alex-shpak/hugo-book
     <li><a href="#consistencia-continua">Consistencia continua</a>
       <ul>
         <li><a href="#conit">Conit</a></li>
+      </ul>
+    </li>
+    <li><a href="#material-de-lectura">Material de lectura</a>
+      <ul>
+        <li><a href="#libro-distributed-systems-4th">Libro Distributed Systems 4th</a></li>
       </ul>
     </li>
   </ul>

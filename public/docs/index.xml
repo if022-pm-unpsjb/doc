@@ -111,21 +111,21 @@
       <link>http://localhost:1313/docs/07-replicacion/07-01-introduccion/</link>
       <pubDate>Wed, 18 Sep 2024 23:04:03 -0300</pubDate>
       <guid>http://localhost:1313/docs/07-replicacion/07-01-introduccion/</guid>
-      <description>&lt;h1 id=&#34;introducción&#34;&gt;&#xA;  Introducción&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#introducci%c3%b3n&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;h2 id=&#34;razones-para-replicar&#34;&gt;&#xA;  Razones para replicar&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#razones-para-replicar&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;&#xA;&lt;p&gt;Existen &lt;strong&gt;dos&lt;/strong&gt; razones para replicar:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Incrementar la &lt;strong&gt;confiabilidad&lt;/strong&gt; del sistema&lt;/li&gt;&#xA;&lt;li&gt;Mejorar la &lt;strong&gt;perfomance&lt;/strong&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Tamaño: incrementar el número de peticiones que se atienden&lt;/li&gt;&#xA;&lt;li&gt;Área geográfica: reducción de lantecias (acercar copias a los clientes)&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;Todo muy bonito ¿Quién podría estar en contra de replicar?&lt;/p&gt;&#xA;&lt;p&gt;La cruda realidad: hay un &lt;strong&gt;precio que pagar&lt;/strong&gt;, ya que replicar genera &lt;strong&gt;problemas de consistencia&lt;/strong&gt;.&lt;/p&gt;&#xA;&lt;p&gt;Cada vez que una replica se modifica, se tienen que actualizar el resto de las copias.&lt;/p&gt;</description>
+      <description>&lt;h1 id=&#34;introducción&#34;&gt;&#xA;  Introducción&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#introducci%c3%b3n&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;h2 id=&#34;razones-para-replicar&#34;&gt;&#xA;  Razones para replicar&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#razones-para-replicar&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;&#xA;&lt;p&gt;Existen &lt;strong&gt;dos&lt;/strong&gt; razones para replicar:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Incrementar la &lt;strong&gt;confiabilidad&lt;/strong&gt; del sistema&lt;/li&gt;&#xA;&lt;li&gt;Mejorar la &lt;strong&gt;perfomance&lt;/strong&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Tamaño: incrementar el número de peticiones que se atienden&lt;/li&gt;&#xA;&lt;li&gt;Área geográfica: reducción de lantecias (acercar copias a los clientes)&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;Todo muy bonito ¿Quién podría estar en contra de replicar?&lt;/p&gt;&#xA;&lt;p&gt;La cruda realidad: hay un &lt;strong&gt;precio que pagar&lt;/strong&gt;, ya que replicar genera &lt;strong&gt;problemas de consistencia&lt;/strong&gt;.&lt;/p&gt;&#xA;&lt;p&gt;Cada vez que se modifica una replica, se tienen que actualizar el resto de las copias.&lt;/p&gt;</description>
     </item>
     <item>
-      <title>Consistencia</title>
+      <title>Consistencia centrada en datos</title>
       <link>http://localhost:1313/docs/07-replicacion/07-02-data-centric/</link>
       <pubDate>Wed, 18 Sep 2024 23:04:03 -0300</pubDate>
       <guid>http://localhost:1313/docs/07-replicacion/07-02-data-centric/</guid>
-      <description>&lt;h1 id=&#34;hello&#34;&gt;&#xA;  hello&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#hello&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h1&gt;</description>
+      <description>&lt;h1 id=&#34;modelos-de-consistencia-centrado-en-datos&#34;&gt;&#xA;  Modelos de consistencia centrado en datos&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#modelos-de-consistencia-centrado-en-datos&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;h2 id=&#34;generalidades&#34;&gt;&#xA;  Generalidades&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#generalidades&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;&#xA;&lt;p&gt;Suponer un &lt;em&gt;data store&lt;/em&gt; replicado en varias máquinas (nodos).&lt;/p&gt;&#xA;&lt;p&gt;Un &lt;strong&gt;modelo de consistencia&lt;/strong&gt; es un &lt;strong&gt;contrato&lt;/strong&gt; entre los clientes y el &lt;strong&gt;data store&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Si se respeta el contrato, todos contentos&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;Por ejemplo, normalmente un cliente espera que una lectura refleje la última escritura.&lt;/p&gt;&#xA;&lt;p&gt;¿Pero qué es la &lt;strong&gt;última escritura&lt;/strong&gt; en un sistema distribuido?&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;¡No tenemos un reloj global!&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;Diferentes modelos de consistencia dan una respuesta distinta:&lt;/p&gt;</description>
     </item>
     <item>
-      <title>Consistencia</title>
+      <title>Consistencia centrada en el cliente</title>
       <link>http://localhost:1313/docs/07-replicacion/07-02-replicacion/</link>
       <pubDate>Wed, 18 Sep 2024 23:04:03 -0300</pubDate>
       <guid>http://localhost:1313/docs/07-replicacion/07-02-replicacion/</guid>
-      <description>&lt;h1 id=&#34;hello&#34;&gt;&#xA;  hello&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#hello&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h1&gt;</description>
+      <description>&lt;h1 id=&#34;modelos-de-consistencia-centrados-en-el-cliente&#34;&gt;&#xA;  Modelos de consistencia centrados en el cliente&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#modelos-de-consistencia-centrados-en-el-cliente&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h1&gt;</description>
     </item>
   </channel>
 </rss>
