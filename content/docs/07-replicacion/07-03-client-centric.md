@@ -1,7 +1,7 @@
 +++
 title = 'Consistencia centrada en el cliente'
 date = 2024-10-14T23:05:03-03:00
-draft = true
+draft = false
 weight = 730 
 type = 'docs'
 +++

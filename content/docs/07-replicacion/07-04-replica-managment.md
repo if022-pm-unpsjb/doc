@@ -1,7 +1,7 @@
 +++
 title = 'Administración de réplicas'
 date = 2024-10-15T01:30:03-03:00
-draft = true
+draft = false
 weight = 740 
 type = 'docs'
 +++
