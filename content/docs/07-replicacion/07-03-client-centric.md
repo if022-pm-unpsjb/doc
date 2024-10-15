@@ -15,7 +15,7 @@ Considerar un data store distribuido donde:
 - modelos de consistencia débil, por ejemplo eventual
 
 Un data store así funciona bien mientras un cliente se conecte siempre a la misma replica.
-- Se conoce como *sticky-availability* (¿disponibilidad pegajosa?)
+- Denominado [*sticky-availability*](https://jepsen.io/consistency) (¿disponibilidad pegajosa?)
 
 - Los problemas aparecen si se conectan otra replica en un lapso corto de tiempo
     - Mas precisamente, en un lapso menor que el tiempo de propagación de las actualizaciones.

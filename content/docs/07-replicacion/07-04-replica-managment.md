@@ -56,14 +56,17 @@ Se pueden diferencias replicas:
 - Conjunto inicial de servidores
 - Número relativamente pequeño, posiblemente estático
 - En general, útiles como _backups_
+- Ejemplo: _mirroring_
 ### Iniciadas por el servidor
 - Objetivo: mejorar la perfomance.
 - Generalmente con contenido _sólo-lectura_
+- Ejemplo: _CDN_
 ### Iniciadas por el usuario
 - Más conocidas como _caches_
 - Administradas por el cliente
-- Estas replicas pueden ser compartidas por varios clientes.
+- Pueden ser compartidas por varios clientes.
 - Mejoran el tiempo de acceso
+- Ejemplo: _caches_ de navegadores web.
 
 ## Propagación
 
@@ -86,6 +89,8 @@ Conveniente cuando existen más operaciones de actualización que de lectura.
 - Relación *Read-to-write* pequeña.
 
 ### Datos
+
+A.K.A *replicación pasiva*
 
 Se transfieren los datos modificados a las replicas.
 
