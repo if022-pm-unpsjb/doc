@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="es-ar" dir="ltr">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="
+  Administración de réplicas
+  #
+
+¿Dónde ubicar las réplicas? Dos aspectos:
+
+Distribución física de los servidores.
+Distribución del contenido en dichos servidores.
+
+¿Qué mecanismos utilizar para mantener las replicas (eventualmente) consistentes?
+
+  Ubicación física
+  #
+
+Hoy quiza no tan relevante dada la computación en la nube.
+Se resume en un problema de optimización.
+
+Y por lo tanto, computacionalmente costoso: se aplican heurísticas
+
+Criterios:
+
+Red (técnicos)
+Económicos (costos)
+
+Tipos de modelos:">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/docs/07-replicacion/07-04-replica-managment/">
+  <meta property="og:site_name" content="Sistemas Distribuidos">
+  <meta property="og:title" content="Administración de réplicas">
+  <meta property="og:description" content=" Administración de réplicas # ¿Dónde ubicar las réplicas? Dos aspectos:
+Distribución física de los servidores. Distribución del contenido en dichos servidores. ¿Qué mecanismos utilizar para mantener las replicas (eventualmente) consistentes?
+Ubicación física # Hoy quiza no tan relevante dada la computación en la nube.
+Se resume en un problema de optimización.
+Y por lo tanto, computacionalmente costoso: se aplican heurísticas Criterios:
+Red (técnicos) Económicos (costos) Tipos de modelos:">
+  <meta property="og:locale" content="es_ar">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="docs">
+    <meta property="article:published_time" content="2024-10-15T01:30:03-03:00">
+    <meta property="article:modified_time" content="2024-10-15T01:30:03-03:00">
+<title>Administración de réplicas | Sistemas Distribuidos</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" >
+<link rel="canonical" href="http://localhost:1313/docs/07-replicacion/07-04-replica-managment/">
+<link rel="stylesheet" href="/book.min.4964903a822a7acb10dac6d1ab524833c97fb5f99b141976bcb8a47d539be9c0.css" integrity="sha256-SWSQOoIqessQ2sbRq1JIM8l/tfmbFBl2vLikfVOb6cA=" crossorigin="anonymous">
+  <script defer src="/fuse.min.js"></script>
+  <script defer src="/en.search.min.8747360f7f8b3249971bb18dde2b56316fe19dcc733ac7cc7b3098137e4c00c0.js" integrity="sha256-h0c2D3&#43;LMkmXG7GN3itWMW/hncxzOsfMezCYE35MAMA=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
+      inlineMath: [['\\(', '\\)'], ['$', '$']]                  
+    }
+  };
+</script>
+<link rel="stylesheet" href="/logical-clocks.css">
+
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>Sistemas Distribuidos</span>
+  </a>
+</h2>
+
+
+<div class="book-search hidden">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+<script>document.querySelector(".book-search").classList.remove("hidden")</script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/01-introduccion/" class="">Introducción</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/02-arquitectura/" class="">Arquitecturas</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/03-procesos/" class="">Procesos</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/04-01-protocolos/" class="">Protocolos de comunicación</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/04-02-rpc/" class="">RPC</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/04-comunicacion-mom/" class="">MoM</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/04-comunicacion-multicast/" class="">Multicast</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/05-01-relojes/" class="">Relojes</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/05-02-mutex/" class="">Mutex</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/05-03-eleccion/" class="">Algoritmos de elección</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/05-04-agregacion/" class="">Coordinación mediante rumores</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/06-nombres-intro/" class="">Nombres, identificadores y direcciones</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/06-nombres-planos/" class="">Nombres planos</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/06-nombres-planos-chord/" class="">Chord</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/07-replicacion/07-01-introduccion/" class="">Consistencia</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/07-replicacion/07-02-data-centric/" class="">Consistencia centrada en datos</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/07-replicacion/07-03-client-centric/" class="">Consistencia centrada en el cliente</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/07-replicacion/07-02-replicacion/" class="">Consistencia centrada en el cliente</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/07-replicacion/07-04-replica-managment/" class="active">Administración de réplicas</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Administración de réplicas</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#ubicación-física">Ubicación física</a></li>
+    <li><a href="#ubicación-del-contenido">Ubicación del contenido</a>
+      <ul>
+        <li><a href="#notificaciones">Notificaciones</a></li>
+        <li><a href="#datos">Datos</a></li>
+        <li><a href="#operaciones">Operaciones</a></li>
+      </ul>
+    </li>
+    <li><a href="#pull-vs-push">Pull vs Push</a>
+      <ul>
+        <li><a href="#push">Push</a></li>
+        <li><a href="#pull">Pull</a></li>
+        <li><a href="#lease">Lease</a></li>
+        <li><a href="#comparativa">Comparativa</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown book-article"><h1 id="administración-de-réplicas">
+  Administración de réplicas
+  <a class="anchor" href="#administraci%c3%b3n-de-r%c3%a9plicas">#</a>
+</h1>
+<p>¿Dónde ubicar las réplicas? Dos aspectos:</p>
+<ul>
+<li>Distribución física de los servidores.</li>
+<li>Distribución del contenido en dichos servidores.</li>
+</ul>
+<p>¿Qué mecanismos utilizar para mantener las replicas (eventualmente) consistentes?</p>
+<h2 id="ubicación-física">
+  Ubicación física
+  <a class="anchor" href="#ubicaci%c3%b3n-f%c3%adsica">#</a>
+</h2>
+<p>Hoy quiza no tan relevante dada la computación en la nube.</p>
+<p>Se resume en un problema de optimización.</p>
+<ul>
+<li>Y por lo tanto, computacionalmente costoso: se aplican heurísticas</li>
+</ul>
+<p>Criterios:</p>
+<ul>
+<li>Red (técnicos)</li>
+<li>Económicos (costos)</li>
+</ul>
+<p>Tipos de modelos:</p>
+<ul>
+<li>QoS: optimización / cota</li>
+<li>Consistencia:
+<ul>
+<li>Actualizaciones periódicas, aperiódicas, por expiración, caches.</li>
+</ul>
+</li>
+<li>Energía</li>
+<li>Otros</li>
+</ul>
+<h2 id="ubicación-del-contenido">
+  Ubicación del contenido
+  <a class="anchor" href="#ubicaci%c3%b3n-del-contenido">#</a>
+</h2>
+<p>¿En qué replicas ubicar un cierto contenido?</p>
+<p>Se pueden diferencias replicas:</p>
+<ul>
+<li>Permanentes</li>
+<li>Iniciadas por el servidor</li>
+<li>Iniciadas por el usuario</li>
+</ul>
+<p>¿Qué propagar?</p>
+<ul>
+<li>Notificaciones</li>
+<li>Datos</li>
+<li>Operaciones</li>
+</ul>
+<h3 id="notificaciones">
+  Notificaciones
+  <a class="anchor" href="#notificaciones">#</a>
+</h3>
+<p>A.K.A <em>protocolos de invalidación</em></p>
+<p>Las replicas son <em>notificadas</em> que los datos ya no son actuales.</p>
+<p>Las replicas luego deben iniciar un mecanismo de actualización.</p>
+<p>Requiere poco ancho de banda.</p>
+<p>Conveniente cuando existen más operaciones de actualización que de lectura.</p>
+<ul>
+<li>Relación <em>Read-to-write</em> pequeña.</li>
+</ul>
+<h3 id="datos">
+  Datos
+  <a class="anchor" href="#datos">#</a>
+</h3>
+<p>Se transfieren los datos modificados a las replicas.</p>
+<p>Puede transferirse todo o sólo las modificaciones (ejemplo, un <em>diff</em>).</p>
+<p>Una misma comunicación puede incluir múltiples actualizaciones.</p>
+<p>Conveniente cuando el número de lecturas es mayor que las actualizaciones.</p>
+<ul>
+<li>Relación <em>Read-to-Write</em> alta.</li>
+</ul>
+<h3 id="operaciones">
+  Operaciones
+  <a class="anchor" href="#operaciones">#</a>
+</h3>
+<p>A.K.A <em>replicación activa</em></p>
+<p>Consiste en <em>propagar la operación de actualización</em>, posiblemente con parámetros.</p>
+<p>Reduce el ancho de banda requerido.</p>
+<p>Sin embargo, puede incrementar el costo computacional en las réplicas.</p>
+<h2 id="pull-vs-push">
+  Pull vs Push
+  <a class="anchor" href="#pull-vs-push">#</a>
+</h2>
+<p>Dilema: ¿envío o recibo?</p>
+<h3 id="push">
+  Push
+  <a class="anchor" href="#push">#</a>
+</h3>
+<p>A.K.A <em>protocolos basados en el servidor</em></p>
+<p>Las actualizaciones son propagadas sin necesidad de que sean solicitadas.</p>
+<p>Utilizado generalmente con las replicas iniciadas por el servidor.</p>
+<p>Ùtil cuando se requiere un modelo de consistencia fuerte.</p>
+<ul>
+<li>Ratio <em>Read-to-Update</em> alto.</li>
+</ul>
+<h3 id="pull">
+  Pull
+  <a class="anchor" href="#pull">#</a>
+</h3>
+<p>A.K.A <em>protocolos basados en el cliente</em></p>
+<p>El cliente solicita el envío de las actualizaciones.</p>
+<p>Muy utilizado para el manejo de las <em>caches</em>.</p>
+<p>Eficiente cuando el ratio <em>Read-To-Update</em> es bajo.</p>
+<h3 id="lease">
+  Lease
+  <a class="anchor" href="#lease">#</a>
+</h3>
+<p>Es un enfoque híbrido.</p>
+<p>Se obtiene una &ldquo;promesa&rdquo; del servidor que enviará una actualización.</p>
+<p>Basados en:</p>
+<ul>
+<li>Antigüedad</li>
+<li>Frecuencia de actualización</li>
+<li>Estado del servidor</li>
+</ul>
+<h3 id="comparativa">
+  Comparativa
+  <a class="anchor" href="#comparativa">#</a>
+</h3>
+<p>Según estado del servidor:</p>
+<ul>
+<li>Push requiere conocer las replicas y su estado.</li>
+<li>Pull no requiere información de las replicas.</li>
+</ul>
+<p>Mensajes:</p>
+<ul>
+<li>Push requiere enviar mensajes de actualización (y quiza fetchs)</li>
+<li>Pull requiere mensajes de polling y fetchs/update.</li>
+</ul>
+<p>Tiempo de respuesta:</p>
+<ul>
+<li>Inmediato (o lo que tarde el fetch-update)</li>
+<li>Lo que requiera el fetch-update.</li>
+</ul>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#ubicación-física">Ubicación física</a></li>
+    <li><a href="#ubicación-del-contenido">Ubicación del contenido</a>
+      <ul>
+        <li><a href="#notificaciones">Notificaciones</a></li>
+        <li><a href="#datos">Datos</a></li>
+        <li><a href="#operaciones">Operaciones</a></li>
+      </ul>
+    </li>
+    <li><a href="#pull-vs-push">Pull vs Push</a>
+      <ul>
+        <li><a href="#push">Push</a></li>
+        <li><a href="#pull">Pull</a></li>
+        <li><a href="#lease">Lease</a></li>
+        <li><a href="#comparativa">Comparativa</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
