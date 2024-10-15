@@ -89,7 +89,7 @@ Zookeeper:
 - no garantiza *lee tus escrituras* ni *escrituras siguen lecturas* 
 
 ![07-22.png](/07-22.png)
-png
+
 ### Cosmos DB
 
 En CosmosDB [la consistencia de sesión](https://learn.microsoft.com/en-us/azure/cosmos-db/consistency-levels#session-consistency), dentro de una *única sesión de cliente*, garantiza que las lecturas respetan *lee tus escrituras* y *escrituras siguen lecturas*. Esta garantía asume una única sesión de escritura o compartir el *token* de la sesión entre múltiples escritores.
