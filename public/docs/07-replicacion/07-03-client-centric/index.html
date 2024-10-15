@@ -15,13 +15,11 @@ modelos de consistencia débil, por ejemplo eventual
 
 Un data store así funciona bien mientras un cliente se conecte siempre a la misma replica.
 
-Los problemas aparecen si se conectan otra replica en un lapso corto de tiempo
 
-Mas precisamente, en un lapso menor que el tiempo de propagación de las actualizaciones.
-
+Se conoce como sticky-availability (¿disponibilidad pegajosa?)
 
 
-¿Cómo se pueden manejar las inconsistencias?">
+Los problemas aparecen si se conectan otra replica en un lapso corto de tiempo">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
 <meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/docs/07-replicacion/07-03-client-centric/">
@@ -29,7 +27,8 @@ Mas precisamente, en un lapso menor que el tiempo de propagación de las actuali
   <meta property="og:title" content="Consistencia centrada en el cliente">
   <meta property="og:description" content=" Modelos de consistencia centrados en el cliente # Considerar un data store distribuido donde:
 no existen actualizaciones simultaneas o bien pueden ser fácilmente resueltas. la mayoría de las operaciones son de lectura. modelos de consistencia débil, por ejemplo eventual Un data store así funciona bien mientras un cliente se conecte siempre a la misma replica.
-Los problemas aparecen si se conectan otra replica en un lapso corto de tiempo Mas precisamente, en un lapso menor que el tiempo de propagación de las actualizaciones. ¿Cómo se pueden manejar las inconsistencias?">
+Se conoce como sticky-availability (¿disponibilidad pegajosa?)
+Los problemas aparecen si se conectan otra replica en un lapso corto de tiempo">
   <meta property="og:locale" content="es_ar">
   <meta property="og:type" content="article">
     <meta property="article:section" content="docs">
@@ -41,7 +40,7 @@ Los problemas aparecen si se conectan otra replica en un lapso corto de tiempo M
 <link rel="canonical" href="http://localhost:1313/docs/07-replicacion/07-03-client-centric/">
 <link rel="stylesheet" href="/book.min.4964903a822a7acb10dac6d1ab524833c97fb5f99b141976bcb8a47d539be9c0.css" integrity="sha256-SWSQOoIqessQ2sbRq1JIM8l/tfmbFBl2vLikfVOb6cA=" crossorigin="anonymous">
   <script defer src="/fuse.min.js"></script>
-  <script defer src="/en.search.min.8747360f7f8b3249971bb18dde2b56316fe19dcc733ac7cc7b3098137e4c00c0.js" integrity="sha256-h0c2D3&#43;LMkmXG7GN3itWMW/hncxzOsfMezCYE35MAMA=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.32fc2d451cd06c9ada172d0e7064608f18ddfa0dc2e72f99d7db5352cdc2d81e.js" integrity="sha256-MvwtRRzQbJraFy0OcGRgjxjd&#43;g3C5y&#43;Z19tTUs3C2B4=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -325,19 +324,6 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="/docs/07-replicacion/07-02-replicacion/" class="">Consistencia centrada en el cliente</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
     <a href="/docs/07-replicacion/07-04-replica-managment/" class="">Administración de réplicas</a>
   
 
@@ -400,7 +386,18 @@ https://github.com/alex-shpak/hugo-book
     <li><a href="#escrituras-monotónicas">Escrituras monotónicas</a></li>
     <li><a href="#lee-tus-escrituras">Lee tus escrituras</a></li>
     <li><a href="#escrituras-siguen-lecturas">Escrituras siguen lecturas</a></li>
-    <li><a href="#ejemplo-real-consistencia-en-zookeeper">Ejemplo real: consistencia en Zookeeper</a></li>
+    <li><a href="#ejemplos">Ejemplos</a>
+      <ul>
+        <li><a href="#consistencia-en-zookeeper">Consistencia en Zookeeper</a></li>
+        <li><a href="#cosmos-db">Cosmos DB</a></li>
+      </ul>
+    </li>
+    <li><a href="#material-de-lectura">Material de lectura</a>
+      <ul>
+        <li><a href="#requerido">Requerido</a></li>
+        <li><a href="#adicional">Adicional</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
 
@@ -425,7 +422,11 @@ https://github.com/alex-shpak/hugo-book
 </ul>
 <p>Un data store así funciona bien mientras un cliente se conecte siempre a la misma replica.</p>
 <ul>
-<li>Los problemas aparecen si se conectan otra replica en un lapso corto de tiempo
+<li>
+<p>Se conoce como <em>sticky-availability</em> (¿disponibilidad pegajosa?)</p>
+</li>
+<li>
+<p>Los problemas aparecen si se conectan otra replica en un lapso corto de tiempo</p>
 <ul>
 <li>Mas precisamente, en un lapso menor que el tiempo de propagación de las actualizaciones.</li>
 </ul>
@@ -436,6 +437,10 @@ https://github.com/alex-shpak/hugo-book
 <ul>
 <li>Se denominan así por que ofrecen garantías <strong>para un único cliente</strong>.</li>
 </ul>
+<p>Son conocidas como <strong>consistencia de sesión</strong> (<em>session consistency</em>)</p>
+<ul>
+<li>Proveen garantías dentro de una sesión iniciada por el cliente, que agrupa operaciones de lectura/escritura.</li>
+</ul>
 <p>Existen principalmente cuatro modelos:</p>
 <ul>
 <li><a href="#lecturas-monot%c3%b3nicas">Lecturas monotónicas</a></li>
@@ -443,7 +448,7 @@ https://github.com/alex-shpak/hugo-book
 <li><a href="#lee-tus-escrituras">Lee tus escrituras</a></li>
 <li><a href="#escrituras-siguen-lecturas">Escrituras siguen lecturas</a></li>
 </ul>
-<p>En lo que sigue, la operación de lectura y/o escritura son realizadas por <strong>el mismo proceso</strong></p>
+<p>En las descripciones que siguen la operación de lectura y/o escritura son realizadas por <strong>el mismo proceso</strong></p>
 <h2 id="lecturas-monotónicas">
   Lecturas monotónicas
   <a class="anchor" href="#lecturas-monot%c3%b3nicas">#</a>
@@ -473,10 +478,14 @@ https://github.com/alex-shpak/hugo-book
 <p>Sencillamente, cualquier operación de escritura en <em>x</em> será realizada sobre una copia de <em>x</em> con el valor más recientemente leído por el proceso.</p>
 <p>Also: no se puede cambiar el pasado (la operación de escritura no modifacará un valor anterior a la última lectura).</p>
 <p>Ejemplo: no se leen respuestas a un correo electrónico sin tener el correo electrónico al que se responde.</p>
-<h2 id="ejemplo-real-consistencia-en-zookeeper">
-  Ejemplo real: consistencia en Zookeeper
-  <a class="anchor" href="#ejemplo-real-consistencia-en-zookeeper">#</a>
+<h2 id="ejemplos">
+  Ejemplos
+  <a class="anchor" href="#ejemplos">#</a>
 </h2>
+<h3 id="consistencia-en-zookeeper">
+  Consistencia en Zookeeper
+  <a class="anchor" href="#consistencia-en-zookeeper">#</a>
+</h3>
 <p>Zookeeper garantiza que las actualizaciones son <em>serializables</em> y conservan la <em>precedencia</em>.</p>
 <p>El estado es un ordenamiento lineal de <em>todas</em> las escrituras, respetando escrituras monotónicas.</p>
 <p>En dicho estado, cada cliente ve reflejada sus operaciones <strong>en el orden en que las envío</strong>.</p>
@@ -485,7 +494,46 @@ https://github.com/alex-shpak/hugo-book
 <li>respeta escrituras y lecturas monotónicas.</li>
 <li>no garantiza <em>lee tus escrituras</em> ni <em>escrituras siguen lecturas</em></li>
 </ul>
-<p><img src="/07-22.png" alt="07-22.png" /></p>
+<p><img src="/07-22.png" alt="07-22.png" />
+png</p>
+<h3 id="cosmos-db">
+  Cosmos DB
+  <a class="anchor" href="#cosmos-db">#</a>
+</h3>
+<p>En CosmosDB <a href="https://learn.microsoft.com/en-us/azure/cosmos-db/consistency-levels#session-consistency">la consistencia de sesión</a>, dentro de una <em>única sesión de cliente</em>, garantiza que las lecturas respetan <em>lee tus escrituras</em> y <em>escrituras siguen lecturas</em>. Esta garantía asume una única sesión de escritura o compartir el <em>token</em> de la sesión entre múltiples escritores.</p>
+<h2 id="material-de-lectura">
+  Material de lectura
+  <a class="anchor" href="#material-de-lectura">#</a>
+</h2>
+<h3 id="requerido">
+  Requerido
+  <a class="anchor" href="#requerido">#</a>
+</h3>
+<p>La sección 7.3 <em>Client-centric consistency models</em> del libro Distributed Systems 4th describe los modelos anteriores.</p>
+<h3 id="adicional">
+  Adicional
+  <a class="anchor" href="#adicional">#</a>
+</h3>
+<ul>
+<li>
+<p>Distintos modelos de consistencia explicados mediante <a href="https://www.youtube.com/watch?v=gluIh8zd26I">un juego de béisbol</a> (<a href="https://www.microsoft.com/en-us/research/publication/replicated-data-consistency-explained-through-baseball/">paper</a>)</p>
+</li>
+<li>
+<p>Descripciones de los anteriores modelos, con algo de información adicional:</p>
+<ul>
+<li><a href="https://jepsen.io/consistency/models/monotonic-reads">Lecturas monotónicas</a></li>
+<li><a href="https://jepsen.io/consistency/models/monotonic-writes">Escrituras monotónicas</a></li>
+<li><a href="https://jepsen.io/consistency/models/read-your-writes">Lee tus escrituras</a></li>
+<li><a href="https://jepsen.io/consistency/models/writes-follow-reads">Escrituras siguen lecturas</a></li>
+</ul>
+</li>
+<li>
+<p>Esta <a href="https://arpitbhayani.me/blogs/read-your-write-consistency/">entrada de blog</a> presenta un ejemplo de cuando no se garantiza la consistencia <em>lee tus escrituras</em> (un cliente lee datos incorrectos tras escribir) debido al retraso en la replicación. Incluye soluciones que se ven tratan en protocolos.</p>
+</li>
+<li>
+<p>En esta <a href="https://docs.oracle.com/cd/E17276_01/html/gsg_db_rep/C/rywc.html">entrada</a> se tiene otra explicación del modelo <em>lee tus escrituras</em> con algunos detalle de su implementación.</p>
+</li>
+</ul>
 </article>
  
       
@@ -531,7 +579,18 @@ https://github.com/alex-shpak/hugo-book
     <li><a href="#escrituras-monotónicas">Escrituras monotónicas</a></li>
     <li><a href="#lee-tus-escrituras">Lee tus escrituras</a></li>
     <li><a href="#escrituras-siguen-lecturas">Escrituras siguen lecturas</a></li>
-    <li><a href="#ejemplo-real-consistencia-en-zookeeper">Ejemplo real: consistencia en Zookeeper</a></li>
+    <li><a href="#ejemplos">Ejemplos</a>
+      <ul>
+        <li><a href="#consistencia-en-zookeeper">Consistencia en Zookeeper</a></li>
+        <li><a href="#cosmos-db">Cosmos DB</a></li>
+      </ul>
+    </li>
+    <li><a href="#material-de-lectura">Material de lectura</a>
+      <ul>
+        <li><a href="#requerido">Requerido</a></li>
+        <li><a href="#adicional">Adicional</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
 

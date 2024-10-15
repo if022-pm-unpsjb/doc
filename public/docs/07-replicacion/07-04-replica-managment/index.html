@@ -20,14 +20,10 @@ Distribución del contenido en dichos servidores.
 Hoy quiza no tan relevante dada la computación en la nube.
 Se resume en un problema de optimización.
 
+Seleccionar las mejores $K$ ubicaciones de $M$ posibles ($K &lt; M$)
 Y por lo tanto, computacionalmente costoso: se aplican heurísticas
 
-Criterios:
-
-Red (técnicos)
-Económicos (costos)
-
-Tipos de modelos:">
+Tipos de criterios para ubicar un servidor:">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
 <meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/docs/07-replicacion/07-04-replica-managment/">
@@ -37,8 +33,7 @@ Tipos de modelos:">
 Distribución física de los servidores. Distribución del contenido en dichos servidores. ¿Qué mecanismos utilizar para mantener las replicas (eventualmente) consistentes?
 Ubicación física # Hoy quiza no tan relevante dada la computación en la nube.
 Se resume en un problema de optimización.
-Y por lo tanto, computacionalmente costoso: se aplican heurísticas Criterios:
-Red (técnicos) Económicos (costos) Tipos de modelos:">
+Seleccionar las mejores $K$ ubicaciones de $M$ posibles ($K &lt; M$) Y por lo tanto, computacionalmente costoso: se aplican heurísticas Tipos de criterios para ubicar un servidor:">
   <meta property="og:locale" content="es_ar">
   <meta property="og:type" content="article">
     <meta property="article:section" content="docs">
@@ -50,7 +45,7 @@ Red (técnicos) Económicos (costos) Tipos de modelos:">
 <link rel="canonical" href="http://localhost:1313/docs/07-replicacion/07-04-replica-managment/">
 <link rel="stylesheet" href="/book.min.4964903a822a7acb10dac6d1ab524833c97fb5f99b141976bcb8a47d539be9c0.css" integrity="sha256-SWSQOoIqessQ2sbRq1JIM8l/tfmbFBl2vLikfVOb6cA=" crossorigin="anonymous">
   <script defer src="/fuse.min.js"></script>
-  <script defer src="/en.search.min.8747360f7f8b3249971bb18dde2b56316fe19dcc733ac7cc7b3098137e4c00c0.js" integrity="sha256-h0c2D3&#43;LMkmXG7GN3itWMW/hncxzOsfMezCYE35MAMA=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.32fc2d451cd06c9ada172d0e7064608f18ddfa0dc2e72f99d7db5352cdc2d81e.js" integrity="sha256-MvwtRRzQbJraFy0OcGRgjxjd&#43;g3C5y&#43;Z19tTUs3C2B4=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -334,19 +329,6 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="/docs/07-replicacion/07-02-replicacion/" class="">Consistencia centrada en el cliente</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
     <a href="/docs/07-replicacion/07-04-replica-managment/" class="active">Administración de réplicas</a>
   
 
@@ -408,6 +390,13 @@ https://github.com/alex-shpak/hugo-book
     <li><a href="#ubicación-física">Ubicación física</a></li>
     <li><a href="#ubicación-del-contenido">Ubicación del contenido</a>
       <ul>
+        <li><a href="#permanentes">Permanentes</a></li>
+        <li><a href="#iniciadas-por-el-servidor">Iniciadas por el servidor</a></li>
+        <li><a href="#iniciadas-por-el-usuario">Iniciadas por el usuario</a></li>
+      </ul>
+    </li>
+    <li><a href="#propagación">Propagación</a>
+      <ul>
         <li><a href="#notificaciones">Notificaciones</a></li>
         <li><a href="#datos">Datos</a></li>
         <li><a href="#operaciones">Operaciones</a></li>
@@ -450,23 +439,48 @@ https://github.com/alex-shpak/hugo-book
 <p>Hoy quiza no tan relevante dada la computación en la nube.</p>
 <p>Se resume en un problema de optimización.</p>
 <ul>
+<li>Seleccionar las mejores $K$ ubicaciones de $M$ posibles ($K &lt; M$)</li>
 <li>Y por lo tanto, computacionalmente costoso: se aplican heurísticas</li>
 </ul>
-<p>Criterios:</p>
+<p>Tipos de criterios para ubicar un servidor:</p>
 <ul>
-<li>Red (técnicos)</li>
-<li>Económicos (costos)</li>
-</ul>
-<p>Tipos de modelos:</p>
+<li>Red (técnicos):
 <ul>
-<li>QoS: optimización / cota</li>
-<li>Consistencia:
-<ul>
-<li>Actualizaciones periódicas, aperiódicas, por expiración, caches.</li>
+<li>Latencia, ancho de banda, hops, etc.</li>
 </ul>
 </li>
-<li>Energía</li>
-<li>Otros</li>
+<li>Económicos (costos)</li>
+</ul>
+<p>Modelos para decidir donde ubicar una réplica:</p>
+<ul>
+<li>QoS:
+<ul>
+<li>Optimizar uno o más parámetros de QoS</li>
+<li>Ofrecer alguna garantía, por ejemplo de ancho de banda</li>
+<li>Computacionalmente complejo, se aplican heurísticas</li>
+</ul>
+</li>
+<li>Consistencia:
+<ul>
+<li>Tiene en cuenta los costos de mantener actualizadas las replicas</li>
+<li>Subclases:
+<ul>
+<li>Actualizaciones periódicas / aperiódicas</li>
+<li>Expiración</li>
+<li>Caches</li>
+</ul>
+</li>
+<li>Basados en patrones de lectura/escritura</li>
+</ul>
+</li>
+<li>Energía
+<ul>
+<li>Ubicación en base al consumo / gasto de energía</li>
+<li>Por ejemplo, evitar servidores que esten ociosos</li>
+<li>También maximizar el trabajo realizado por unidad de energía</li>
+</ul>
+</li>
+<li>Otros (politicas, costos de CDNs, etc)</li>
 </ul>
 <h2 id="ubicación-del-contenido">
   Ubicación del contenido
@@ -474,11 +488,37 @@ https://github.com/alex-shpak/hugo-book
 </h2>
 <p>¿En qué replicas ubicar un cierto contenido?</p>
 <p>Se pueden diferencias replicas:</p>
+<h3 id="permanentes">
+  Permanentes
+  <a class="anchor" href="#permanentes">#</a>
+</h3>
 <ul>
-<li>Permanentes</li>
-<li>Iniciadas por el servidor</li>
-<li>Iniciadas por el usuario</li>
+<li>Conjunto inicial de servidores</li>
+<li>Número relativamente pequeño, posiblemente estático</li>
+<li>En general, útiles como <em>backups</em></li>
 </ul>
+<h3 id="iniciadas-por-el-servidor">
+  Iniciadas por el servidor
+  <a class="anchor" href="#iniciadas-por-el-servidor">#</a>
+</h3>
+<ul>
+<li>Objetivo: mejorar la perfomance.</li>
+<li>Generalmente con contenido <em>sólo-lectura</em></li>
+</ul>
+<h3 id="iniciadas-por-el-usuario">
+  Iniciadas por el usuario
+  <a class="anchor" href="#iniciadas-por-el-usuario">#</a>
+</h3>
+<ul>
+<li>Más conocidas como <em>caches</em></li>
+<li>Administradas por el cliente</li>
+<li>Estas replicas pueden ser compartidas por varios clientes.</li>
+<li>Mejoran el tiempo de acceso</li>
+</ul>
+<h2 id="propagación">
+  Propagación
+  <a class="anchor" href="#propagaci%c3%b3n">#</a>
+</h2>
 <p>¿Qué propagar?</p>
 <ul>
 <li>Notificaciones</li>
@@ -614,6 +654,13 @@ https://github.com/alex-shpak/hugo-book
   <ul>
     <li><a href="#ubicación-física">Ubicación física</a></li>
     <li><a href="#ubicación-del-contenido">Ubicación del contenido</a>
+      <ul>
+        <li><a href="#permanentes">Permanentes</a></li>
+        <li><a href="#iniciadas-por-el-servidor">Iniciadas por el servidor</a></li>
+        <li><a href="#iniciadas-por-el-usuario">Iniciadas por el usuario</a></li>
+      </ul>
+    </li>
+    <li><a href="#propagación">Propagación</a>
       <ul>
         <li><a href="#notificaciones">Notificaciones</a></li>
         <li><a href="#datos">Datos</a></li>

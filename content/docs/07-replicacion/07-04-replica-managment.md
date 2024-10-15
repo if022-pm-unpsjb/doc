@@ -20,28 +20,52 @@ type = 'docs'
 Hoy quiza no tan relevante dada la computación en la nube.
 
 Se resume en un problema de optimización.
-
+- Seleccionar las mejores $K$ ubicaciones de $M$ posibles ($K < M$)
 - Y por lo tanto, computacionalmente costoso: se aplican heurísticas
 
-Criterios:
-- Red (técnicos)
+Tipos de criterios para ubicar un servidor:
+- Red (técnicos):
+    - Latencia, ancho de banda, hops, etc.
 - Económicos (costos)
 
-Tipos de modelos:
-- QoS: optimización / cota
+Modelos para decidir donde ubicar una réplica:
+- QoS: 
+    - Optimizar uno o más parámetros de QoS
+    - Ofrecer alguna garantía, por ejemplo de ancho de banda
+    - Computacionalmente complejo, se aplican heurísticas
 - Consistencia:
-    - Actualizaciones periódicas, aperiódicas, por expiración, caches.
+    - Tiene en cuenta los costos de mantener actualizadas las replicas
+    - Subclases:
+        - Actualizaciones periódicas / aperiódicas
+        - Expiración
+        - Caches
+    - Basados en patrones de lectura/escritura
 - Energía
-- Otros
+    - Ubicación en base al consumo / gasto de energía
+    - Por ejemplo, evitar servidores que esten ociosos
+    - También maximizar el trabajo realizado por unidad de energía
+- Otros (politicas, costos de CDNs, etc)
 
-## Ubicación del contenido
+## Ubicación del contenido 
 
 ¿En qué replicas ubicar un cierto contenido?
 
 Se pueden diferencias replicas:
-- Permanentes
-- Iniciadas por el servidor
-- Iniciadas por el usuario
+
+### Permanentes
+- Conjunto inicial de servidores
+- Número relativamente pequeño, posiblemente estático
+- En general, útiles como _backups_
+### Iniciadas por el servidor
+- Objetivo: mejorar la perfomance.
+- Generalmente con contenido _sólo-lectura_
+### Iniciadas por el usuario
+- Más conocidas como _caches_
+- Administradas por el cliente
+- Estas replicas pueden ser compartidas por varios clientes.
+- Mejoran el tiempo de acceso
+
+## Propagación
 
 ¿Qué propagar?
 - Notificaciones
