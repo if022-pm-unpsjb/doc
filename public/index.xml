@@ -6,7 +6,7 @@
     <description>Recent content on Sistemas Distribuidos</description>
     <generator>Hugo</generator>
     <language>es-ar</language>
-    <lastBuildDate>Tue, 15 Oct 2024 01:30:03 -0300</lastBuildDate>
+    <lastBuildDate>Thu, 17 Oct 2024 07:30:03 -0300</lastBuildDate>
     <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Introducción</title>
@@ -133,6 +133,13 @@
       <pubDate>Tue, 15 Oct 2024 01:30:03 -0300</pubDate>
       <guid>http://localhost:1313/docs/07-replicacion/07-04-replica-managment/</guid>
       <description>&lt;h1 id=&#34;administración-de-réplicas&#34;&gt;&#xA;  Administración de réplicas&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#administraci%c3%b3n-de-r%c3%a9plicas&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;p&gt;¿Dónde ubicar las réplicas? Dos aspectos:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Distribución física de los servidores.&lt;/li&gt;&#xA;&lt;li&gt;Distribución del contenido en dichos servidores.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;¿Qué mecanismos utilizar para mantener las replicas (eventualmente) consistentes?&lt;/p&gt;&#xA;&lt;h2 id=&#34;ubicación-física&#34;&gt;&#xA;  Ubicación física&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#ubicaci%c3%b3n-f%c3%adsica&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;&#xA;&lt;p&gt;Hoy quiza no tan relevante dada la computación en la nube.&lt;/p&gt;&#xA;&lt;p&gt;Se resume en un problema de optimización.&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Seleccionar las mejores $K$ ubicaciones de $M$ posibles ($K &amp;lt; M$)&lt;/li&gt;&#xA;&lt;li&gt;Y por lo tanto, computacionalmente costoso: se aplican heurísticas&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;Tipos de criterios para ubicar un servidor:&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Protocolos de consistencia</title>
+      <link>http://localhost:1313/docs/07-replicacion/07-05-protocolos/</link>
+      <pubDate>Thu, 17 Oct 2024 07:30:03 -0300</pubDate>
+      <guid>http://localhost:1313/docs/07-replicacion/07-05-protocolos/</guid>
+      <description>&lt;h1 id=&#34;protocolos-de-consistencia&#34;&gt;&#xA;  Protocolos de consistencia&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#protocolos-de-consistencia&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;p&gt;Los modelos de consistencia se implementan siguiendo algún protocolo.&lt;/p&gt;&#xA;&lt;h2 id=&#34;basados-en-un-primario&#34;&gt;&#xA;  Basados en un primario&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#basados-en-un-primario&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;&#xA;&lt;p&gt;Utilizados para implementar modelos de consistencia secuencial.&lt;/p&gt;&#xA;&lt;p&gt;Cada item $x$ tiene asociado un &lt;strong&gt;nodo (replica) primario&lt;/strong&gt; en el &lt;em&gt;data store&lt;/em&gt;.&lt;/p&gt;&#xA;&lt;p&gt;Este nodo es responsable de coordinar las operaciones de actualización.&lt;/p&gt;&#xA;&lt;p&gt;Osea, &lt;strong&gt;un unico nodo o replica&lt;/strong&gt; es responsable de realizar las actualizaciones&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Luego las propaga al resto de los nodos, claro.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;El nodo primario puede estar&lt;/p&gt;</description>
     </item>
     <item>
       <title>Nombres planos</title>

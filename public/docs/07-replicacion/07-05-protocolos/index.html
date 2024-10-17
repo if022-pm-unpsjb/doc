@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="es-ar" dir="ltr">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="
+  Protocolos de consistencia
+  #
+
+Los modelos de consistencia se implementan siguiendo algún protocolo.
+
+  Basados en un primario
+  #
+
+Utilizados para implementar modelos de consistencia secuencial.
+Cada item $x$ tiene asociado un nodo (replica) primario en el data store.
+Este nodo es responsable de coordinar las operaciones de actualización.
+Osea, un unico nodo o replica es responsable de realizar las actualizaciones
+
+Luego las propaga al resto de los nodos, claro.
+
+El nodo primario puede estar">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/docs/07-replicacion/07-05-protocolos/">
+  <meta property="og:site_name" content="Sistemas Distribuidos">
+  <meta property="og:title" content="Protocolos de consistencia">
+  <meta property="og:description" content=" Protocolos de consistencia # Los modelos de consistencia se implementan siguiendo algún protocolo.
+Basados en un primario # Utilizados para implementar modelos de consistencia secuencial.
+Cada item $x$ tiene asociado un nodo (replica) primario en el data store.
+Este nodo es responsable de coordinar las operaciones de actualización.
+Osea, un unico nodo o replica es responsable de realizar las actualizaciones
+Luego las propaga al resto de los nodos, claro. El nodo primario puede estar">
+  <meta property="og:locale" content="es_ar">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="docs">
+    <meta property="article:published_time" content="2024-10-17T07:30:03-03:00">
+    <meta property="article:modified_time" content="2024-10-17T07:30:03-03:00">
+<title>Protocolos de consistencia | Sistemas Distribuidos</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" >
+<link rel="canonical" href="http://localhost:1313/docs/07-replicacion/07-05-protocolos/">
+<link rel="stylesheet" href="/book.min.4964903a822a7acb10dac6d1ab524833c97fb5f99b141976bcb8a47d539be9c0.css" integrity="sha256-SWSQOoIqessQ2sbRq1JIM8l/tfmbFBl2vLikfVOb6cA=" crossorigin="anonymous">
+  <script defer src="/fuse.min.js"></script>
+  <script defer src="/en.search.min.364d2c70e249ed333ed10c19c1b103d0d3ca899e2134087ab9d2be90894c422d.js" integrity="sha256-Nk0scOJJ7TM&#43;0QwZwbED0NPKiZ4hNAh6udK&#43;kIlMQi0=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
+      inlineMath: [['\\(', '\\)'], ['$', '$']]                  
+    }
+  };
+</script>
+<link rel="stylesheet" href="/logical-clocks.css">
+
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>Sistemas Distribuidos</span>
+  </a>
+</h2>
+
+
+<div class="book-search hidden">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+<script>document.querySelector(".book-search").classList.remove("hidden")</script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/01-introduccion/" class="">Introducción</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/02-arquitectura/" class="">Arquitecturas</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/03-procesos/" class="">Procesos</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/04-01-protocolos/" class="">Protocolos de comunicación</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/04-02-rpc/" class="">RPC</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/04-comunicacion-mom/" class="">MoM</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/04-comunicacion-multicast/" class="">Multicast</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/05-01-relojes/" class="">Relojes</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/05-02-mutex/" class="">Mutex</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/05-03-eleccion/" class="">Algoritmos de elección</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/05-04-agregacion/" class="">Coordinación mediante rumores</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/06-nombres-intro/" class="">Nombres, identificadores y direcciones</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/06-nombres-planos/" class="">Nombres planos</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/06-nombres-planos-chord/" class="">Chord</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/07-replicacion/07-01-introduccion/" class="">Consistencia</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/07-replicacion/07-02-data-centric/" class="">Consistencia centrada en datos</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/07-replicacion/07-03-client-centric/" class="">Consistencia centrada en el cliente</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/07-replicacion/07-04-replica-managment/" class="">Administración de réplicas</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/07-replicacion/07-05-protocolos/" class="active">Protocolos de consistencia</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Protocolos de consistencia</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#basados-en-un-primario">Basados en un primario</a>
+      <ul>
+        <li><a href="#primario-remoto">Primario remoto</a></li>
+        <li><a href="#primario-local">Primario local</a></li>
+        <li><a href="#primario-local--remoto">Primario local + Remoto</a></li>
+      </ul>
+    </li>
+    <li><a href="#escrituras-replicadas">Escrituras replicadas</a>
+      <ul>
+        <li><a href="#replicación-activa">Replicación activa</a></li>
+        <li><a href="#quorum">Quorum</a></li>
+      </ul>
+    </li>
+    <li><a href="#coherencia-de-cache">Coherencia de cache</a></li>
+    <li><a href="#consistencia-centrada-en-el-cliente">Consistencia centrada en el cliente</a>
+      <ul>
+        <li><a href="#lecturas-monotónicas">Lecturas monotónicas</a></li>
+        <li><a href="#escrituras-monotónicas">Escrituras monotónicas</a></li>
+        <li><a href="#lee-tus-escrituras">Lee tus escrituras</a></li>
+        <li><a href="#escrituras-siguen-lecturas">Escrituras siguen lecturas</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown book-article"><h1 id="protocolos-de-consistencia">
+  Protocolos de consistencia
+  <a class="anchor" href="#protocolos-de-consistencia">#</a>
+</h1>
+<p>Los modelos de consistencia se implementan siguiendo algún protocolo.</p>
+<h2 id="basados-en-un-primario">
+  Basados en un primario
+  <a class="anchor" href="#basados-en-un-primario">#</a>
+</h2>
+<p>Utilizados para implementar modelos de consistencia secuencial.</p>
+<p>Cada item $x$ tiene asociado un <strong>nodo (replica) primario</strong> en el <em>data store</em>.</p>
+<p>Este nodo es responsable de coordinar las operaciones de actualización.</p>
+<p>Osea, <strong>un unico nodo o replica</strong> es responsable de realizar las actualizaciones</p>
+<ul>
+<li>Luego las propaga al resto de los nodos, claro.</li>
+</ul>
+<p>El nodo primario puede estar</p>
+<ul>
+<li><strong>fijo</strong> (osea, ser remoto)</li>
+<li><strong>trasladarse</strong> (se traslada a donde se realice la escritura)</li>
+</ul>
+<h3 id="primario-remoto">
+  Primario remoto
+  <a class="anchor" href="#primario-remoto">#</a>
+</h3>
+<p>A.K.A <em>primary-backup</em>, <em>escritura-remota</em></p>
+<p>Cuando una réplica recibe una operacion de escritura, la <strong>reenvia</strong> al nodo primario.</p>
+<p>El nodo primario coordina cómo y cuando relizar la escritura, y lo comunica al resto de las replicas.</p>
+<p>Cuando todas las réplicas realizaron la operación, un <em>ACK</em> es envíado al cliente.</p>
+<p>Relativamente sencillo de implementar</p>
+<p>Posibles problemas de performance por la espera (<strong>bloqueante</strong>)</p>
+<p>Variante: informar el <em>ACK</em> cuando el primario recibe la operación, sin esperar la propagación (<strong>no-bloqueante</strong>)</p>
+<p>Mediante este protocolo, es posible implementar modelos de <strong>consistencia secuencial</strong></p>
+<p>Además, la versión bloqueante permite leer siempre la última escritura.</p>
+<h3 id="primario-local">
+  Primario local
+  <a class="anchor" href="#primario-local">#</a>
+</h3>
+<p>A.K.A <em>escritura-local</em></p>
+<p>En este caso, el primario <em>migra</em> a donde sea requerida la operación de escritura.</p>
+<p>Ventaja: permite realizar múltiples operaciones de escritura localmente.</p>
+<p>Requiere una propagación de la actualización de manera <strong>no-bloqueante</strong>.</p>
+<p>Útil es computación móvil:</p>
+<ul>
+<li>el dispositivo puede volverse el <em>primario</em> de los datos que espera modificar mientras este desconectado.</li>
+<li>el resto de los nodos puede realizar operaciones de lectura (pero no escrituras)</li>
+</ul>
+<h3 id="primario-local--remoto">
+  Primario local + Remoto
+  <a class="anchor" href="#primario-local--remoto">#</a>
+</h3>
+<p>En un modelo de <strong>primario remoto</strong>, una replica puede actuar como <strong>primario local</strong> momentaneamente.</p>
+<p>De esta manera múltiples operaciones de escritura tienen una mejor performance.</p>
+<p>La replica luego informa al <strong>primario remoto</strong> las modificaciones para su propagación.</p>
+<p>Ejemplo: sistemas de archivos distribuidos.</p>
+<h2 id="escrituras-replicadas">
+  Escrituras replicadas
+  <a class="anchor" href="#escrituras-replicadas">#</a>
+</h2>
+<p>En este tipo de protocolos, <strong>múltiples replicas</strong> pueden realizar operaciones de escritura.</p>
+<p>Variantes:</p>
+<ul>
+<li>Replicación activa (la operación se envía a <strong>todos</strong> las replicas)</li>
+<li>Quorum (basados en voto)</li>
+</ul>
+<h3 id="replicación-activa">
+  Replicación activa
+  <a class="anchor" href="#replicaci%c3%b3n-activa">#</a>
+</h3>
+<p>Cada replica tiene asociado un proceso que realiza actualizaciones.</p>
+<p>En general se propaga la operación.</p>
+<p>Para consistencia, requiere:</p>
+<ul>
+<li><strong>multicas totalmente ordenado</strong></li>
+<li>O bien, un secuenciador central que de un número secuencial a cada operación.</li>
+</ul>
+<h3 id="quorum">
+  Quorum
+  <a class="anchor" href="#quorum">#</a>
+</h3>
+<p>Las operaciones de lectura o escritura deben tener el permiso de la mayoría ($N/2 + 1$)</p>
+<p>Dos tipos de quorum:</p>
+<ul>
+<li>De lectura ($Q_r$)</li>
+<li>De escritura ($Q_w$)</li>
+</ul>
+<p>Suponer que existen $N$ resplicas, entonces:</p>
+<ul>
+<li>
+<p>Si $Q_r + Q_w &gt; N$ no existen conflictos lectura-escritura (<em>write/read</em>)</p>
+</li>
+<li>
+<p>Si $Q_w &gt; N/2$ no existen conflictos de escritura-escritura (<em>write/write</em>)</p>
+</li>
+</ul>
+<p>Suponer 6 replicas. Entonces $Q_w \geq 4$ y $Q_r \geq 3$:</p>
+<ul>
+<li>
+<p>Cualquier quorum de lectura siempre detecta al menos una versión más reciente de un item.</p>
+</li>
+<li>
+<p>Cualquier quorum de escritura evita un conflicto <em>write/write</em></p>
+</li>
+</ul>
+<p><strong>ROWA</strong>: Read-once, Write-all</p>
+<ul>
+<li>Caso especial si $Q_r = 1$ entonces $Q_w = N$</li>
+<li>Mejora la performance de lectura, a costa de la de escritura.</li>
+</ul>
+<h2 id="coherencia-de-cache">
+  Coherencia de cache
+  <a class="anchor" href="#coherencia-de-cache">#</a>
+</h2>
+<p>Mantener la cache coherente con el estado de los servidores.</p>
+<p>En el caso de sistemas distribuidos, la detección se realiza en tiempo de ejecución.</p>
+<p>¿Cómo forzar la coherencia?</p>
+<ul>
+<li>
+<p>Enviar invalidaciones cuando los datos son replicados.</p>
+</li>
+<li>
+<p>Propagar la actualización</p>
+</li>
+<li>
+<p>No permitir almacenar en cache datos compartidos entre clientes.</p>
+</li>
+</ul>
+<p>¿Qué sucede cuando se modifican datos en la cache?</p>
+<ul>
+<li>
+<p><em>write-through</em>: envíar actualización a las réplicas</p>
+</li>
+<li>
+<p><em>write-back</em>: envíar <strong>múltiples</strong> actualizaicones a las réplicas</p>
+</li>
+</ul>
+<h2 id="consistencia-centrada-en-el-cliente">
+  Consistencia centrada en el cliente
+  <a class="anchor" href="#consistencia-centrada-en-el-cliente">#</a>
+</h2>
+<p>Sencilla de implementar si se ignora la performance.</p>
+<ul>
+<li>Cada operacion de escritura $W$ tiene asignado un identificador global.</li>
+</ul>
+<p>Cada cliente tiene asociado dos conjuntos de escrituras:</p>
+<ul>
+<li><em>read-set</em>: escrituras relevantes a las operaciones de lectura.</li>
+<li><em>write-set</em>: el conjunto de escrituras del cliente.</li>
+</ul>
+<h3 id="lecturas-monotónicas">
+  Lecturas monotónicas
+  <a class="anchor" href="#lecturas-monot%c3%b3nicas">#</a>
+</h3>
+<p>El cliente pasa a la réplica la operación de lectura y el conjunto <em>read-set</em>.</p>
+<p>Si la replica no tiene las operaciones en el conjunto <em>read-set</em>:</p>
+<ul>
+<li>Pide las operaciones a otro servidor que sí las tenga.</li>
+<li>O bien, deriva la operación de lectura.</li>
+</ul>
+<h3 id="escrituras-monotónicas">
+  Escrituras monotónicas
+  <a class="anchor" href="#escrituras-monot%c3%b3nicas">#</a>
+</h3>
+<p>El cliente pasa a la réplica la operación de escritura y el conjunto <em>write-set</em>.</p>
+<p>La réplica debe verificar que cuenta con todas las operaciones de escritura.</p>
+<p>Caso contrario, o se actualiza o deriva la operación de escritura.</p>
+<p>Cuando la operación de escritura se realiza con éxito, la misma es agregada en el <em>write-set</em>.</p>
+<h3 id="lee-tus-escrituras">
+  Lee tus escrituras
+  <a class="anchor" href="#lee-tus-escrituras">#</a>
+</h3>
+<p>La replica debe contener todas las operaciones del conjunto <em>write-set</em></p>
+<h3 id="escrituras-siguen-lecturas">
+  Escrituras siguen lecturas
+  <a class="anchor" href="#escrituras-siguen-lecturas">#</a>
+</h3>
+<p>La replica debe contener todas las operaciones del conjunto <em>read-set</em></p>
+<p>Una vez realizada la escritura, esta se agrega tanto en <em>write-set</em> como en <em>read-set</em></p>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#basados-en-un-primario">Basados en un primario</a>
+      <ul>
+        <li><a href="#primario-remoto">Primario remoto</a></li>
+        <li><a href="#primario-local">Primario local</a></li>
+        <li><a href="#primario-local--remoto">Primario local + Remoto</a></li>
+      </ul>
+    </li>
+    <li><a href="#escrituras-replicadas">Escrituras replicadas</a>
+      <ul>
+        <li><a href="#replicación-activa">Replicación activa</a></li>
+        <li><a href="#quorum">Quorum</a></li>
+      </ul>
+    </li>
+    <li><a href="#coherencia-de-cache">Coherencia de cache</a></li>
+    <li><a href="#consistencia-centrada-en-el-cliente">Consistencia centrada en el cliente</a>
+      <ul>
+        <li><a href="#lecturas-monotónicas">Lecturas monotónicas</a></li>
+        <li><a href="#escrituras-monotónicas">Escrituras monotónicas</a></li>
+        <li><a href="#lee-tus-escrituras">Lee tus escrituras</a></li>
+        <li><a href="#escrituras-siguen-lecturas">Escrituras siguen lecturas</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
