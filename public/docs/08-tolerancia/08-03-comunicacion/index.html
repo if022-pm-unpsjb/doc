@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="es-ar" dir="ltr">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="
+  Comunicación confiable
+  #
+
+Los enlaces de comunicación también fallan.
+Los canales de comunicación pueden experimentar:
+
+Fallas de detención
+Fallas de omisión (ej: mensajes perdidos)
+Temporales (ej: imeouts)
+Fallas arbitrarias (ej: mensajes duplicados)
+
+
+  Comunicación punto a punto
+  #
+
+La comunicación punto a punto puede ser resuelta mediante TCP.
+
+Enmascara fallas de omisión
+No resuelve fallas de detención.
+
+
+  Semántica de RPC en caso de fallos
+  #
+
+Clases de falla en RPC:">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/docs/08-tolerancia/08-03-comunicacion/">
+  <meta property="og:site_name" content="Sistemas Distribuidos">
+  <meta property="og:title" content="Comunicación confiable">
+  <meta property="og:description" content=" Comunicación confiable # Los enlaces de comunicación también fallan.
+Los canales de comunicación pueden experimentar:
+Fallas de detención Fallas de omisión (ej: mensajes perdidos) Temporales (ej: imeouts) Fallas arbitrarias (ej: mensajes duplicados) Comunicación punto a punto # La comunicación punto a punto puede ser resuelta mediante TCP.
+Enmascara fallas de omisión No resuelve fallas de detención. Semántica de RPC en caso de fallos # Clases de falla en RPC:">
+  <meta property="og:locale" content="es_ar">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="docs">
+    <meta property="article:published_time" content="2024-11-05T00:00:00+00:00">
+    <meta property="article:modified_time" content="2024-11-05T00:00:00+00:00">
+<title>Comunicación confiable | Sistemas Distribuidos</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" >
+<link rel="canonical" href="http://localhost:1313/docs/08-tolerancia/08-03-comunicacion/">
+<link rel="stylesheet" href="/book.min.4964903a822a7acb10dac6d1ab524833c97fb5f99b141976bcb8a47d539be9c0.css" integrity="sha256-SWSQOoIqessQ2sbRq1JIM8l/tfmbFBl2vLikfVOb6cA=" crossorigin="anonymous">
+  <script defer src="/fuse.min.js"></script>
+  <script defer src="/en.search.min.fcc5b42d1cb820f5b6643caaef0921b97c83184bf6a4f9c4627e760a0e449138.js" integrity="sha256-/MW0LRy4IPW2ZDyq7wkhuXyDGEv2pPnEYn52Cg5EkTg=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
+      inlineMath: [['\\(', '\\)'], ['$', '$']]                  
+    }
+  };
+</script>
+<link rel="stylesheet" href="/logical-clocks.css">
+
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>Sistemas Distribuidos</span>
+  </a>
+</h2>
+
+
+<div class="book-search hidden">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+<script>document.querySelector(".book-search").classList.remove("hidden")</script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/01-introduccion/" class="">Introducción</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/02-arquitectura/" class="">Arquitecturas</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/03-procesos/" class="">Procesos</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/04-01-protocolos/" class="">Protocolos de comunicación</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/04-02-rpc/" class="">RPC</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/04-comunicacion-mom/" class="">MoM</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/04-comunicacion-multicast/" class="">Multicast</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/05-01-relojes/" class="">Relojes</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/05-02-mutex/" class="">Mutex</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/05-03-eleccion/" class="">Algoritmos de elección</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/05-04-agregacion/" class="">Coordinación mediante rumores</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/06-nombres-intro/" class="">Nombres, identificadores y direcciones</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/06-nombres-planos/" class="">Nombres planos</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/06-nombres-planos-chord/" class="">Chord</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/07-replicacion/07-01-introduccion/" class="">Consistencia</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/07-replicacion/07-02-data-centric/" class="">Consistencia centrada en datos</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/07-replicacion/07-03-client-centric/" class="">Consistencia centrada en el cliente</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/07-replicacion/07-04-replica-managment/" class="">Administración de réplicas</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/07-replicacion/07-05-protocolos/" class="">Protocolos de consistencia</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/08-tolerancia/08-01-introduccion/" class="">Tolerancia a fallos</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/08-tolerancia/08-02-resiliencia/" class="">Resiliencia de procesos</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/08-tolerancia/08-03-comunicacion/" class="active">Comunicación confiable</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/08-tolerancia/08-05-commit-distribuido/" class="">Commit distribuido</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Comunicación confiable</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#comunicación-punto-a-punto">Comunicación punto a punto</a></li>
+    <li><a href="#semántica-de-rpc-en-caso-de-fallos">Semántica de RPC en caso de fallos</a></li>
+    <li><a href="#comunicación-grupal-confiable">Comunicación grupal confiable</a></li>
+    <li><a href="#multicast-atómico">Multicast atómico</a>
+      <ul>
+        <li><a href="#multicast-virtualmente-sincrónico">Multicast virtualmente sincrónico</a></li>
+        <li><a href="#orden-de-los-mensajes">Orden de los mensajes</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown book-article"><h1 id="comunicación-confiable">
+  Comunicación confiable
+  <a class="anchor" href="#comunicaci%c3%b3n-confiable">#</a>
+</h1>
+<p>Los enlaces de comunicación <em>también</em> fallan.</p>
+<p>Los canales de comunicación pueden experimentar:</p>
+<ul>
+<li>Fallas de detención</li>
+<li>Fallas de omisión (ej: mensajes perdidos)</li>
+<li>Temporales (ej: imeouts)</li>
+<li>Fallas arbitrarias (ej: mensajes duplicados)</li>
+</ul>
+<h2 id="comunicación-punto-a-punto">
+  Comunicación punto a punto
+  <a class="anchor" href="#comunicaci%c3%b3n-punto-a-punto">#</a>
+</h2>
+<p>La comunicación punto a punto puede ser resuelta mediante TCP.</p>
+<ul>
+<li>Enmascara fallas de omisión</li>
+<li>No resuelve fallas de detención.</li>
+</ul>
+<h2 id="semántica-de-rpc-en-caso-de-fallos">
+  Semántica de RPC en caso de fallos
+  <a class="anchor" href="#sem%c3%a1ntica-de-rpc-en-caso-de-fallos">#</a>
+</h2>
+<p>Clases de falla en RPC:</p>
+<ul>
+<li>
+<p>El cliente no puede ubicar el servidor.</p>
+<ul>
+<li>No se puede ubicar el servidor.</li>
+<li>El stub del cliente es incompatible con una nueva versión.</li>
+<li>Posible solución: generar una excepción.</li>
+</ul>
+</li>
+<li>
+<p>La petición del cliente se pierde.</p>
+<ul>
+<li>Se reenvía si no se recibe respuesta o confirmación.</li>
+<li>Sencillo de implementar</li>
+<li>¿Cómo identificar que se perdió?</li>
+</ul>
+</li>
+<li>
+<p>El servidor falla luego de recibir la petición.</p>
+<ul>
+<li>Dos casos:
+<ul>
+<li>Servidor falla <em>antes</em> de procesar la petición.</li>
+<li>Servidor falla <em>luego</em> de procesar la petición.</li>
+</ul>
+</li>
+<li>Se deben tratar de manera separada.</li>
+<li><em>at-least-once</em>: seguir insistiendo hasta que se recibe una respuesta.</li>
+<li><em>at-most-once</em>: reportar el error inmediatamente.</li>
+<li><em>exactly-once</em>: <a href="https://bravenewgeek.com/you-cannot-have-exactly-once-delivery/">imposible</a>
+<ul>
+<li>No se puede garantizar que el servidor <em>reciba</em> la petición exactamente una única vez.</li>
+<li>Se puede &ldquo;emular&rdquo;, ej: recepción at-least-once combinado con peticiones idempotentes o control de duplicados.</li>
+</ul>
+</li>
+<li><em>no-warranties</em>: no garantizar ninguna de las anteriores.</li>
+<li><strong>Moraleja</strong>: la recuperación transparente de un servidor no es posible.</li>
+</ul>
+</li>
+<li>
+<p>Se pierde la respuesta a la petición.</p>
+<ul>
+<li>Timeouts: no distingue entre mensajes perdidos y fallas temporales.</li>
+<li>Peticiones idempotentes: se pueden reenviar sin efectos secundarios.</li>
+<li>Números de secuencia: requiere mantener estado de los clientes.</li>
+<li>Información de retransmisión: bit o bandera que indique que es una retransmisión.</li>
+</ul>
+</li>
+<li>
+<p>El cliente falla luego de enviar la petición.</p>
+<ul>
+<li>Genera procesos &ldquo;huerfanos&rdquo; del lado del servidor.
+<ul>
+<li>Consumen recursos.</li>
+<li>Pueden mantener recursos compartidos bloqueados.</li>
+<li>Pueden responder consultas más recientes, generando confusión.</li>
+</ul>
+</li>
+<li>Soluciones:
+<ul>
+<li>Exterminio: requiere log persistente de las operaciones, para identificar los procesos huerfanos y aniquilarlos.</li>
+<li>Reencarnación: similar, pero el cliente anuncia una nueva epoca (epoch), y se elimina a los huerfanos de épocas anteriores.</li>
+<li>Expiración: los procesos generados por una RPC deben completar antes de un tiempo $T$. Pueden recibir tiempo adicional del cliente. Si el cliente falla, pasado un tiempo $T$ los procesos huerfanos finalizan.</li>
+<li>No hacer nada: el cliente debe poder manejar respuestas de RPCs anteriores a su falla.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="comunicación-grupal-confiable">
+  Comunicación grupal confiable
+  <a class="anchor" href="#comunicaci%c3%b3n-grupal-confiable">#</a>
+</h2>
+<p>Servicios que permitan que los mensajes sean entregados a todos los procesos dentro de un grupo.</p>
+<p>Distinción</p>
+<ul>
+<li>Recepción: el mensaje es entregado al <em>middleware</em></li>
+<li>Entrega: el mensaje es entregado a la aplicación</li>
+</ul>
+<p>En casos de procesos que fallan, la comunicación es confiable cuando los mensajes son <em>recepcionados</em> y luego <em>entregados</em> a todos los <em>participantes no defectuosos</em> de un grupo.</p>
+<p>Parte dificil: acordar cuales son los participantes del grupo.</p>
+<p>Implementación:</p>
+<ul>
+<li>
+<p>Comunicación punto-a-punto:</p>
+<ul>
+<li>Si el grupo es pequeño y los participantes conocidos.</li>
+<li>Ejemplo: conexión TCP para envio de mensaje y ACK</li>
+</ul>
+</li>
+<li>
+<p>Comunicación multicast</p>
+<ul>
+<li>En general no confiable (mensajes perdidos)</li>
+<li>Uso de número de secuencia</li>
+<li>ACK de cada recepción
+<ul>
+<li>O bien, incluido en otro mensaje (<em>piggyback</em>)</li>
+</ul>
+</li>
+<li>Permite solicitar reenvio de mensajes perdidos
+<ul>
+<li>El reenvio puede ser punto-a-punto</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>Principal problema: escalabilidad</p>
+<ul>
+<li>
+<p>El emisor puede sufrir <em>feedback implosion</em></p>
+<ul>
+<li>Osea, ser ahogado por ACKs o peticiones de reenvio</li>
+</ul>
+</li>
+<li>
+<p>Alternativa: sólo reenviar NACKs.</p>
+<ul>
+<li>Mejora la escalabilidad.</li>
+<li>No garantiza la ausencia de <em>feedback implosion</em></li>
+<li>¿Cuanto tiempo guardar un mensaje?</li>
+</ul>
+</li>
+<li>
+<p>Clave: reducir el número de mensajes de feedback.</p>
+</li>
+<li>
+<p>Scalable Reliable Multicasting (SRM)</p>
+<ul>
+<li>No-jerarquico</li>
+<li>Se reportan únicamente NACKs.</li>
+<li>El NACKs se reporta mediante <em>multicast</em>
+<ul>
+<li>Se realiza luego de un tiempo aleatorio</li>
+<li>Otro nodo que no haya recibido el mensaje puede así suprimir su NACK.</li>
+<li>Pero interrumpe nodos que <em>sí</em> recibieron el mensaje.</li>
+<li>Pueden asistir reenviando el mensaje.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Jerárquico:</p>
+<ul>
+<li>Árbol de difusión</li>
+<li>Cada nodo es un grupo de procesos
+<ul>
+<li>Dentro del grupo se usa multicasting</li>
+<li>Existe un coordinador.</li>
+</ul>
+</li>
+<li>Los coordinadores se comunican mediante enlaces punto-a-punto</li>
+<li>La difusión de un mensaje en cada grupo llega al coordinador</li>
+<li>El coordinador reenvía el mensaje a otros coordinadores.</li>
+<li>Un ACK o NACK de un coordinador representa a todo un grupo.</li>
+</ul>
+</li>
+</ul>
+<p>Ambos tipos pueden ser combinados</p>
+<ul>
+<li>¿Rumores?
+<ul>
+<li>Es una buena opción</li>
+<li>La difusión es más lenta, pero es escalable y robusta</li>
+</ul>
+</li>
+</ul>
+<h2 id="multicast-atómico">
+  Multicast atómico
+  <a class="anchor" href="#multicast-at%c3%b3mico">#</a>
+</h2>
+<p>Garantizar que un mensaje sea entregado a todos los procesos no defectuoso o a ninguno.</p>
+<p>Un mensaje $m$ es asociado a una lista de procesos a los cuales debe ser entregado.</p>
+<p>Esta lista se conoce como <em>vista de grupo</em>.</p>
+<p>Cada uno de los procesos en dicho grupo debe tener <em>la misma</em> vista de grupo.</p>
+<ul>
+<li>Osea, todos deben coincidir en cuales son los integrantes del grupo.</li>
+</ul>
+<p>Cuando un proceso se suma o abandona la vista, se dice que ocurre un <em>cambio de vista</em></p>
+<ul>
+<li>Generalmente anunciado también mediante un mensaje.</li>
+</ul>
+<h3 id="multicast-virtualmente-sincrónico">
+  Multicast virtualmente sincrónico
+  <a class="anchor" href="#multicast-virtualmente-sincr%c3%b3nico">#</a>
+</h3>
+<p>Si ante la falla del emisor del multicast de un mensaje $m$, el mismo es entregado a todos o a ninguno en el grupo, se dice que que el multicast es <em>virtualmente sincrónico</em>.</p>
+<p>En otras palabras, un multicast no puede extenderse sobre dos <em>vistas de grupo</em>.</p>
+<p>O dicho de otra manera, las <em>vistas de grupo</em> son efectivamente barreras entre los multicast.</p>
+<h3 id="orden-de-los-mensajes">
+  Orden de los mensajes
+  <a class="anchor" href="#orden-de-los-mensajes">#</a>
+</h3>
+<p>El orden de los mensajes en un multicast puede ser:</p>
+<ul>
+<li>Sin orden</li>
+<li>FIFO</li>
+<li>Causal</li>
+<li>Total</li>
+</ul>
+<p>En FIFO se garantiza que los mensajes de un mismo emisor son recibidos en orden, pero cada proceso puede ver un intercalamiento diferente de mensajes de distintos emisores.</p>
+<p>En causal se garantiza que todos los procesos vean mensajes <em>causalmente relacionados</em> en el mismo orden.</p>
+<p>El <em>orden total</em> requiere que todos los procesos reciban los mensajes en el mismo orden (sin importar cual sea).</p>
+<p>Finalmente, <em>multicast atómico</em> es un multicast <em>confiable, virtualmente sincrónico, totalmente ordenado</em>.</p>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#comunicación-punto-a-punto">Comunicación punto a punto</a></li>
+    <li><a href="#semántica-de-rpc-en-caso-de-fallos">Semántica de RPC en caso de fallos</a></li>
+    <li><a href="#comunicación-grupal-confiable">Comunicación grupal confiable</a></li>
+    <li><a href="#multicast-atómico">Multicast atómico</a>
+      <ul>
+        <li><a href="#multicast-virtualmente-sincrónico">Multicast virtualmente sincrónico</a></li>
+        <li><a href="#orden-de-los-mensajes">Orden de los mensajes</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

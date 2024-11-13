@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="es-ar" dir="ltr">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="
+  Introducción a la tolerancia a fallos
+  #
+
+Las fallas parciales son una característica de los sistemas distribuidos.
+¿Como diseñar los sistemas distribuidos para que se recuperen de este tipo de fallas?
+Idealmente automáticamente y sin degradar la performance.
+
+  Tolerancia a fallas
+  #
+
+Relacionado con el concepto de dependable systems
+Algunos terminos:
+
+  Disponibilidad
+  #
+
+Es la probabilidad que el sistema este funcionando en cualquier momento.
+
+  Confiabilidad
+  #
+
+La probabilidad que el sistema ejecute continuamente sin fallos.">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/docs/08-tolerancia/08-01-introduccion/">
+  <meta property="og:site_name" content="Sistemas Distribuidos">
+  <meta property="og:title" content="Tolerancia a fallos">
+  <meta property="og:description" content=" Introducción a la tolerancia a fallos # Las fallas parciales son una característica de los sistemas distribuidos.
+¿Como diseñar los sistemas distribuidos para que se recuperen de este tipo de fallas?
+Idealmente automáticamente y sin degradar la performance.
+Tolerancia a fallas # Relacionado con el concepto de dependable systems
+Algunos terminos:
+Disponibilidad # Es la probabilidad que el sistema este funcionando en cualquier momento.
+Confiabilidad # La probabilidad que el sistema ejecute continuamente sin fallos.">
+  <meta property="og:locale" content="es_ar">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="docs">
+    <meta property="article:published_time" content="2024-10-22T00:00:00+00:00">
+    <meta property="article:modified_time" content="2024-10-22T00:00:00+00:00">
+<title>Tolerancia a fallos | Sistemas Distribuidos</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" >
+<link rel="canonical" href="http://localhost:1313/docs/08-tolerancia/08-01-introduccion/">
+<link rel="stylesheet" href="/book.min.4964903a822a7acb10dac6d1ab524833c97fb5f99b141976bcb8a47d539be9c0.css" integrity="sha256-SWSQOoIqessQ2sbRq1JIM8l/tfmbFBl2vLikfVOb6cA=" crossorigin="anonymous">
+  <script defer src="/fuse.min.js"></script>
+  <script defer src="/en.search.min.fcc5b42d1cb820f5b6643caaef0921b97c83184bf6a4f9c4627e760a0e449138.js" integrity="sha256-/MW0LRy4IPW2ZDyq7wkhuXyDGEv2pPnEYn52Cg5EkTg=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
+      inlineMath: [['\\(', '\\)'], ['$', '$']]                  
+    }
+  };
+</script>
+<link rel="stylesheet" href="/logical-clocks.css">
+
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>Sistemas Distribuidos</span>
+  </a>
+</h2>
+
+
+<div class="book-search hidden">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+<script>document.querySelector(".book-search").classList.remove("hidden")</script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/01-introduccion/" class="">Introducción</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/02-arquitectura/" class="">Arquitecturas</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/03-procesos/" class="">Procesos</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/04-01-protocolos/" class="">Protocolos de comunicación</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/04-02-rpc/" class="">RPC</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/04-comunicacion-mom/" class="">MoM</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/04-comunicacion-multicast/" class="">Multicast</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/05-01-relojes/" class="">Relojes</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/05-02-mutex/" class="">Mutex</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/05-03-eleccion/" class="">Algoritmos de elección</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/05-04-agregacion/" class="">Coordinación mediante rumores</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/06-nombres-intro/" class="">Nombres, identificadores y direcciones</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/06-nombres-planos/" class="">Nombres planos</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/06-nombres-planos-chord/" class="">Chord</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/07-replicacion/07-01-introduccion/" class="">Consistencia</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/07-replicacion/07-02-data-centric/" class="">Consistencia centrada en datos</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/07-replicacion/07-03-client-centric/" class="">Consistencia centrada en el cliente</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/07-replicacion/07-04-replica-managment/" class="">Administración de réplicas</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/07-replicacion/07-05-protocolos/" class="">Protocolos de consistencia</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/08-tolerancia/08-01-introduccion/" class="active">Tolerancia a fallos</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/08-tolerancia/08-02-resiliencia/" class="">Resiliencia de procesos</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/08-tolerancia/08-03-comunicacion/" class="">Comunicación confiable</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/08-tolerancia/08-05-commit-distribuido/" class="">Commit distribuido</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Tolerancia a fallos</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#tolerancia-a-fallas">Tolerancia a fallas</a>
+      <ul>
+        <li><a href="#disponibilidad">Disponibilidad</a></li>
+        <li><a href="#confiabilidad">Confiabilidad</a></li>
+        <li><a href="#seguridad">Seguridad</a></li>
+        <li><a href="#mantenibilidad">Mantenibilidad</a></li>
+        <li><a href="#métricas">Métricas</a></li>
+        <li><a href="#avería-fail">Avería (fail)</a></li>
+        <li><a href="#error">Error</a></li>
+        <li><a href="#falla-fault">Falla (Fault)</a></li>
+      </ul>
+    </li>
+    <li><a href="#modos-de-falla">Modos de falla</a></li>
+    <li><a href="#sincrónico--asicrónico">Sincrónico / Asicrónico</a></li>
+    <li><a href="#enmascaramiento-de-fallas">Enmascaramiento de fallas</a></li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown book-article"><h1 id="introducción-a-la-tolerancia-a-fallos">
+  Introducción a la tolerancia a fallos
+  <a class="anchor" href="#introducci%c3%b3n-a-la-tolerancia-a-fallos">#</a>
+</h1>
+<p>Las <strong>fallas parciales</strong> son una característica de los sistemas distribuidos.</p>
+<p>¿Como diseñar los sistemas distribuidos para que se recuperen de este tipo de fallas?</p>
+<p>Idealmente automáticamente y sin degradar la performance.</p>
+<h2 id="tolerancia-a-fallas">
+  Tolerancia a fallas
+  <a class="anchor" href="#tolerancia-a-fallas">#</a>
+</h2>
+<p>Relacionado con el concepto de <em>dependable systems</em></p>
+<p>Algunos terminos:</p>
+<h3 id="disponibilidad">
+  Disponibilidad
+  <a class="anchor" href="#disponibilidad">#</a>
+</h3>
+<p>Es la probabilidad que el sistema este funcionando en cualquier momento.</p>
+<h3 id="confiabilidad">
+  Confiabilidad
+  <a class="anchor" href="#confiabilidad">#</a>
+</h3>
+<p>La probabilidad que el sistema ejecute continuamente sin fallos.</p>
+<h3 id="seguridad">
+  Seguridad
+  <a class="anchor" href="#seguridad">#</a>
+</h3>
+<p>No ocurre una catástrofe cuando eventualmente ocurre una falla.</p>
+<h3 id="mantenibilidad">
+  Mantenibilidad
+  <a class="anchor" href="#mantenibilidad">#</a>
+</h3>
+<p>Qué tan fácil es reparar el sistema ante una falla.</p>
+<h3 id="métricas">
+  Métricas
+  <a class="anchor" href="#m%c3%a9tricas">#</a>
+</h3>
+<p>MTTF: Mean Time To Failure.</p>
+<p>MTTR: Mean Time To Repair.</p>
+<p>MTBF: Mean Time Between Failures ($MTTF + MTTR$)</p>
+<h3 id="avería-fail">
+  Avería (fail)
+  <a class="anchor" href="#aver%c3%ada-fail">#</a>
+</h3>
+<p>Cuando el sistema <strong>no cumple</strong> con sus especificaciones.</p>
+<h3 id="error">
+  Error
+  <a class="anchor" href="#error">#</a>
+</h3>
+<p>La parte del estado de un sistema que puede producir una <strong>falla</strong>.</p>
+<h3 id="falla-fault">
+  Falla (Fault)
+  <a class="anchor" href="#falla-fault">#</a>
+</h3>
+<p>La causa de un <strong>error</strong>.</p>
+<p>Un sistema <strong>tolerante a fallos</strong> es aquel que puede proveer sus servicios aún ante la existencia de fallas.</p>
+<p>Las fallas se pueden clasificar en:</p>
+<ul>
+<li>Transitorias: ocurren una única vez.</li>
+<li>Intermitentes: se repiten frecuentemente.</li>
+<li>Permanentes: presente hasta que el componente afectado es reparado/reemplazado.</li>
+</ul>
+<h2 id="modos-de-falla">
+  Modos de falla
+  <a class="anchor" href="#modos-de-falla">#</a>
+</h2>
+<p>Clasificación:</p>
+<ul>
+<li>
+<p>Falla de detención (<em>crash failure</em>)</p>
+</li>
+<li>
+<p>Falla de omisión</p>
+<ul>
+<li>Recepción</li>
+<li>Envío</li>
+</ul>
+</li>
+<li>
+<p>Falla temporal</p>
+</li>
+<li>
+<p>Falla de respuesta</p>
+<ul>
+<li>Valor</li>
+<li>Transición de estado.</li>
+</ul>
+</li>
+<li>
+<p>Fallas arbitrarias</p>
+<ul>
+<li>Omisión</li>
+<li>Comisión</li>
+</ul>
+</li>
+</ul>
+<h2 id="sincrónico--asicrónico">
+  Sincrónico / Asicrónico
+  <a class="anchor" href="#sincr%c3%b3nico--asicr%c3%b3nico">#</a>
+</h2>
+<p>Los modelos anteriores suponene que un proceso $P$ puede detectar que $Q$ se detuvo.</p>
+<p>¿Cómo es posible esto?</p>
+<p>Hay que diferenciar tipos de sistemas:</p>
+<ul>
+<li>Asincrónico: no se puede suponer nada acerca de los tiempos de ejecución o de transferencia de mensajes.</li>
+<li>Sincrónico: los tiempos de ejecución y de transmisión estan acotados.</li>
+</ul>
+<p>Ninguno es un modelo realista.</p>
+<p>En la práctica se asumen sistemas <strong>parcialmente sincrónicos</strong>:</p>
+<ul>
+<li>La mayor parte del tiempo se comportan como sistemas <em>sincrónicos</em>.</li>
+<li>El comportamiento <em>asincrónico</em> es la excepción.</li>
+<li>Se pueden uilizar <em>timeouts</em>, con el riesgo de tener <em>falsos positivos</em>.</li>
+</ul>
+<p>En este contexto, las <em>fallas de detención</em> se pueden subclasificar:</p>
+<ul>
+<li><em>Fail-stop</em>: fallas de detención que pueden ser detectadas con seguridad.</li>
+<li><em>Fail-noisy</em>: similar, pero un proceso <em>eventualmente</em> detecta la falla.</li>
+<li><em>Fail-silent</em>: no se puede distinguir fallas de detención de fallas de omisión.</li>
+<li><em>Fail-safe</em>: fallas arbitrarias benignas.</li>
+<li><em>Fail-arbitrary</em>: no observables y dañinas, la peor combinación.</li>
+</ul>
+<h2 id="enmascaramiento-de-fallas">
+  Enmascaramiento de fallas
+  <a class="anchor" href="#enmascaramiento-de-fallas">#</a>
+</h2>
+<p>La mejor manera de tolerar una falla es ocultarla mediante redundancia.</p>
+<p>Tipos de redundancia:</p>
+<ul>
+<li>Información</li>
+<li>Temporal</li>
+<li>Física</li>
+</ul>
+<p>Un ejemplo es la redundancia modular triple.</p>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#tolerancia-a-fallas">Tolerancia a fallas</a>
+      <ul>
+        <li><a href="#disponibilidad">Disponibilidad</a></li>
+        <li><a href="#confiabilidad">Confiabilidad</a></li>
+        <li><a href="#seguridad">Seguridad</a></li>
+        <li><a href="#mantenibilidad">Mantenibilidad</a></li>
+        <li><a href="#métricas">Métricas</a></li>
+        <li><a href="#avería-fail">Avería (fail)</a></li>
+        <li><a href="#error">Error</a></li>
+        <li><a href="#falla-fault">Falla (Fault)</a></li>
+      </ul>
+    </li>
+    <li><a href="#modos-de-falla">Modos de falla</a></li>
+    <li><a href="#sincrónico--asicrónico">Sincrónico / Asicrónico</a></li>
+    <li><a href="#enmascaramiento-de-fallas">Enmascaramiento de fallas</a></li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

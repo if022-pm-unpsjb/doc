@@ -6,7 +6,7 @@
     <description>Recent content on Sistemas Distribuidos</description>
     <generator>Hugo</generator>
     <language>es-ar</language>
-    <lastBuildDate>Thu, 17 Oct 2024 07:30:03 -0300</lastBuildDate>
+    <lastBuildDate>Tue, 12 Nov 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://localhost:1313/docs/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Introducción</title>
@@ -140,6 +140,34 @@
       <pubDate>Thu, 17 Oct 2024 07:30:03 -0300</pubDate>
       <guid>http://localhost:1313/docs/07-replicacion/07-05-protocolos/</guid>
       <description>&lt;h1 id=&#34;protocolos-de-consistencia&#34;&gt;&#xA;  Protocolos de consistencia&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#protocolos-de-consistencia&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;p&gt;Los modelos de consistencia se implementan siguiendo algún protocolo.&lt;/p&gt;&#xA;&lt;h2 id=&#34;basados-en-un-primario&#34;&gt;&#xA;  Basados en un primario&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#basados-en-un-primario&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;&#xA;&lt;p&gt;Utilizados para implementar modelos de consistencia secuencial.&lt;/p&gt;&#xA;&lt;p&gt;Cada item $x$ tiene asociado un &lt;strong&gt;nodo (replica) primario&lt;/strong&gt; en el &lt;em&gt;data store&lt;/em&gt;.&lt;/p&gt;&#xA;&lt;p&gt;Este nodo es responsable de coordinar las operaciones de actualización.&lt;/p&gt;&#xA;&lt;p&gt;Osea, &lt;strong&gt;un unico nodo o replica&lt;/strong&gt; es responsable de realizar las actualizaciones&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Luego las propaga al resto de los nodos, claro.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;El nodo primario puede estar&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Tolerancia a fallos</title>
+      <link>http://localhost:1313/docs/08-tolerancia/08-01-introduccion/</link>
+      <pubDate>Tue, 22 Oct 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/docs/08-tolerancia/08-01-introduccion/</guid>
+      <description>&lt;h1 id=&#34;introducción-a-la-tolerancia-a-fallos&#34;&gt;&#xA;  Introducción a la tolerancia a fallos&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#introducci%c3%b3n-a-la-tolerancia-a-fallos&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;p&gt;Las &lt;strong&gt;fallas parciales&lt;/strong&gt; son una característica de los sistemas distribuidos.&lt;/p&gt;&#xA;&lt;p&gt;¿Como diseñar los sistemas distribuidos para que se recuperen de este tipo de fallas?&lt;/p&gt;&#xA;&lt;p&gt;Idealmente automáticamente y sin degradar la performance.&lt;/p&gt;&#xA;&lt;h2 id=&#34;tolerancia-a-fallas&#34;&gt;&#xA;  Tolerancia a fallas&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#tolerancia-a-fallas&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;&#xA;&lt;p&gt;Relacionado con el concepto de &lt;em&gt;dependable systems&lt;/em&gt;&lt;/p&gt;&#xA;&lt;p&gt;Algunos terminos:&lt;/p&gt;&#xA;&lt;h3 id=&#34;disponibilidad&#34;&gt;&#xA;  Disponibilidad&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#disponibilidad&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h3&gt;&#xA;&lt;p&gt;Es la probabilidad que el sistema este funcionando en cualquier momento.&lt;/p&gt;&#xA;&lt;h3 id=&#34;confiabilidad&#34;&gt;&#xA;  Confiabilidad&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#confiabilidad&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h3&gt;&#xA;&lt;p&gt;La probabilidad que el sistema ejecute continuamente sin fallos.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Resiliencia de procesos</title>
+      <link>http://localhost:1313/docs/08-tolerancia/08-02-resiliencia/</link>
+      <pubDate>Tue, 12 Nov 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/docs/08-tolerancia/08-02-resiliencia/</guid>
+      <description>&lt;h1 id=&#34;resiliencia-de-procesos&#34;&gt;&#xA;  Resiliencia de procesos&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#resiliencia-de-procesos&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;p&gt;La falla de un proceso se enmascara replicando el mismo como un grupo de procesos.&lt;/p&gt;&#xA;&lt;h2 id=&#34;grupos-de-procesos&#34;&gt;&#xA;  Grupos de procesos&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#grupos-de-procesos&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;&#xA;&lt;p&gt;El cliente debe ver al grupo de procesos como una única entidad.&lt;/p&gt;&#xA;&lt;p&gt;Un mensaje enviado al grupo debe ser enviado a cada uno de sus procesos.&lt;/p&gt;&#xA;&lt;p&gt;Los grupos pueden ser dinámicos:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Pueden ser creados, modificados, eliminados.&lt;/li&gt;&#xA;&lt;li&gt;Un proceso puede unirse a un grupo o abandonarlo.&lt;/li&gt;&#xA;&lt;li&gt;Un proceso puede ser parte de más de un grupo.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h3 id=&#34;organización&#34;&gt;&#xA;  Organización&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#organizaci%c3%b3n&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h3&gt;&#xA;&lt;p&gt;Grupo planos:&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Comunicación confiable</title>
+      <link>http://localhost:1313/docs/08-tolerancia/08-03-comunicacion/</link>
+      <pubDate>Tue, 05 Nov 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/docs/08-tolerancia/08-03-comunicacion/</guid>
+      <description>&lt;h1 id=&#34;comunicación-confiable&#34;&gt;&#xA;  Comunicación confiable&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#comunicaci%c3%b3n-confiable&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;p&gt;Los enlaces de comunicación &lt;em&gt;también&lt;/em&gt; fallan.&lt;/p&gt;&#xA;&lt;p&gt;Los canales de comunicación pueden experimentar:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Fallas de detención&lt;/li&gt;&#xA;&lt;li&gt;Fallas de omisión (ej: mensajes perdidos)&lt;/li&gt;&#xA;&lt;li&gt;Temporales (ej: imeouts)&lt;/li&gt;&#xA;&lt;li&gt;Fallas arbitrarias (ej: mensajes duplicados)&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;comunicación-punto-a-punto&#34;&gt;&#xA;  Comunicación punto a punto&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#comunicaci%c3%b3n-punto-a-punto&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;&#xA;&lt;p&gt;La comunicación punto a punto puede ser resuelta mediante TCP.&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Enmascara fallas de omisión&lt;/li&gt;&#xA;&lt;li&gt;No resuelve fallas de detención.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;semántica-de-rpc-en-caso-de-fallos&#34;&gt;&#xA;  Semántica de RPC en caso de fallos&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#sem%c3%a1ntica-de-rpc-en-caso-de-fallos&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;&#xA;&lt;p&gt;Clases de falla en RPC:&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Commit distribuido</title>
+      <link>http://localhost:1313/docs/08-tolerancia/08-05-commit-distribuido/</link>
+      <pubDate>Tue, 12 Nov 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/docs/08-tolerancia/08-05-commit-distribuido/</guid>
+      <description>&lt;h1 id=&#34;commit-distribuido&#34;&gt;&#xA;  Commit distribuido&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#commit-distribuido&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h1&gt;</description>
     </item>
   </channel>
 </rss>
