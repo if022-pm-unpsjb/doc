@@ -250,3 +250,16 @@ La diferencia fundamental entre múltiples implementaciones es cuales nodos se e
     - Este validación puede ser premiada.
     - No todos los nodos desearan ser elegibles, principalmente por costo de la validación.
 
+## Links
+
+- [The awesomeness of Modular Monolith](https://no-kill-switch.ghost.io/the-awesomeness-of-modular-monolith/) - [Archivado](https://archive.is/uYhqW)
+
+- [Deconstructing the Monolith: Designing Software that Maximizes Developer Productivity](https://shopify.engineering/deconstructing-monolith-designing-software-maximizes-developer-productivity)
+
+- [Microservices: An application revolution powered by the cloud](https://azure.microsoft.com/en-us/blog/microservices-an-application-revolution-powered-by-the-cloud/)
+
+- [SOA versus microservices: What's the difference?](https://www.ibm.com/think/topics/soa-vs-microservices)
+
+- [REST with Hypermedia - Hot or Not?](https://reflectoring.io/rest-hypermedia/)
+
+- [What is middleware?](https://www.ibm.com/topics/middleware)
