@@ -1,1 +1,1 @@
-Bienvenidos al material de cursada de IF022
+Apuntes y material de cursada de IF022 - Sistemas Distribuidos.
