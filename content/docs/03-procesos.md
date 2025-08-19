@@ -172,3 +172,9 @@ Un conjunto de servidores interconectados por una red de alta velocidad.
 - Solución: interpretes y/o máquinas virtuales
 - Ejemplos de lenguajes: Python, Java, Pascal, Erlang/Elixir, etc.
 - Migración de todo el entorno: VMs como Dropbox, VMWare, VirtualPC, etc.
+
+## Links
+
+- [What is a hypervisor?](https://www.redhat.com/en/topics/virtualization/what-is-a-hypervisor)
+
+- [Containers vs. VMs](https://www.redhat.com/en/topics/containers/containers-vs-vms)
