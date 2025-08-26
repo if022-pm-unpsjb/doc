@@ -7,10 +7,10 @@ weight = 420
 
 # Middleware orientado a mensajes (MoM)
 
-RPC o RMI no siempre son apropiados. Ej:
+RPC o RMI no son adecuados en todas las situaciones, por ejemplo:
 
-- el receptor no esta funcionando al mismo tiempo que el emisor.
-- no se ajustan a la arquitectura cliente/servidor.
+- el receptor puede no estar disponible al momento que el emisor envía el mensaje.
+- la arquitectura del sistema es otra que cliente/servidor.
 
 Alternativa: envío de mensajes.
 
