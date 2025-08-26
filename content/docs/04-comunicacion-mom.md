@@ -30,15 +30,17 @@ Ej de implementación: ZeroMQ.
 
 ## MPI
 
-Uso de paso de mensajes en computación de alto perfomance, por ejemplo clusters. TCP esta orientado a su uso sobre IP, por lo cual no es necesariamente efectivo en estas situaciones.
+[Message Passing Interface](https://www.mpi-forum.org/)
 
-El estándar MPI se definio para lograr interoperabilidad entre soluciones de paso de mensajes para este tipo de escenarios.
+- Paso de mensajes en computación de alto perfomance, por ejemplo clusters.
+    - TCP/IP no es necesariamente efectivo en estas situaciones.
 
-Ej: no asume que un error en la red es recuperable.
+- Asume que un error en la red **no es recuperable**.
 
-Considera grupos de procesos, donde cada proceso tiene un identificador (grupoID, procesoID). Un proceso puede pertenecer a mas de un grupo.
+- Grupos de procesos, cada proceso tiene un identificador `(grupoID, procesoID)`
+    - Un proceso puede pertenecer a mas de un grupo.
 
-Mas de 650 operaciones definidas.
+- Mas de 650 operaciones definidas.
 
 ## Comunicación persistente
 
