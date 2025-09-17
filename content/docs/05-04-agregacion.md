@@ -1,13 +1,12 @@
 +++
-title = 'Coordinación mediante rumores'
-date = 2024-09-18T23:05:01-03:00
+title = 'Coordinación epidémica'
 draft = false
 weight = 540
 +++
 
-# Coordinación basada en rumores
+# Coordinación basada en algoritmos epidémicos
 
-Se puede utilizar rumores para recolectar información.
+Se puede utilizar gossip para recolectar información.
 
 ## Ejemplos de coordinación
 
