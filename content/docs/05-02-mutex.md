@@ -22,7 +22,7 @@ weight = 520
 ## Descentralizado
 
 - Recurso con N replicas, cada una con un coordinador asignado.
-- Acceder al recurso requiere votos positivos de al menos m > N/2 coordinadores.
+- Acceder al recurso requiere votos positivos de al menos $m > N/2$ coordinadores.
 
 ## Distribuido
 
