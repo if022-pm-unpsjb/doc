@@ -25,7 +25,7 @@ Estos apuntes estan basados en:
 
 Pueden probar como funciona Chord con este [simulador](/chordgen/chordgen.html)
 
-## ¿Pero qué es?
+## Descripción
 
 Es un sistema de _lookup_ distribuido.
 
@@ -130,7 +130,6 @@ Ahora, cuando un nodo $p$ recibe una consulta por una entidad con clave $k$:
 - Responde la consulta si $k \in (pred(p), p]$
 - Si $p < k \leq F_p[1]$ reenvia la consulta a su _sucesor_
 - Caso contrario, reenvia la consulta al nodo $i$ tal que $F_p[i] \leq k < F_p[i+1]$
-    - Osea, $k \in (,]$
 
 El costo en general sera $O(log(N))$
 

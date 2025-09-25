@@ -7,7 +7,7 @@ weight = 600
 
 # Nombres, identificadores y direcciones
 
-En el contexto de sistemas distribuidos, vamos a decir que un nombre es un conjunto de bits.
+Vamos a considerar que un nombre es un conjunto de bits o caracteres utilizado para referirse a una _entidad_.
 
 ## Entidades
 
@@ -15,9 +15,9 @@ El principal uso de un nombre es permitir identificar una **entidad**.
 
 Una **entidad** puede ser cualquier cosa: una página web, una impresora, un proceso.
 
-En general, una entidad se puede _operar_.
+En general, se puede realizar una actividad u operación sobre la entidad:
 
-- Por ejemplo, si la entidad es una impresora, se puede enviar un documento para su impresión.
+- Por ejemplo, si nos referimos a una impresora, se puede enviar un documento para su impresión.
 
 ## Puntos de acceso
 
@@ -30,43 +30,41 @@ Para operar una entidad se requiere acceder a la misma mediante un **punto de ac
 
 ## Dirección
 
-Una dirección es un nombre que identifica la _ubicación_ de una entidad.
+El nombre del **punto de acceso** a una entidad se denomina **dirección**.
 
-El nombre de un **punto de acceso** es una **dirección**.
+Por flexibilidad el **nombre** de una **entidad** debería ser independiente de su **dirección**.
 
-Es mucho más flexible mantener el nombre de una entidad independiente de su dirección.
+- La entidad puede moverse de ubicación, con lo cual cambia su dirección.
 
-- La entidad puede moverse de ubicación, con lo cual cambia su dirección
-
-- Se conoce como **independencia de ubicación**
+- Se conoce como **independencia de ubicación**.
 
 ## Identificadores
 
-Los nombres que refieren univocamente a una entidad se conocen como **identificadores**
+Un nombre que refiere univocamente a una entidad se conoce como **identificador**.
 
 Todo **identificador** que se precie cumple con lo siguiente:
 
-1. Refiere a una única entidad.
-2. Dicha entidad sólo es referenciado por ese identificador.
+1. Refiere a una **única entidad**.
+2. Cada entidad es referenciada por un único identificador.
 3. Nunca es reutilizado.
 
-Muchas veces un **nombre** o un **identificador** esta pensando para que lo lea una computadora.
+Muchas veces una **dirección** o un **identificador** esta pensando para ser leído por una computadora.
 
 - Por ejemplo, una cadena ilegible como una dirección MAC: `00:26:c7:d9:98:54`
 
-Pero otros nombres son diseñados para que sean fácilmente legibles por un humano.
+Otros nombres son diseñados para que sean fácilmente legibles por un humano.
 
-- Ejemplo: nombres de archivo, DNS
+- Ejemplo: nombres de archivo, DNS, etc.
 
 ## Resolución de nombres
 
-Tiene que existir un mecanismo que resuelva los nombres.
+Tiene que existir un mecanismo que resuelva nombres en direcciones.
 
-Esto es, obtener información acerca de la entidad en base a su nombre.
+- Esto es, obtener información del punto de acceso de la entidad en base a su nombre.
 
-¿Cómo resolvemos un nombre a una entidad? Basicamente, hay dos opciones:
+Básicamente hay dos opciones:
 
-1. Mantener un registro de tipo `(nombre, dirección)`
+1. Mantener un registro (quizá distribuido) de tipo `(nombre, dirección)`
 
 2. Realizar un ruteo hacia la **dirección** o **punto de acceso**
 

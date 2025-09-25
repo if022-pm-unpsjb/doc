@@ -19,9 +19,7 @@ Ejemplo:
 
 Son sencillos de generar, pero transfieren la complejidad al mecanismo de resolución de nombres.
 
-¿Cómo se puede resolver la entidad asociada?
-
-Vamos a ver una serie de posibles soluciones simples:
+¿Cómo se puede resolver la entidad asociada? Posibles soluciones:
 
 - [Broadcast](#broadcast)
 - [Multicast](#multicast)
@@ -54,6 +52,10 @@ El objetivo es evitar interrumpir nodos que no esten interesados en el mensaje.
 
 - Otro uso es enviar una petición a múltiples replicas.
 
+### Material
+
+- Sección **6.2.1 Simple solutions** de Distributed Systems 4th (4.03).
+
 ## Forwarding Pointers
 
 Mantener una referencia a la nueva ubicación una entidad ([dio para una tesis](https://digital.lib.washington.edu/researchworks/items/10a1b19e-519e-4b4b-8840-3242bb8fe487))
@@ -76,7 +78,9 @@ Su ventaja es la sencillez: basta seguir la cadena de referencias para ubicar la
 
 - La cadena es vulnerable a la pérdida de alguno de sus componentes.
 
-Por lo tanto, es una solución principalmente aplicable en LANs.
+### Material
+
+- Sección **6.2.1 Simple solutions** de Distributed Systems 4th (4.03).
 
 ## Basados en hogar (home-based)
 
@@ -132,3 +136,7 @@ Consiste en mantener una referencia a la ubicación actual de una entidad.
     - Este proceso se oculta en lo posible a la aplicación.
 
 ![06-01.png](/06-01.png)
+
+### Material
+
+- Sección **6.2.2 Home-based approaches** de Distributed Systems 4th (4.03).

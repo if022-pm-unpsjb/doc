@@ -80,7 +80,3 @@ Una manera de mitigar es requerir que los nodos generen estadísticas:
 - Un nodo malicioso no puede devolver siempre enlaces a otros nodos maliciosos, sería rápidamente descubierto
 - No queda otra que, de vez en cuando, "jugar con las reglas" de los nodos benignos
 
-
-
-
-
