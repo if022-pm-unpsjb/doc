@@ -58,7 +58,7 @@ El objetivo es evitar interrumpir nodos que no esten interesados en el mensaje.
 
 ## Forwarding Pointers
 
-Mantener una referencia a la nueva ubicación una entidad ([dio para una tesis](https://digital.lib.washington.edu/researchworks/items/10a1b19e-519e-4b4b-8840-3242bb8fe487))
+Mantener una referencia a la nueva ubicación una entidad ([Fowler 1985](https://digital.lib.washington.edu/researchworks/items/10a1b19e-519e-4b4b-8840-3242bb8fe487))
 
 Su ventaja es la sencillez: basta seguir la cadena de referencias para ubicar la entidad.
 
