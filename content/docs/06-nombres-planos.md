@@ -49,6 +49,7 @@ El objetivo es evitar interrumpir nodos que no esten interesados en el mensaje.
 
 - Útil como mecanismo de ubicación
     - El multicast puede ser una consulta por la dirección de un nodo en particular.
+    - Ejemplo: nodos móviles con IPs dinámicas que pertenecen a un mismo grupo de multicast. Una consulta por ubicación se difunde y el nodo correspondiente responde con su IP.
 
 - Otro uso es enviar una petición a múltiples replicas.
 
@@ -64,11 +65,11 @@ Su ventaja es la sencillez: basta seguir la cadena de referencias para ubicar la
 
 ### Ejemplo
 
-- Si una entidad se mueve de _A_ a _B_, entonces en _A_ queda una referencia a _B_.
+- Se resuelve que la dirección de una entidad es _A_, por algún medio de resolución de nombres.
+
+- Si una entidad se movió de _A_ a _B_, entonces en _A_ queda una referencia a _B_.
 
 - ¿Y si luego se mueve a _C_? Entonces $A \rightarrow B \rightarrow C$
-
-- ¿Y si despues se mueve a _D_? Creo que se capta la idea...
 
 ### Desventajas
 
@@ -86,21 +87,19 @@ Su ventaja es la sencillez: basta seguir la cadena de referencias para ubicar la
 
 Consiste en mantener una referencia a la ubicación actual de una entidad.
 
-- La referencia se mantiene en una entidad conocida como **hogar** (**home location**)
+- La referencia se mantiene en una entidad conocida como **hogar** (**home location**).
 
-- Por lo general, el hogar es donde se creo la entidad inicialmente.
+- Por lo general, el **hogar*** es donde se creo la entidad inicialmente.
+
+- Permite mantener entidades móviles en redes de gran escala.
+
+- Sirve como mecanismo de respaldo para servicios basados en [forwarding pointers](#forwarding-pointers).
 
 ### Desventajas
     
 - Incremento de la latencia.
 
 - El hogar _siempre_ tiene que existir.
-
-### Aplicaciones
-
-- Utilizado para referir entidades móviles en redes de gran escala
-
-- Sirve como mecanismo de respaldo para servicios basados en [forwarding pointers](#forwarding-pointers)
 
 ### Ejemplo: Mobile IP
 
@@ -116,23 +115,14 @@ Consiste en mantener una referencia a la ubicación actual de una entidad.
 - Funcionamiento:
     
     - Cada nodo móvil tiene una IP fija.
-
-    - La comunicación inicial con el nodo móvil se realiza mediante el *home agent* (vendría ser el **hogar**)
-
+    - La comunicación inicial con el nodo móvil se realiza mediante el *home agent* (el **hogar**)
         - El *home agent* reside en la red origen, por lo general donde se generó el nodo móvil
-
     - Cuando el nodo se muda a otra red, solicita allí una nueva IP que registra en el *home agent*
-
         - Esta dirección se conoce como _care-of address_
-
     - Cuando el *home agent* recibe una consulta para el nodo, se la reenvía.
-
-        - Puede usar por ejemplo, [tunneling](https://www.cloudflare.com/learning/network-layer/what-is-tunneling/)
-
-    - Al mismo tiempo, el emisor de la consulta recibe del *home agent* la ubicación actual del nodo móvil.
-
-    - El nodo móvil, luego se comunica directamente con el emisor de la consulta.
-
+        - Puede usar [tunneling](https://www.cloudflare.com/learning/network-layer/what-is-tunneling/)
+    - Al mismo tiempo, el emisor de la consulta recibe, del *home agent*, la ubicación actual del nodo móvil.
+    - El nodo móvil se comunica directamente con el emisor de la consulta.
     - Este proceso se oculta en lo posible a la aplicación.
 
 ![06-01.png](/06-01.png)
